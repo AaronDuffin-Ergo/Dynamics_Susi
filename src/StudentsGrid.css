@@ -1,0 +1,1135 @@
+/* Model-driven app shell — aligns with Dynamics / Power Apps list view */
+
+.dynamics-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #faf9f8;
+  color: #323130;
+  font-family:
+    "Segoe UI",
+    "Segoe UI Web (West European)",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+/* --- Top purple header (Power Apps model-driven) --- */
+.dynamics-app-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  min-height: 56px;
+  padding: 0 12px 0 0;
+  flex-shrink: 0;
+  background: #723a8a;
+  color: #ffffff;
+}
+
+.dynamics-app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+
+.dynamics-app-header__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.dynamics-app-header__logo:hover {
+  background: #4a1f59;
+}
+
+.dynamics-app-header__logo:active {
+  background: #3d1849;
+}
+
+.dynamics-app-header__logo:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+.dynamics-app-header__logo svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.dynamics-app-header__product {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.dynamics-app-header__pipe {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.55;
+  padding: 0 2px;
+  user-select: none;
+}
+
+.dynamics-app-header__app {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.95;
+  margin-left: 0;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+}
+
+.dynamics-app-header__divider {
+  display: none;
+}
+
+.dynamics-app-header__env {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-size: 40px;
+  font-weight: 300;
+  font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.dynamics-app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dynamics-app-header__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.dynamics-app-header__icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dynamics-app-header__icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.dynamics-app-header__user {
+  margin-left: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* --- Body: sidebar + main --- */
+.dynamics-app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.dynamics-sitemap {
+  width: 220px;
+  flex-shrink: 0;
+  background: #faf9f8;
+  border-right: 1px solid #edebe9;
+  transition: width 160ms ease;
+  font-family: inherit;
+}
+
+/* Burger that lives at the top of the side nav and toggles its collapsed state */
+.dynamics-sitemap__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 16px 10px 14px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.dynamics-sitemap__toggle:hover {
+  background: #f3f2f1;
+}
+
+.dynamics-sitemap__toggle:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: -2px;
+}
+
+.dynamics-sitemap__item:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: -2px;
+}
+
+.dynamics-sitemap__toggle-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.dynamics-sitemap--collapsed .dynamics-sitemap__toggle {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.dynamics-sitemap__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.dynamics-sitemap__list li {
+  width: 100%;
+}
+
+.dynamics-sitemap__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 16px 8px 12px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+/* Dynamics model-driven app nav — light grey fill + blue left indicator on hover */
+.dynamics-sitemap__item:hover {
+  background: #f3f2f1;
+  color: #323130;
+}
+
+.dynamics-sitemap__item:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #0078d4;
+}
+
+.dynamics-sitemap__item--active {
+  background: #f3f2f1;
+  font-weight: 600;
+  color: #323130;
+}
+
+.dynamics-sitemap__item--active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #0078d4;
+}
+
+.dynamics-sitemap__item--active:hover {
+  background: #edebe9;
+}
+
+.dynamics-sitemap__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+/* Pinned group at the top (Home / Recent / Pinned) — first list under the burger */
+.dynamics-sitemap__list--pinned {
+  padding-top: 0;
+}
+
+/* Section headings (Dynamics-style) — groups below Home / Recent / Pinned.
+   Nav markup uses .mda-sitemap__group-label; form subsections use .dynamics-sitemap__group-label */
+.dynamics-sitemap__group-label,
+.dynamics-sitemap .mda-sitemap__group-label {
+  margin: 14px 16px 4px 14px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: #323130;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.dynamics-sitemap__list--pinned + .dynamics-sitemap__group-label,
+.dynamics-sitemap__list--pinned + .mda-sitemap__group-label {
+  margin-top: 10px;
+}
+
+.dynamics-sitemap__list--section {
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+
+.dynamics-sitemap__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Small chevron next to "Recent" and "Pinned" indicating they're expandable groups */
+.dynamics-sitemap__chevron {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* Collapsed sitemap — icon-only rail */
+.dynamics-sitemap--collapsed {
+  width: 48px;
+}
+
+.dynamics-sitemap--collapsed .dynamics-sitemap__item {
+  justify-content: center;
+  gap: 0;
+  padding: 10px 0;
+}
+
+.dynamics-sitemap--collapsed .dynamics-sitemap__label,
+.dynamics-sitemap--collapsed .dynamics-sitemap__chevron,
+.dynamics-sitemap--collapsed .mda-sitemap__group-label,
+.dynamics-sitemap--collapsed .dynamics-sitemap__group-label {
+  display: none;
+}
+
+/* --- Main column — canvas behind the surface cards --- */
+.dynamics-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+}
+
+/* Light grey workspace with inset cards */
+.dynamics-main-surface {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #fafafa;
+  overflow: auto;
+}
+
+/* Shared white "card" shell */
+.dynamics-surface-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.dynamics-surface-card--command {
+  flex-shrink: 0;
+  padding: 8px 12px 8px 10px;
+}
+
+/* Bottom card height follows toolbar + grid — does not stretch to fill the viewport */
+.dynamics-surface-card--view {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Command bar — list view actions (Dynamics ribbon-style) */
+.dynamics-commandbar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  flex-shrink: 0;
+}
+
+.dynamics-commandbar__scroll {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.dynamics-commandbar__right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-left: 8px;
+  border-left: 1px solid #edebe9;
+}
+
+/* Fluent subtle buttons — tighter Dynamics density */
+.dynamics-commandbar .fui-Button {
+  min-height: 28px;
+  padding-left: 6px;
+  padding-right: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #323130;
+}
+
+.dynamics-commandbar .fui-Button:hover {
+  background: #f3f2f1 !important;
+}
+
+.dynamics-cmd-btn__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.dynamics-cmd-btn__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #605e5c;
+}
+
+.dynamics-cmd-btn__chevron {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin-left: -2px;
+  color: #605e5c;
+  opacity: 0.85;
+}
+
+/* View toolbar — Edit columns / filters (Dynamics: blue icons, dark label text) */
+.dynamics-view-toolbar__link--icon {
+  gap: 8px;
+}
+
+.dynamics-view-toolbar__link-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: #0078d4;
+}
+
+/* --- View region (inside bottom white card) --- */
+.dynamics-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* Toolbar: title + filters — single horizontal row */
+.dynamics-view-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  min-width: 0;
+  padding: 16px 20px 12px;
+  margin-bottom: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.dynamics-view-toolbar__title-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+}
+
+/* Dynamics 365–style “current view” heading (popover trigger, not a static underline title) */
+.dynamics-view-heading {
+  margin: 0;
+  font: inherit;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dynamics-view-heading__inner {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dynamics-view-title-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 4px 8px 4px 6px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.dynamics-view-title-trigger:hover,
+.dynamics-view-title-trigger--open {
+  background: #edebe9;
+}
+
+.dynamics-view-title-trigger__text {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #323130;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dynamics-view-title-trigger__chevron {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+  color: #8a8886;
+  transition: transform 0.15s ease;
+}
+
+.dynamics-view-title-trigger--open .dynamics-view-title-trigger__chevron {
+  transform: rotate(-180deg);
+}
+
+/* View picker flyout */
+.dynamics-view-picker.fui-PopoverSurface {
+  min-width: 300px;
+  max-width: min(360px, calc(100vw - 24px));
+  padding: 0;
+  box-shadow:
+    0 0.3px 0.9px rgba(0, 0, 0, 0.08),
+    0 1.6px 3.6px rgba(0, 0, 0, 0.12);
+  border: 1px solid #edebe9;
+}
+
+.dynamics-view-picker__search {
+  padding: 8px 10px;
+  border-bottom: 1px solid #edebe9;
+}
+
+.dynamics-view-picker__search-input.fui-Input {
+  width: 100%;
+  min-height: 30px;
+  font-size: 12px;
+}
+
+.dynamics-view-picker__search-icon {
+  margin-left: 4px;
+  color: #605e5c;
+  font-size: 16px;
+}
+
+.dynamics-view-picker__list {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.dynamics-view-picker__option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 10px 6px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  color: #323130;
+  text-align: left;
+}
+
+.dynamics-view-picker__option:hover {
+  background: #f3f2f1;
+}
+
+.dynamics-view-picker__option--selected {
+  background: #f3f2f1;
+}
+
+.dynamics-view-picker__check-wrap {
+  flex: 0 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0078d4;
+}
+
+.dynamics-view-picker__check {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.dynamics-view-picker__option-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dynamics-view-picker__default {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #605e5c;
+}
+
+.dynamics-view-picker__footer {
+  border-top: 1px solid #edebe9;
+  padding: 2px 4px 4px;
+}
+
+.dynamics-view-picker__manage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  color: #323130;
+  text-align: left;
+}
+
+.dynamics-view-picker__manage:hover {
+  background: #f3f2f1;
+}
+
+.dynamics-view-picker__manage-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: #605e5c;
+}
+
+.dynamics-view-toolbar__controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.dynamics-view-toolbar__link {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: #323130;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dynamics-view-toolbar__link:hover {
+  text-decoration: none;
+  background: #f3f2f1;
+}
+
+.dynamics-view-toolbar__link:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 1px;
+}
+
+.dynamics-keyword-search {
+  flex: 0 1 280px;
+  min-width: 140px;
+  max-width: 280px;
+  margin-left: 16px;
+}
+
+/* Flat keyword box — sharp corners, even grey border (override Fluent outline + bottom underline affordance) */
+.dynamics-keyword-search.fui-Input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 30px;
+  font-size: 12px;
+  border-radius: 0;
+  border: 1px solid #c8c6c4;
+  border-bottom-color: #c8c6c4;
+  background: #fff;
+  box-shadow: none;
+}
+
+.dynamics-keyword-search.fui-Input:hover {
+  border-color: #a19f9d;
+  border-bottom-color: #a19f9d;
+}
+
+.dynamics-keyword-search.fui-Input:focus-within {
+  border-color: #0078d4;
+  border-bottom-color: #0078d4;
+}
+
+.dynamics-keyword-search.fui-Input::after {
+  display: none;
+}
+
+.dynamics-keyword-search .fui-Input__input {
+  font-size: 12px;
+  color: #323130;
+}
+
+.dynamics-keyword-search .fui-Input__input::placeholder {
+  color: #a19f9d;
+  opacity: 1;
+}
+
+.dynamics-keyword-search__icon {
+  margin-left: 2px;
+  color: #a19f9d;
+  font-size: 16px;
+}
+
+/* --- Grid region (same white card as toolbar; no second white box) --- */
+.dynamics-grid-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 20px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+/* Scroll region: grows with row count up to max-height, then scrolls — keeps card compact for short lists */
+.dynamics-grid-scroll {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: min(520px, calc(100vh - 320px));
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keeps footer as wide as the grid when horizontal scrolling */
+.dynamics-grid-scroll__inner {
+  display: block;
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Fluent DataGrid's underlying table — stretch to fill its scroll container */
+.dynamics-grid-scroll--list .fui-DataGrid {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Flex rows — autoFitColumns fills width; Fluent inline px widths apply when user resizes. */
+.dynamics-grid-scroll--list .fui-DataGridHeader,
+.dynamics-grid-scroll--list .fui-DataGridBody {
+  width: 100%;
+  min-width: 100%;
+}
+
+.dynamics-grid-scroll--list [role="row"] {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  width: 100%;
+  min-width: 100%;
+}
+
+.dynamics-grid-scroll--list [role="row"] > [role="columnheader"]:not(.fui-DataGridSelectionCell),
+.dynamics-grid-scroll--list [role="row"] > [role="gridcell"]:not(.fui-DataGridSelectionCell) {
+  flex: 0 0 auto !important;
+  min-width: 80px !important;
+  box-sizing: border-box !important;
+  overflow: hidden;
+}
+
+.dynamics-grid-scroll--list [role="row"] > .fui-DataGridSelectionCell {
+  flex: 0 0 44px !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  inline-size: 44px !important;
+}
+
+/* Primary column — Dynamics link inside a darker hovered cell */
+.dynamics-grid-link {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: #0078d4;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+}
+
+.dynamics-grid-link:hover {
+  text-decoration: underline;
+}
+
+.dynamics-grid-link:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 1px;
+}
+
+.dynamics-owner-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dynamics-owner-cell__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Courses cell — count chip + truncated course-id list */
+.dynamics-courses-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.dynamics-courses-cell__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #323130;
+  background: #edebe9;
+  border-radius: 10px;
+}
+
+.dynamics-courses-cell__list {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #605e5c;
+}
+
+/* Empty-state placeholder in cells */
+.dynamics-grid-empty {
+  color: #a19f9d;
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* DataGrid: sticky header — white like Dynamics list; no horizontal rule under header row */
+.dynamics-grid-scroll--list .fui-DataGridHeader {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #ffffff !important;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridHeader [role="row"] > [role="columnheader"]:not(.fui-DataGridSelectionCell) {
+  overflow: visible !important;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridHeader .fui-DataGridHeaderCell,
+.dynamics-grid-scroll--list .fui-DataGridHeader .fui-DataGridSelectionCell {
+  background: #ffffff !important;
+  border: none !important;
+  border-inline-start: none !important;
+  border-inline-end: none !important;
+  border-block-start: none !important;
+  border-block-end: none !important;
+  box-shadow: none !important;
+  font-size: 11px;
+  font-weight: 600;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Hover/focus — individual header cell only, matching Dynamics' blue outline state.
+   Pseudo-element overlay so the full rectangle is drawn on top of Fluent's inner
+   header-cell wrapper (which would otherwise hide the top/bottom edges) and is not
+   clipped by the surrounding card's overflow:hidden corners. */
+.dynamics-grid-scroll--list .fui-DataGridHeader .fui-DataGridHeaderCell:not(.fui-DataGridSelectionCell) {
+  position: relative;
+  overflow: visible;
+}
+
+.dynamics-grid-scroll--list
+  .fui-DataGridHeader
+  .fui-DataGridHeaderCell:not(.fui-DataGridSelectionCell)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.dynamics-grid-scroll--list
+  .fui-DataGridHeader
+  .fui-DataGridHeaderCell:not(.fui-DataGridSelectionCell):hover::before,
+.dynamics-grid-scroll--list
+  .fui-DataGridHeader
+  .fui-DataGridHeaderCell:not(.fui-DataGridSelectionCell):focus-within::before {
+  border-color: #0078d4;
+}
+
+/* Custom column header — label + sort indicator + dropdown menu chevron */
+.dynamics-header-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+}
+
+.dynamics-header-cell__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dynamics-header-cell__sort-icon {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  color: #605e5c;
+}
+
+.dynamics-header-cell__menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #605e5c;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 80ms ease-in-out, background-color 80ms ease-in-out;
+}
+
+.dynamics-header-cell__menu-trigger > svg {
+  width: 10px;
+  height: 10px;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell:hover .dynamics-header-cell__menu-trigger,
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell:focus-within .dynamics-header-cell__menu-trigger,
+.dynamics-header-cell__menu-trigger[aria-expanded="true"] {
+  opacity: 1;
+}
+
+.dynamics-header-cell__menu-trigger:hover {
+  background: #d2d0ce;
+}
+
+.dynamics-header-cell__menu-trigger:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 1px;
+}
+
+/* Fluent sometimes draws column seams on inner table primitives — strip vertical borders in header row only */
+.dynamics-grid-scroll--list .fui-DataGridHeader .fui-TableCell,
+.dynamics-grid-scroll--list .fui-DataGridHeader [role="columnheader"] {
+  border-inline-start: none !important;
+  border-inline-end: none !important;
+  box-shadow: none !important;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"] .fui-DataGridCell,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"] .fui-DataGridSelectionCell {
+  border-inline: none !important;
+  border-block-start: none !important;
+  border-block-end: 1px solid #edebe9 !important;
+  box-shadow: none !important;
+}
+
+/* Default row surface */
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]) .fui-DataGridCell,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]) .fui-DataGridSelectionCell {
+  background: #ffffff !important;
+}
+
+/* Hover — row not selected (Dynamics list hover band) */
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]):hover .fui-DataGridCell,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]):hover .fui-DataGridSelectionCell {
+  background: #f3f2f1 !important;
+}
+
+/* Hover — the individual data cell under the pointer is darker than the row band */
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]) .fui-DataGridCell:hover,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"]:not([aria-selected="true"]) .fui-DataGridCell:focus-within {
+  background: #e1dfdd !important;
+}
+
+/* Selected row — checkbox selection (neutral band) */
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"] .fui-DataGridCell,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"] .fui-DataGridSelectionCell {
+  background: #edebe9 !important;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"]:hover .fui-DataGridCell,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"]:hover .fui-DataGridSelectionCell {
+  background: #e1dfdd !important;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"] .fui-DataGridCell:hover,
+.dynamics-grid-scroll--list .fui-DataGridBody [role="row"][aria-selected="true"] .fui-DataGridCell:focus-within {
+  background: #d2d0ce !important;
+}
+
+/* Sortable headers — pointer matches Dynamics grid */
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell__button {
+  color: #605e5c !important;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Column resize handles — drag the right edge of a header to resize */
+.dynamics-grid-scroll--list .fui-TableResizeHandle {
+  cursor: col-resize;
+  opacity: 0;
+  z-index: 6;
+  min-width: 10px;
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell:hover .fui-TableResizeHandle,
+.dynamics-grid-scroll--list .fui-TableResizeHandle:hover,
+.dynamics-grid-scroll--list .fui-TableResizeHandle:active {
+  opacity: 0.55;
+  background: transparent;
+}
+
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell .fui-TableHeaderCell__aside {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Hide Fluent's built-in sortable arrow so each header only shows:
+   1) our sort-direction arrow and 2) our dropdown chevron. */
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell .fui-TableHeaderCell__aside svg,
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell [class*="sortIcon"],
+.dynamics-grid-scroll--list .fui-DataGridHeaderCell [class*="SortIcon"] {
+  display: none !important;
+}
+
+/* After last row; sticks to bottom of scroll area while scrolling long lists */
+.dynamics-grid-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-top: 1px solid #edebe9;
+  background: #faf9f8;
+  font-size: 12px;
+  color: #605e5c;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.dynamics-grid-footer__divider {
+  color: #c8c6c4;
+  user-select: none;
+}
