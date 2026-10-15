@@ -16,6 +16,7 @@ import {
   PaymentRegular,
   PeopleQueueRegular,
   PersonRegular,
+  PeopleTeamRegular,
   ScalesRegular,
   SettingsRegular,
   ShieldCheckmarkRegular,
@@ -50,6 +51,7 @@ const ITEMS = {
   appealGrounds: { label: "Appeal Grounds", Icon: ListRegular },
   appealGroundsReasons: { label: "Appeal Grounds Reasons", Icon: BookQuestionMarkRegular },
   documentTypes: { label: "Document Types", Icon: TableRegular },
+  users: { label: "Users", Icon: PeopleTeamRegular },
 };
 
 const MY_WORK = { label: "My Work", items: ["dashboards", "activities", "queueItems"] };
@@ -99,6 +101,7 @@ export const SITEMAP_AREAS = [
     label: "Administration",
     color: "#3b3a39",
     groups: [
+      { label: "General", items: ["users"] },
       { label: "Configuration", items: ["cao", "scheme"] },
       {
         label: "Lookups",

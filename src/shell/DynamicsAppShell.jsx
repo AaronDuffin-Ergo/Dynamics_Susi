@@ -110,7 +110,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateApplications, onNavigateDocumentTypes, areaId = "applications", onSelectArea } =
+  const { onNavigateApplications, onNavigateDocumentTypes, onNavigateUsers, areaId = "applications", onSelectArea } =
     useShellNavigation();
   const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
@@ -231,23 +231,27 @@ export default function DynamicsAppShell({
                     const entry = isApplicationsEntry(group.label, itemId);
                     const documentTypesEntry =
                       area.id === "administration" && group.label === "Lookups" && itemId === "documentTypes";
+                    const usersEntry = area.id === "administration" && group.label === "General" && itemId === "users";
                     const Icon = item.Icon;
                     const onClick = entry
                       ? () => onNavigateApplications?.()
                       : documentTypesEntry
                         ? () => onNavigateDocumentTypes?.()
-                        : undefined;
+                        : usersEntry
+                          ? () => onNavigateUsers?.()
+                          : undefined;
+                    const itemClass = entry
+                      ? navItemClass("applications")
+                      : documentTypesEntry
+                        ? navItemClass("documentTypes")
+                        : usersEntry
+                          ? navItemClass("users")
+                          : "dynamics-sitemap__item";
                     return (
                       <li key={itemId}>
                         <button
                           type="button"
-                          className={
-                            entry
-                              ? navItemClass("applications")
-                              : documentTypesEntry
-                                ? navItemClass("documentTypes")
-                                : "dynamics-sitemap__item"
-                          }
+                          className={itemClass}
                           onClick={onClick}
                           title={item.label}
                         >

@@ -1385,8 +1385,8 @@
   text-overflow: ellipsis;
 }
 
-.mda-doc-requests th {
-  padding: 8px 12px;
+.mda-user-form {
+  grid-template-columns: minmax(0, 560px);
 }
 
 .mda-quick-create {

@@ -9,11 +9,15 @@ import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
 import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
 import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
+import UsersGrid from "./UsersGrid.jsx";
+import UserDetailView from "./UserDetailView.jsx";
+import { mockUsers } from "./mockUsers.js";
 import { mockApplications } from "./mockApplications.js";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
 export default function App() {
   const [applications] = useState(() => [...mockApplications]);
+  const [users] = useState(() => [...mockUsers]);
   const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
     setDocumentRequests((current) => [...current, record]);
@@ -25,6 +29,11 @@ export default function App() {
     setSitemapCollapsed((prev) => !prev);
   }, []);
 
+  const detailUser = useMemo(() => {
+    if (view.type !== "userDetail") return null;
+    return users.find((user) => user.userId === view.userId) ?? null;
+  }, [view, users]);
+
   const detailApplication = useMemo(() => {
     if (view.type !== "applicationDetail") return null;
     return applications.find((a) => a.applicationNumber === view.applicationNumber) ?? null;
@@ -32,6 +41,8 @@ export default function App() {
 
   const goApplicationsList = useCallback(() => setView({ type: "applications" }), []);
   const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
+  const goUsers = useCallback(() => setView({ type: "users" }), []);
+  const openUser = useCallback((userId) => setView({ type: "userDetail", userId }), []);
   const openApplication = useCallback((applicationNumber) => {
     setView({ type: "applicationDetail", applicationNumber });
   }, []);
@@ -39,10 +50,11 @@ export default function App() {
     () => ({
       onNavigateApplications: goApplicationsList,
       onNavigateDocumentTypes: goDocumentTypes,
+      onNavigateUsers: goUsers,
       areaId,
       onSelectArea: setAreaId,
     }),
-    [goApplicationsList, goDocumentTypes, areaId],
+    [goApplicationsList, goDocumentTypes, goUsers, areaId],
   );
 
   const nav = {
@@ -69,6 +81,10 @@ export default function App() {
               onOpenApplication={openApplication}
               {...nav}
             />
+          ) : detailUser ? (
+            <UserDetailView key={detailUser.userId} user={detailUser} onBack={goUsers} {...nav} />
+          ) : view.type === "users" ? (
+            <UsersGrid users={users} onOpenUser={openUser} {...nav} />
           ) : view.type === "documentTypes" ? (
             <DocumentTypesGrid {...nav} />
           ) : (

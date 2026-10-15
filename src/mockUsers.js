@@ -1,0 +1,38 @@
+export const mockUsers = [
+  {
+    userId: "USR-1001",
+    fullName: "Aoife Brennan",
+    email: "aoife.brennan@susi.ie",
+    title: "Grant Assessor",
+    qaSamplingFrequency: 5,
+    qaAssessmentCounter: 4,
+    qaSamplingEnabled: "Yes",
+  },
+  {
+    userId: "USR-1002",
+    fullName: "Declan Moran",
+    email: "declan.moran@susi.ie",
+    title: "Grant Assessor",
+    qaSamplingFrequency: 10,
+    qaAssessmentCounter: 2,
+    qaSamplingEnabled: "Yes",
+  },
+  {
+    userId: "USR-1003",
+    fullName: "Niamh Gallagher",
+    email: "niamh.gallagher@susi.ie",
+    title: "Senior Assessor",
+    qaSamplingFrequency: 5,
+    qaAssessmentCounter: 0,
+    qaSamplingEnabled: "No",
+  },
+  {
+    userId: "USR-9000",
+    fullName: "SUSI BRE Service Account",
+    email: "bre.service@susi.ie",
+    title: "Service account",
+    qaSamplingFrequency: 20,
+    qaAssessmentCounter: 7,
+    qaSamplingEnabled: "Yes",
+  },
+];
