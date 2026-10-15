@@ -1,14 +1,10 @@
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { useCallback, useMemo, useState } from "react";
-import EditModeBanner from "./layoutCustomization/EditModeBanner.jsx";
-import EditModeFab from "./layoutCustomization/EditModeFab.jsx";
-import LayoutMasterReset from "./layoutCustomization/LayoutMasterReset.jsx";
 import {
   DETAIL_VIEW_TYPES,
   LIST_VIEW_TYPES,
   LayoutCustomizationProvider,
 } from "./layoutCustomization/LayoutCustomizationContext.jsx";
-import "./layoutCustomization/LayoutEditMode.css";
 import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
 import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
@@ -61,9 +57,6 @@ export default function App() {
           ) : (
             <ApplicationsGrid applications={applications} onOpenApplication={openApplication} {...nav} />
           )}
-          <LayoutMasterReset />
-          <EditModeBanner />
-          <EditModeFab />
         </LayoutCustomizationProvider>
       </ShellNavigationProvider>
     </FluentProvider>
