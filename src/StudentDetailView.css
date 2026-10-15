@@ -1207,53 +1207,45 @@
 }
 
 .mda-related-subgrid {
-  padding: 4px 0 8px;
+  padding: 0;
   font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
 }
 
 .mda-related-subgrid__header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px 16px;
-  padding: 12px 16px 8px;
-}
-
-.mda-related-subgrid__title-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 12px;
+  min-height: 42px;
+  padding: 4px 8px 4px 16px;
+  border-bottom: 1px solid #edebe9;
 }
 
 .mda-related-subgrid__title {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #323130;
 }
 
-.mda-related-subgrid__count {
-  min-width: 18px;
-  padding: 0 6px;
-  border-radius: 8px;
-  background: #f3f2f1;
-  font-size: 12px;
-  line-height: 18px;
-  color: #605e5c;
-  text-align: center;
-}
-
 .mda-related-subgrid__commands {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  min-width: 0;
 }
 
-.mda-related-subgrid__search {
-  min-width: 220px;
-  margin-left: 8px;
+.mda-related-subgrid__commands .fui-Button {
+  max-width: 220px;
+  font-weight: 400;
+}
+
+.mda-related-subgrid__notice {
+  margin: 0;
+  padding: 6px 16px;
+  background: #f3f2f1;
+  color: #323130;
+  font-size: 12px;
 }
 
 .mda-related-subgrid__scroll {
@@ -1263,32 +1255,89 @@
 .mda-related-subgrid__table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12px;
   color: #323130;
 }
 
 .mda-related-subgrid__table th {
-  padding: 8px 12px;
+  padding: 0;
   border-bottom: 1px solid #edebe9;
-  background: #faf9f8;
-  font-size: 12px;
+  background: #ffffff;
   font-weight: 600;
   text-align: left;
   white-space: nowrap;
 }
 
 .mda-related-subgrid__table td {
-  padding: 10px 12px;
+  height: 36px;
+  padding: 0 12px;
   border-bottom: 1px solid #f3f2f1;
-  vertical-align: top;
+  white-space: nowrap;
+}
+
+.mda-related-subgrid__check {
+  width: 42px;
+  padding-left: 12px !important;
+  padding-right: 0 !important;
+  text-align: center;
+}
+
+.mda-related-subgrid__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 36px;
+  margin: 0;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mda-related-subgrid__sort:hover,
+.mda-related-subgrid__sort:focus-visible {
+  background: #f3f2f1;
+}
+
+.mda-related-subgrid__req {
+  color: #a4262c;
+}
+
+.mda-related-subgrid__chevron {
+  width: 12px;
+  height: 12px;
+  color: #605e5c;
+}
+
+.mda-related-subgrid__chevron--up {
+  transform: rotate(180deg);
+}
+
+.mda-related-subgrid__table tbody tr {
+  cursor: pointer;
 }
 
 .mda-related-subgrid__table tbody tr:hover {
   background: #faf9f8;
 }
 
+.mda-related-subgrid__row--selected,
+.mda-related-subgrid__row--selected:hover {
+  background: #edebe9;
+}
+
 .mda-related-subgrid__reason {
   max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mda-related-subgrid__date {
+  color: #323130;
 }
 
 .mda-related-subgrid__empty {
@@ -1297,4 +1346,10 @@
   color: #605e5c;
   font-size: 13px;
   text-align: center;
+}
+
+.mda-related-subgrid__footer {
+  padding: 8px 16px 10px;
+  color: #605e5c;
+  font-size: 12px;
 }
