@@ -309,10 +309,11 @@
   outline-offset: -2px;
 }
 
-/* Workspace layout — form, timeline, and related rail */
-.mda-detail-record-grid {
+/* Workspace layout — 587px form, 587px timeline, related rail fills the rest */
+.mda-detail-record-grid,
+.mda-detail-record-grid--columns-2 {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr) minmax(260px, 300px);
+  grid-template-columns: 587px 587px minmax(260px, 1fr);
   gap: 12px;
   align-items: start;
   margin-top: 0;
@@ -321,10 +322,6 @@
 
 .mda-detail-record-grid--columns-1 {
   grid-template-columns: minmax(0, 1fr);
-}
-
-.mda-detail-record-grid--columns-2 {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr) minmax(260px, 300px);
 }
 
 .mda-detail-record-grid > .mda-record-card,
@@ -344,10 +341,28 @@
   grid-column: 1 / -1;
 }
 
-@media (max-width: 1180px) {
+/* Not enough room for the rail beside two 587px columns: move it to its own row */
+@media (max-width: 1740px) {
   .mda-detail-record-grid,
   .mda-detail-record-grid--columns-2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: 587px 587px;
+  }
+
+  .mda-detail-record-grid > :has(> .mda-record-rail) {
+    grid-column: 1 / -1;
+  }
+
+  .mda-detail-record-grid .mda-record-rail {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    align-items: start;
+  }
+}
+
+@media (max-width: 1480px) {
+  .mda-detail-record-grid,
+  .mda-detail-record-grid--columns-2 {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
