@@ -59,7 +59,7 @@ export default function DynamicsAppShell({
           <span className="dynamics-app-header__pipe" aria-hidden="true">
             |
           </span>
-          <span className="dynamics-app-header__app">Property Management</span>
+          <span className="dynamics-app-header__app">SUSI Portal</span>
           <span className="dynamics-app-header__divider" aria-hidden="true" />
           <span className="dynamics-app-header__env">SANDBOX</span>
         </div>

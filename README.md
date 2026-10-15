@@ -1,6 +1,6 @@
 # Dynamics SUSI
 
-A clickable Microsoft Dynamics 365 / Power Apps mock of a property-management app for SUSI. It uses sample data only: developments, properties, buyers, contracts, and sales staff. You can open records, create new ones, and rearrange cards and columns in layout edit mode. Nothing is saved to a server; changes stay in the browser session (layout edits use local storage).
+A clickable Microsoft Dynamics 365 / Power Apps mock branded as SUSI Portal. It uses sample data only: developments, properties, buyers, contracts, and sales staff. You can open records, create new ones, and rearrange cards and columns in layout edit mode. Nothing is saved to a server; changes stay in the browser session (layout edits use local storage).
 
 The source for this mock is [AaronDuffin-Ergo/Dynamics_Susi](https://github.com/AaronDuffin-Ergo/Dynamics_Susi).
 

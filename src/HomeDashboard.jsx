@@ -25,7 +25,7 @@ import "./StudentsGrid.css";
 import "./dashboard/HomeDashboard.css";
 
 const DASHBOARD_VIEWS = [
-  { id: "property", label: "Property Management Dashboard", isDefault: true },
+  { id: "property", label: "SUSI Portal Dashboard", isDefault: true },
   { id: "overview", label: "Property Overview", isDefault: false },
   { id: "sales", label: "Sales & Contracts Dashboard", isDefault: false },
 ];
