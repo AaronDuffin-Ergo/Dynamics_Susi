@@ -1384,3 +1384,111 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.mda-doc-requests th {
+  padding: 8px 12px;
+}
+
+.mda-quick-create {
+  position: fixed;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, 100vw);
+  background: #ffffff;
+  border-left: 1px solid #edebe9;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mda-quick-create__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #edebe9;
+}
+
+.mda-quick-create__kicker {
+  margin: 0;
+  color: #605e5c;
+  font-size: 12px;
+}
+
+.mda-quick-create__title {
+  margin: 2px 0 0;
+  color: #323130;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.mda-quick-create__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: #323130;
+  cursor: pointer;
+}
+
+.mda-quick-create__close:hover {
+  background: #f3f2f1;
+}
+
+.mda-quick-create__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+  padding: 16px;
+}
+
+.mda-quick-create__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mda-quick-create__label {
+  color: #323130;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.mda-quick-create__select,
+.mda-quick-create__field .fui-Input,
+.mda-quick-create__field .fui-Textarea {
+  width: 100%;
+  border: 1px solid #c8c6c4;
+  border-radius: 2px;
+  background: #ffffff;
+  color: #323130;
+  font: inherit;
+  font-size: 13px;
+}
+
+.mda-quick-create__select {
+  min-height: 32px;
+  padding: 4px 8px;
+}
+
+.mda-quick-create__error {
+  color: #a4262c;
+  font-size: 12px;
+}
+
+.mda-quick-create__footer {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #edebe9;
+}

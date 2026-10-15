@@ -12,6 +12,10 @@ import { mockApplications } from "./mockApplications.js";
 
 export default function App() {
   const [applications] = useState(() => [...mockApplications]);
+  const [documentRequests, setDocumentRequests] = useState([]);
+  const addDocumentRequest = useCallback((record) => {
+    setDocumentRequests((current) => [...current, record]);
+  }, []);
   const [view, setView] = useState({ type: "applications" });
   const [sitemapCollapsed, setSitemapCollapsed] = useState(false);
   const toggleSitemap = useCallback(() => {
@@ -50,6 +54,8 @@ export default function App() {
               key={detailApplication.applicationNumber}
               application={detailApplication}
               applications={applications}
+              documentRequests={documentRequests}
+              onCreateDocumentRequest={addDocumentRequest}
               onBack={goApplicationsList}
               onOpenApplication={openApplication}
               {...nav}

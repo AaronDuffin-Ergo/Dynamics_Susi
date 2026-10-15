@@ -14,6 +14,7 @@ import {
 } from "@fluentui/react-icons";
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
 import AnswersSubgrid from "./AnswersSubgrid.jsx";
+import DocumentRequestQuickCreate from "./DocumentRequestQuickCreate.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
@@ -105,6 +106,51 @@ function HeaderSummaryField({ primary, secondary, showAvatar }) {
   );
 }
 
+function DocumentRequestsPanel({ requests, onNew }) {
+  return (
+    <section className="mda-record-card mda-related-subgrid" aria-label="Document Requests">
+      <header className="mda-related-subgrid__header">
+        <h3 className="mda-related-subgrid__title">Document Requests</h3>
+        <div className="mda-related-subgrid__commands">
+          <FluentButton appearance="subtle" type="button" icon={<AddRegular />} onClick={onNew}>
+            New Document Request
+          </FluentButton>
+        </div>
+      </header>
+      <div className="mda-related-subgrid__scroll">
+        <table className="mda-related-subgrid__table mda-doc-requests">
+          <thead>
+            <tr>
+              {["Document Type", "Relationship", "Request Type", "Status", "Expiry Date"].map((label) => (
+                <th key={label} scope="col">
+                  {label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {requests.map((request) => (
+              <tr key={request.id}>
+                <td>{request.documentTypeName}</td>
+                <td>{request.relationship}</td>
+                <td>{request.requestType}</td>
+                <td>{request.status}</td>
+                <td>{request.expire === "Yes" ? request.expiryDate || "—" : "No expiry"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {requests.length === 0 ? (
+          <p className="mda-related-subgrid__empty">
+            No document requests. Draft requests are not visible to the applicant.
+          </p>
+        ) : null}
+      </div>
+      <footer className="mda-related-subgrid__footer">Rows: {requests.length}</footer>
+    </section>
+  );
+}
+
 function TabPlaceholder({ tab }) {
   return (
     <section className="mda-record-card mda-application-tab-placeholder" aria-labelledby={`tab-${tab.id}-title`}>
@@ -129,6 +175,8 @@ const disabledCommand = { appearance: "subtle", type: "button", disabled: true, 
 export default function ApplicationDetailView({
   application,
   applications,
+  documentRequests = [],
+  onCreateDocumentRequest,
   onBack,
   onOpenApplication,
   onNavigateHome,
@@ -136,6 +184,7 @@ export default function ApplicationDetailView({
   onToggleSitemap,
 }) {
   const [activeTabId, setActiveTabId] = useState("general");
+  const [quickCreateOpen, setQuickCreateOpen] = useState(false);
   const activeTab = APPLICATION_TABS.find((t) => t.id === activeTabId) ?? APPLICATION_TABS[0];
 
   const hasApplication = useCallback(
@@ -296,6 +345,11 @@ export default function ApplicationDetailView({
                 />
               ) : activeTab.id === "answers" ? (
                 <AnswersSubgrid application={application} />
+              ) : activeTab.id === "documents" ? (
+                <DocumentRequestsPanel
+                  requests={documentRequests.filter((item) => item.regarding === application.applicationNumber)}
+                  onNew={() => setQuickCreateOpen(true)}
+                />
               ) : activeTab.id === "linked" ? (
                 <RelatedApplicationsSubgrid
                   applicationNumber={application.applicationNumber}
@@ -307,6 +361,13 @@ export default function ApplicationDetailView({
             </div>
           </div>
         </div>
+        {quickCreateOpen ? (
+          <DocumentRequestQuickCreate
+            application={application}
+            onClose={() => setQuickCreateOpen(false)}
+            onSave={onCreateDocumentRequest}
+          />
+        ) : null}
       </main>
     </DynamicsAppShell>
   );
