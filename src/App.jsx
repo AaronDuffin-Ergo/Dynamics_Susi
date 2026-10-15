@@ -17,6 +17,7 @@ export default function App() {
     setDocumentRequests((current) => [...current, record]);
   }, []);
   const [view, setView] = useState({ type: "applications" });
+  const [areaId, setAreaId] = useState("applications");
   const [sitemapCollapsed, setSitemapCollapsed] = useState(false);
   const toggleSitemap = useCallback(() => {
     setSitemapCollapsed((prev) => !prev);
@@ -32,8 +33,8 @@ export default function App() {
     setView({ type: "applicationDetail", applicationNumber });
   }, []);
   const shellNavigation = useMemo(
-    () => ({ onNavigateApplications: goApplicationsList }),
-    [goApplicationsList],
+    () => ({ onNavigateApplications: goApplicationsList, areaId, onSelectArea: setAreaId }),
+    [goApplicationsList, areaId],
   );
 
   const nav = {

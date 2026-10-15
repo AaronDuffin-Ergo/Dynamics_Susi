@@ -26,7 +26,7 @@
   min-height: 56px;
   padding: 0 12px 0 0;
   flex-shrink: 0;
-  background: #723a8a;
+  background: #021838;
   color: #ffffff;
 }
 
@@ -55,11 +55,11 @@
 }
 
 .dynamics-app-header__logo:hover {
-  background: #4a1f59;
+  background: #01112a;
 }
 
 .dynamics-app-header__logo:active {
-  background: #3d1849;
+  background: #000b1c;
 }
 
 .dynamics-app-header__logo:focus-visible {
@@ -167,12 +167,145 @@
 }
 
 .dynamics-sitemap {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
   width: 220px;
+  height: calc(100vh - 56px);
   flex-shrink: 0;
   background: #faf9f8;
   border-right: 1px solid #edebe9;
   transition: width 160ms ease;
   font-family: inherit;
+}
+
+.dynamics-sitemap__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 8px;
+}
+
+.dynamics-area-switcher {
+  position: relative;
+  flex-shrink: 0;
+  border-top: 1px solid #edebe9;
+  background: #faf9f8;
+}
+
+.dynamics-area-switcher__button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dynamics-area-switcher__button:hover,
+.dynamics-area-switcher__button[aria-expanded="true"] {
+  background: #f3f2f1;
+}
+
+.dynamics-area-switcher__button:focus-visible,
+.dynamics-area-switcher__option:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: -2px;
+}
+
+.dynamics-area-tile {
+  display: inline-flex;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dynamics-area-switcher__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dynamics-area-switcher__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: #605e5c;
+}
+
+.dynamics-area-switcher__menu {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 8px;
+  z-index: 40;
+  width: 236px;
+  max-height: min(360px, 70vh);
+  margin: 0;
+  padding: 4px 0;
+  overflow-y: auto;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  list-style: none;
+}
+
+.dynamics-area-switcher__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dynamics-area-switcher__option:hover {
+  background: #f3f2f1;
+}
+
+.dynamics-area-switcher__option--selected {
+  font-weight: 600;
+}
+
+.dynamics-area-switcher__option-label {
+  flex: 1 1 auto;
+}
+
+.dynamics-area-switcher__check {
+  width: 16px;
+  height: 16px;
+  color: #0f6cbd;
+}
+
+.dynamics-sitemap--collapsed .dynamics-area-switcher__button {
+  justify-content: center;
+  padding: 8px 0;
 }
 
 /* Burger that lives at the top of the side nav and toggles its collapsed state */
@@ -258,7 +391,7 @@
 }
 
 .dynamics-sitemap__item--active {
-  background: #f3f2f1;
+  background: #ffffff;
   font-weight: 600;
   color: #323130;
 }
@@ -274,7 +407,7 @@
 }
 
 .dynamics-sitemap__item--active:hover {
-  background: #edebe9;
+  background: #ffffff;
 }
 
 .dynamics-sitemap__icon {
@@ -293,14 +426,14 @@
    Nav markup uses .mda-sitemap__group-label; form subsections use .dynamics-sitemap__group-label */
 .dynamics-sitemap__group-label,
 .dynamics-sitemap .mda-sitemap__group-label {
-  margin: 14px 16px 4px 14px;
+  margin: 16px 16px 4px 14px;
   padding: 0;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #323130;
   line-height: 1.3;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 .dynamics-sitemap__list--pinned + .dynamics-sitemap__group-label,

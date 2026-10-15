@@ -1,8 +1,10 @@
+import { useEffect, useRef, useState } from "react";
 import {
   AddSquareRegular,
   ArrowClockwiseRegular,
+  CheckmarkRegular,
   ChevronDownRegular,
-  ClipboardTaskListLtrRegular,
+  ChevronUpDownRegular,
   ClockRegular,
   FilterRegular,
   HomeRegular,
@@ -13,7 +15,84 @@ import {
   SettingsRegular,
 } from "@fluentui/react-icons";
 import PowerAppsAppLauncherIcon from "../PowerAppsAppLauncherIcon.jsx";
+import { SITEMAP_AREAS, sitemapItem } from "./sitemapAreas.js";
 import { useShellNavigation } from "./ShellNavigationContext.jsx";
+
+function AreaTile({ area }) {
+  return (
+    <span className="dynamics-area-tile" style={{ background: area.color }} aria-hidden="true">
+      {area.label.slice(0, 1)}
+    </span>
+  );
+}
+
+function AreaSwitcher({ areaId, onSelectArea, collapsed }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const current = SITEMAP_AREAS.find((area) => area.id === areaId) ?? SITEMAP_AREAS[0];
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (event) => {
+      if (!rootRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div className="dynamics-area-switcher" ref={rootRef}>
+      {open ? (
+        <ul className="dynamics-area-switcher__menu" role="listbox" aria-label="Change area">
+          {SITEMAP_AREAS.map((area) => {
+            const selected = area.id === current.id;
+            return (
+              <li key={area.id}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  className={`dynamics-area-switcher__option${selected ? " dynamics-area-switcher__option--selected" : ""}`}
+                  onClick={() => {
+                    onSelectArea?.(area.id);
+                    setOpen(false);
+                  }}
+                >
+                  <AreaTile area={area} />
+                  <span className="dynamics-area-switcher__option-label">{area.label}</span>
+                  {selected ? <CheckmarkRegular className="dynamics-area-switcher__check" aria-hidden /> : null}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+      <button
+        type="button"
+        className="dynamics-area-switcher__button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Change area. Current area: ${current.label}`}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <AreaTile area={current} />
+        {collapsed ? null : (
+          <>
+            <span className="dynamics-area-switcher__label">{current.label}</span>
+            <ChevronUpDownRegular className="dynamics-area-switcher__chevron" aria-hidden />
+          </>
+        )}
+      </button>
+    </div>
+  );
+}
 
 /**
  * @param {object} props
@@ -31,7 +110,8 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateApplications } = useShellNavigation();
+  const { onNavigateApplications, areaId = "applications", onSelectArea } = useShellNavigation();
+  const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
     .filter(Boolean)
     .join(" ");
@@ -40,6 +120,9 @@ export default function DynamicsAppShell({
     ["dynamics-sitemap__item", activeNav === key ? "dynamics-sitemap__item--active" : ""]
       .filter(Boolean)
       .join(" ");
+
+  const isApplicationsEntry = (groupLabel, itemId) =>
+    area.id === "applications" && groupLabel === "Assessments" && itemId === "applications";
 
   return (
     <div className={appClass}>
@@ -52,7 +135,7 @@ export default function DynamicsAppShell({
           <span className="dynamics-app-header__pipe" aria-hidden="true">
             |
           </span>
-          <span className="dynamics-app-header__app">SUSI Portal</span>
+          <span className="dynamics-app-header__app">My SUSI</span>
           <span className="dynamics-app-header__divider" aria-hidden="true" />
           <span className="dynamics-app-header__env">SANDBOX</span>
         </div>
@@ -105,56 +188,66 @@ export default function DynamicsAppShell({
           className={`dynamics-sitemap mda-sitemap ${sitemapCollapsed ? "dynamics-sitemap--collapsed" : ""}`}
           aria-label="Site map"
         >
-          <button
-            type="button"
-            className="dynamics-sitemap__toggle"
-            onClick={onToggleSitemap}
-            aria-label={sitemapCollapsed ? "Expand site map" : "Collapse site map"}
-            aria-expanded={!sitemapCollapsed}
-          >
-            <LineHorizontal3Regular className="dynamics-sitemap__toggle-icon" />
-          </button>
-          <ul className="dynamics-sitemap__list dynamics-sitemap__list--pinned">
-            <li>
-              <button type="button" className={navItemClass("home")} onClick={() => onNavigateHome?.()}>
-                <HomeRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Home</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" className="dynamics-sitemap__item">
-                <ClockRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Recent</span>
-                <ChevronDownRegular className="dynamics-sitemap__chevron" />
-              </button>
-            </li>
-            <li>
-              <button type="button" className="dynamics-sitemap__item">
-                <PinRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Pinned</span>
-                <ChevronDownRegular className="dynamics-sitemap__chevron" />
-              </button>
-            </li>
-          </ul>
-          <p className="mda-sitemap__group-label">Student Grants</p>
-          <ul className="dynamics-sitemap__list dynamics-sitemap__list--section">
-            <li>
-              <button
-                type="button"
-                className={navItemClass("applications")}
-                onClick={() => onNavigateApplications?.()}
-              >
-                <ClipboardTaskListLtrRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Applications</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" className="dynamics-sitemap__item">
-                <SettingsRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Settings</span>
-              </button>
-            </li>
-          </ul>
+          <div className="dynamics-sitemap__scroll">
+            <button
+              type="button"
+              className="dynamics-sitemap__toggle"
+              onClick={onToggleSitemap}
+              aria-label={sitemapCollapsed ? "Expand site map" : "Collapse site map"}
+              aria-expanded={!sitemapCollapsed}
+            >
+              <LineHorizontal3Regular className="dynamics-sitemap__toggle-icon" />
+            </button>
+            <ul className="dynamics-sitemap__list dynamics-sitemap__list--pinned">
+              <li>
+                <button type="button" className={navItemClass("home")} onClick={() => onNavigateHome?.()}>
+                  <HomeRegular className="dynamics-sitemap__icon" />
+                  <span className="dynamics-sitemap__label">Home</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" className="dynamics-sitemap__item">
+                  <ClockRegular className="dynamics-sitemap__icon" />
+                  <span className="dynamics-sitemap__label">Recent</span>
+                  <ChevronDownRegular className="dynamics-sitemap__chevron" />
+                </button>
+              </li>
+              <li>
+                <button type="button" className="dynamics-sitemap__item">
+                  <PinRegular className="dynamics-sitemap__icon" />
+                  <span className="dynamics-sitemap__label">Pinned</span>
+                  <ChevronDownRegular className="dynamics-sitemap__chevron" />
+                </button>
+              </li>
+            </ul>
+
+            {area.groups.map((group) => (
+              <section key={`${area.id}-${group.label}`} aria-label={group.label}>
+                <p className="mda-sitemap__group-label">{group.label}</p>
+                <ul className="dynamics-sitemap__list dynamics-sitemap__list--section">
+                  {group.items.map((itemId) => {
+                    const item = sitemapItem(itemId);
+                    const entry = isApplicationsEntry(group.label, itemId);
+                    const Icon = item.Icon;
+                    return (
+                      <li key={itemId}>
+                        <button
+                          type="button"
+                          className={entry ? navItemClass("applications") : "dynamics-sitemap__item"}
+                          onClick={entry ? () => onNavigateApplications?.() : undefined}
+                          title={item.label}
+                        >
+                          <Icon className="dynamics-sitemap__icon" />
+                          <span className="dynamics-sitemap__label">{item.label}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+          <AreaSwitcher areaId={area.id} onSelectArea={onSelectArea} collapsed={sitemapCollapsed} />
         </nav>
 
         {children}
