@@ -1358,28 +1358,39 @@
   flex: 0 1 auto;
 }
 
+.mda-answers-subgrid .mda-related-subgrid__header {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
 .mda-answers-subgrid .dynamics-view-title-trigger__text {
   font-size: 14px;
 }
 
+.mda-answers-subgrid .mda-related-subgrid__commands {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .mda-answers-subgrid__search {
-  width: 270px;
+  flex: 0 0 280px;
+  width: 280px;
   margin-left: 8px;
 }
 
 .mda-answers-subgrid__question {
-  min-width: 260px;
+  min-width: 240px;
   white-space: normal !important;
 }
 
-.mda-answers-subgrid__question > span {
-  display: block;
-}
-
-.mda-answers-subgrid__section {
-  margin-top: 2px;
-  color: #605e5c;
-  font-size: 11px;
+.mda-answers-subgrid__group td {
+  padding: 8px 12px 4px !important;
+  background: #faf9f8;
+  color: #323130;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .mda-answers-subgrid__empty-cell {
@@ -1388,6 +1399,7 @@
 
 .mda-answers-subgrid__assessor {
   font-weight: 600;
+  background: rgba(130, 207, 201, 0.18);
 }
 
 .mda-answers-subgrid__feed {
@@ -1398,13 +1410,52 @@
 }
 
 .mda-answers-subgrid__reason {
-  max-width: 320px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 220px;
+  max-width: 360px;
+  white-space: normal !important;
+  line-height: 1.35;
+}
+
+.mda-answers-subgrid__status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.mda-answers-subgrid__status--valid {
+  background: rgba(130, 207, 201, 0.45);
+  color: #0b3b38;
+}
+
+.mda-answers-subgrid__status--pending {
+  background: rgba(255, 171, 0, 0.28);
+  color: #5c4300;
+}
+
+.mda-answers-subgrid__status--invalid {
+  background: rgba(209, 52, 56, 0.16);
+  color: #a4262c;
+}
+
+.mda-answers-subgrid__status--none {
+  background: #f3f2f1;
+  color: #605e5c;
+}
+
+.mda-answers-subgrid .mda-related-subgrid__table {
+  min-width: 1180px;
 }
 
 .mda-answers-subgrid .mda-related-subgrid__table td {
-  height: 42px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  height: 40px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.mda-answers-subgrid .mda-related-subgrid__footer {
+  padding-right: 150px;
+  padding-bottom: 16px;
 }

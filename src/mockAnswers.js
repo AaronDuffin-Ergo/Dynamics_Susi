@@ -104,6 +104,7 @@ export function answersFor(application) {
       validationStatus:
         preset.validation ?? (answered && submitted ? "Valid" : "Not Validated"),
       lastUpdatedOn,
+      order: index,
     };
   });
 }
