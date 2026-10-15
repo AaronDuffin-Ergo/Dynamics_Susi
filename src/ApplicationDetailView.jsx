@@ -15,6 +15,7 @@ import {
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
+import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
 import CustomizableCardGrid from "./layoutCustomization/CustomizableCardGrid.jsx";
 import CustomizableFieldSection from "./layoutCustomization/CustomizableFieldSection.jsx";
 import { APPLICATION_DETAIL_FIELDS } from "./layoutCustomization/detailFieldConfigs.jsx";
@@ -291,6 +292,11 @@ export default function ApplicationDetailView({
                       render: () => <ApplicationRecordRail application={application} />,
                     },
                   }}
+                />
+              ) : activeTab.id === "linked" ? (
+                <RelatedApplicationsSubgrid
+                  applicationNumber={application.applicationNumber}
+                  onOpenApplication={onOpenApplication}
                 />
               ) : (
                 <TabPlaceholder tab={activeTab} />
