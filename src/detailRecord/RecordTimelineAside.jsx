@@ -263,14 +263,6 @@ export default function RecordTimelineAside({
             )}
           </div>
         </div>
-        <button
-          type="button"
-          className="mda-timeline-aside__collapse"
-          aria-label="Collapse timeline panel"
-          title="Collapse timeline"
-        >
-          <ChevronRightRegular aria-hidden="true" />
-        </button>
       </div>
     </aside>
   );

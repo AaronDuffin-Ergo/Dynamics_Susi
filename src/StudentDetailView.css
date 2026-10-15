@@ -666,30 +666,6 @@
   color: #a19f9d;
 }
 
-.mda-timeline-aside__collapse {
-  flex: 0 0 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-left: 1px solid #edebe9;
-  background: #3b3a39;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.mda-timeline-aside__collapse:hover {
-  background: #323130;
-}
-
-.mda-timeline-aside__collapse > svg {
-  width: 12px;
-  height: 12px;
-}
-
 .mda-timeline-aside__empty {
   display: flex;
   flex: 1 1 auto;
