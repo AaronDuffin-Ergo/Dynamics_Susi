@@ -81,11 +81,6 @@ export default function ApplicationsGrid({
   applications,
   onOpenApplication,
   onNavigateHome,
-  onNavigateDevelopments,
-  onNavigateProperties,
-  onNavigateBuyers,
-  onNavigateContracts,
-  onNavigateSalesStaff,
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
@@ -203,11 +198,6 @@ export default function ApplicationsGrid({
     <DynamicsAppShell
       activeNav="applications"
       onNavigateHome={onNavigateHome}
-      onNavigateDevelopments={onNavigateDevelopments}
-      onNavigateProperties={onNavigateProperties}
-      onNavigateBuyers={onNavigateBuyers}
-      onNavigateContracts={onNavigateContracts}
-      onNavigateSalesStaff={onNavigateSalesStaff}
       sitemapCollapsed={sitemapCollapsed}
       onToggleSitemap={onToggleSitemap}
     >

@@ -129,11 +129,6 @@ export default function ApplicationDetailView({
   onBack,
   onOpenApplication,
   onNavigateHome,
-  onNavigateDevelopments,
-  onNavigateProperties,
-  onNavigateBuyers,
-  onNavigateContracts,
-  onNavigateSalesStaff,
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
@@ -161,11 +156,6 @@ export default function ApplicationDetailView({
       appClassName="mda-new-record mda-detail-record"
       headerVariant="detail"
       onNavigateHome={onNavigateHome}
-      onNavigateDevelopments={onNavigateDevelopments}
-      onNavigateProperties={onNavigateProperties}
-      onNavigateBuyers={onNavigateBuyers}
-      onNavigateContracts={onNavigateContracts}
-      onNavigateSalesStaff={onNavigateSalesStaff}
       sitemapCollapsed={sitemapCollapsed}
       onToggleSitemap={onToggleSitemap}
     >

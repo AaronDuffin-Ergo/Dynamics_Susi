@@ -1,6 +1,6 @@
 # Dynamics SUSI
 
-A clickable Microsoft Dynamics 365 / Power Apps mock branded as SUSI Portal. It uses sample data only: developments, properties, buyers, contracts, and sales staff. You can open records, create new ones, and rearrange cards and columns in layout edit mode. Nothing is saved to a server; changes stay in the browser session (layout edits use local storage).
+A clickable Microsoft Dynamics 365 / Power Apps mock of the SUSI college grant Application record. It uses sample data only. You can open an application, read the General fields, and review the activity timeline. Layout edits stay in the browser.
 
 The source for this mock is [AaronDuffin-Ergo/Dynamics_Susi](https://github.com/AaronDuffin-Ergo/Dynamics_Susi).
 
@@ -27,9 +27,8 @@ For live reloading while editing, use `npm run dev`. The development server send
 
 ## What you can click through
 
-- **Home** — property dashboard with charts and recent contracts
-- **Developments, Properties, Buyers, Contracts, Sales Staff** — lists, detail records, and new-record forms
-- **Layout edit** — rearrange fields and grid columns; reset from the edit-mode controls
+- **Applications** — college grant applications. Open a record for the General fields, the activity timeline, and the placeholder tabs: BRE Output, Answers, Documents, Payments, Linked, Appeals, QA, and Feeds
+- **Layout edit** — rearrange fields on the Application record; reset from the edit-mode controls
 
 ## Production build
 

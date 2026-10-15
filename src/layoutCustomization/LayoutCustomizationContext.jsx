@@ -15,23 +15,9 @@ import {
 
 const LayoutCustomizationContext = createContext(null);
 
-export const DETAIL_VIEW_TYPES = new Set([
-  "applicationDetail",
-  "developmentDetail",
-  "propertyDetail",
-  "buyerDetail",
-  "contractDetail",
-  "salesStaffDetail",
-]);
+export const DETAIL_VIEW_TYPES = new Set(["applicationDetail"]);
 
-export const LIST_VIEW_TYPES = new Set([
-  "applications",
-  "developments",
-  "properties",
-  "buyers",
-  "contracts",
-  "salesStaffList",
-]);
+export const LIST_VIEW_TYPES = new Set(["applications"]);
 
 export function LayoutCustomizationProvider({ children, isRecordDetailView, isListView = false }) {
   const [editMode, setEditMode] = useState(false);
