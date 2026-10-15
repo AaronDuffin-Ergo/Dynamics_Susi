@@ -37,12 +37,13 @@ const VIEWS = [
 ];
 
 const COLUMNS = [
+  { id: "application", label: "Application", required: true },
   { id: "question", label: "Question", required: true },
   { id: "applicantAnswer", label: "Applicant Answer" },
   { id: "assessorAnswer", label: "Assessor Answer" },
   { id: "assessorAnswerReason", label: "Assessor Answer Reason" },
-  { id: "validationStatus", label: "Validation Status", required: true },
   { id: "lastUpdatedOn", label: "Last Updated On" },
+  { id: "validationStatus", label: "Validation Status", required: true },
 ];
 
 const DEFAULT_SORT = { column: "question", direction: "ascending" };
@@ -50,11 +51,19 @@ const DEFAULT_SORT = { column: "question", direction: "ascending" };
 function cellValue(row, columnId) {
   if (columnId === "lastUpdatedOn") return row.lastUpdatedOn.getTime();
   if (columnId === "question") return row.order;
+  if (columnId === "application") return row.applicationNumber;
   return row[columnId] ?? "";
 }
 
 export default function AnswersSubgrid({ application }) {
-  const rows = useMemo(() => answersFor(application), [application]);
+  const rows = useMemo(
+    () =>
+      answersFor(application).map((row) => ({
+        ...row,
+        applicationNumber: application.applicationNumber,
+      })),
+    [application],
+  );
   const [viewId, setViewId] = useState("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -230,6 +239,11 @@ export default function AnswersSubgrid({ application }) {
                     />
                   </td>
                   <td>
+                    <button type="button" className="dynamics-grid-link">
+                      {row.applicationNumber}
+                    </button>
+                  </td>
+                  <td>
                     <button type="button" className="dynamics-grid-link" title={row.sectionLabel}>
                       {row.question}
                     </button>
@@ -241,8 +255,8 @@ export default function AnswersSubgrid({ application }) {
                   <td className="mda-related-subgrid__reason" title={row.assessorAnswerReason}>
                     {row.assessorAnswerReason || EMPTY}
                   </td>
-                  <td>{row.validationStatus}</td>
                   <td className="mda-related-subgrid__date">{dateFmt.format(row.lastUpdatedOn)}</td>
+                  <td>{row.validationStatus}</td>
                 </tr>
               );
             })}
