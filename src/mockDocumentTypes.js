@@ -2,6 +2,7 @@ export const DOCUMENT_TYPES = [
   {
     id: "DT-INC",
     name: "Proof of household income",
+    description: "Evidence of the total reckonable income of everyone in your household for 2025.",
     applicantInstructions:
       "Upload evidence of total household income for 2025, such as a P60, statement of liability, or social welfare statement.",
     predefinedFormLink: "https://www.susi.ie/forms/household-income",
@@ -12,6 +13,7 @@ export const DOCUMENT_TYPES = [
   {
     id: "DT-P60",
     name: "P60",
+    description: "The end-of-year certificate from Revenue showing pay and tax for an employed person.",
     applicantInstructions: "Upload the P60 for each employed person in the household for the 2025 tax year.",
     predefinedFormLink: "https://www.susi.ie/forms/p60",
     filenamePrefix: "P60",
@@ -21,6 +23,7 @@ export const DOCUMENT_TYPES = [
   {
     id: "DT-ADDR",
     name: "Proof of address",
+    description: "A recent document showing the address where you normally live.",
     applicantInstructions: "Upload a utility bill or bank statement, dated within the last three months, showing the home address.",
     predefinedFormLink: "https://www.susi.ie/forms/proof-of-address",
     filenamePrefix: "ADDR",
@@ -30,6 +33,7 @@ export const DOCUMENT_TYPES = [
   {
     id: "DT-FOR",
     name: "Foreign payment form",
+    description: "Details of income paid to you or a parent from outside the State.",
     applicantInstructions: "Complete the foreign payment form if a parent or the applicant was paid outside the State.",
     predefinedFormLink: "https://www.susi.ie/forms/foreign-payment",
     filenamePrefix: "FOR",
@@ -39,11 +43,63 @@ export const DOCUMENT_TYPES = [
   {
     id: "DT-REV",
     name: "Revisit declaration",
+    description: "A declaration confirming that a document you already supplied is still correct.",
     applicantInstructions: "Complete this declaration only if SUSI asks you to revisit a document already supplied.",
     predefinedFormLink: "https://www.susi.ie/forms/revisit",
     filenamePrefix: "REV",
     expire: "No",
     requestType: "Revisit document",
+  },
+  {
+    id: "DT-SWS",
+    name: "Social welfare statement",
+    description: "A statement from the Department of Social Protection of payments received in 2025.",
+    applicantInstructions: "Upload the annual statement of all social welfare payments for each person who received one.",
+    predefinedFormLink: "",
+    filenamePrefix: "SWS",
+    expire: "Yes",
+    requestType: "Required for assessment",
+  },
+  {
+    id: "DT-SOL",
+    name: "Statement of liability",
+    description: "The Revenue statement of liability for a self-employed person or PAYE earner.",
+    applicantInstructions: "Upload the 2025 statement of liability downloaded from Revenue myAccount.",
+    predefinedFormLink: "",
+    filenamePrefix: "SOL",
+    expire: "Yes",
+    requestType: "Required for assessment",
+  },
+  {
+    id: "DT-IND",
+    name: "Evidence of independent living",
+    description: "Proof that you have lived independently of your parents, if you are applying as an independent student.",
+    applicantInstructions: "Upload a lease, rent book, or utility bills in your own name covering the required period.",
+    predefinedFormLink: "https://www.susi.ie/forms/independent-living",
+    filenamePrefix: "INDEP",
+    expire: "Yes",
+    requestType: "Required for assessment",
+  },
+  {
+    id: "DT-BIRTH",
+    name: "Birth certificate",
+    description: "Your long-form birth certificate, to confirm date of birth and parents.",
+    applicantInstructions: "Upload a clear copy of the full birth certificate. A short-form certificate is not accepted.",
+    predefinedFormLink: "",
+    filenamePrefix: "BIRTH",
+    expire: "Yes",
+    requestType: "Required for assessment",
+  },
+  {
+    id: "DT-OTHER",
+    name: "Other",
+    description: "Used when no standard document type fits what the assessor needs.",
+    applicantInstructions:
+      "Please upload the following evidence to support your application: [describe the specific document required].",
+    predefinedFormLink: "",
+    filenamePrefix: "OTH",
+    expire: "Yes",
+    requestType: "Required for assessment",
   },
 ];
 

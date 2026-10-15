@@ -110,7 +110,8 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateApplications, areaId = "applications", onSelectArea } = useShellNavigation();
+  const { onNavigateApplications, onNavigateDocumentTypes, areaId = "applications", onSelectArea } =
+    useShellNavigation();
   const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
     .filter(Boolean)
@@ -228,13 +229,26 @@ export default function DynamicsAppShell({
                   {group.items.map((itemId) => {
                     const item = sitemapItem(itemId);
                     const entry = isApplicationsEntry(group.label, itemId);
+                    const documentTypesEntry =
+                      area.id === "administration" && group.label === "Lookups" && itemId === "documentTypes";
                     const Icon = item.Icon;
+                    const onClick = entry
+                      ? () => onNavigateApplications?.()
+                      : documentTypesEntry
+                        ? () => onNavigateDocumentTypes?.()
+                        : undefined;
                     return (
                       <li key={itemId}>
                         <button
                           type="button"
-                          className={entry ? navItemClass("applications") : "dynamics-sitemap__item"}
-                          onClick={entry ? () => onNavigateApplications?.() : undefined}
+                          className={
+                            entry
+                              ? navItemClass("applications")
+                              : documentTypesEntry
+                                ? navItemClass("documentTypes")
+                                : "dynamics-sitemap__item"
+                          }
+                          onClick={onClick}
                           title={item.label}
                         >
                           <Icon className="dynamics-sitemap__icon" />

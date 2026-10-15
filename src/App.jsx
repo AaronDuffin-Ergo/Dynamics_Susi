@@ -8,6 +8,7 @@ import {
 import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
 import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
+import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
 import { mockApplications } from "./mockApplications.js";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
@@ -30,12 +31,18 @@ export default function App() {
   }, [view, applications]);
 
   const goApplicationsList = useCallback(() => setView({ type: "applications" }), []);
+  const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
   const openApplication = useCallback((applicationNumber) => {
     setView({ type: "applicationDetail", applicationNumber });
   }, []);
   const shellNavigation = useMemo(
-    () => ({ onNavigateApplications: goApplicationsList, areaId, onSelectArea: setAreaId }),
-    [goApplicationsList, areaId],
+    () => ({
+      onNavigateApplications: goApplicationsList,
+      onNavigateDocumentTypes: goDocumentTypes,
+      areaId,
+      onSelectArea: setAreaId,
+    }),
+    [goApplicationsList, goDocumentTypes, areaId],
   );
 
   const nav = {
@@ -62,6 +69,8 @@ export default function App() {
               onOpenApplication={openApplication}
               {...nav}
             />
+          ) : view.type === "documentTypes" ? (
+            <DocumentTypesGrid {...nav} />
           ) : (
             <ApplicationsGrid applications={applications} onOpenApplication={openApplication} {...nav} />
           )}
