@@ -10,22 +10,20 @@ Requires Node.js 18 or newer.
 
 ```bash
 npm install
-npm run dev
+npm start
 ```
 
-Vite serves the app under `/Dynamics_Test/` (the base path used for GitHub Pages). Open:
+`npm start` builds the app and serves the optimized build. Open:
 
 ```text
 http://localhost:5173/Dynamics_Test/
 ```
 
-The dev server prints the exact URL when it starts. To use another port:
+The app is served under `/Dynamics_Test/` (the base path used for GitHub Pages).
 
-```bash
-npm run dev -- --host 0.0.0.0 --port 43117 --strictPort
-```
+Use `npm start` when viewing the app through a forwarded port or remote preview. A page load is about 0.3 MB.
 
-Then open `http://localhost:43117/Dynamics_Test/`.
+For live reloading while editing, use `npm run dev`. The development server sends unbundled Fluent UI packages (about 22 MB per page load). That is fine on the same machine but very slow over a forwarded connection.
 
 ## What you can click through
 
