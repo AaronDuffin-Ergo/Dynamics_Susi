@@ -9,6 +9,9 @@ import {
   LayoutCustomizationProvider,
 } from "./layoutCustomization/LayoutCustomizationContext.jsx";
 import "./layoutCustomization/LayoutEditMode.css";
+import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
+import ApplicationDetailView from "./ApplicationDetailView.jsx";
+import ApplicationsGrid from "./ApplicationsGrid.jsx";
 import BuyerDetailView from "./BuyerDetailView.jsx";
 import BuyersGrid from "./BuyersGrid.jsx";
 import ContractDetailView from "./ContractDetailView.jsx";
@@ -25,6 +28,7 @@ import PropertiesGrid from "./PropertiesGrid.jsx";
 import PropertyDetailView from "./PropertyDetailView.jsx";
 import SalesStaffDetailView from "./SalesStaffDetailView.jsx";
 import SalesStaffGrid from "./SalesStaffGrid.jsx";
+import { mockApplications } from "./mockApplications.js";
 import { mockBuyers } from "./mockBuyers.js";
 import { mockContracts } from "./mockContracts.js";
 import { mockDevelopments } from "./mockDevelopments.js";
@@ -32,6 +36,7 @@ import { mockProperties } from "./mockProperties.js";
 import { mockSalesStaff } from "./mockSalesStaff.js";
 
 export default function App() {
+  const [applications] = useState(() => [...mockApplications]);
   const [developments, setDevelopments] = useState(() => [...mockDevelopments]);
   const [properties, setProperties] = useState(() => [...mockProperties]);
   const [buyers, setBuyers] = useState(() => [...mockBuyers]);
@@ -43,6 +48,11 @@ export default function App() {
   const toggleSitemap = useCallback(() => {
     setSitemapCollapsed((prev) => !prev);
   }, []);
+
+  const detailApplication = useMemo(() => {
+    if (view.type !== "applicationDetail") return null;
+    return applications.find((a) => a.applicationNumber === view.applicationNumber) ?? null;
+  }, [view, applications]);
 
   const detailDevelopment = useMemo(() => {
     if (view.type !== "developmentDetail") return null;
@@ -76,6 +86,14 @@ export default function App() {
   }, [view, salesStaff]);
 
   const goHome = useCallback(() => setView({ type: "home" }), []);
+  const goApplicationsList = useCallback(() => setView({ type: "applications" }), []);
+  const openApplication = useCallback((applicationNumber) => {
+    setView({ type: "applicationDetail", applicationNumber });
+  }, []);
+  const shellNavigation = useMemo(
+    () => ({ onNavigateApplications: goApplicationsList }),
+    [goApplicationsList],
+  );
   const goDevelopmentsList = useCallback(() => setView({ type: "developments" }), []);
   const goPropertiesList = useCallback(() => setView({ type: "properties" }), []);
   const goBuyersList = useCallback(() => setView({ type: "buyers" }), []);
@@ -160,8 +178,20 @@ export default function App() {
 
   return (
     <FluentProvider theme={webLightTheme}>
+      <ShellNavigationProvider value={shellNavigation}>
       <LayoutCustomizationProvider isRecordDetailView={isRecordDetailView} isListView={isListView}>
-      {view.type === "newDevelopment" ? (
+      {view.type === "applications" ? (
+        <ApplicationsGrid applications={applications} onOpenApplication={openApplication} {...nav} />
+      ) : detailApplication ? (
+        <ApplicationDetailView
+          key={detailApplication.applicationNumber}
+          application={detailApplication}
+          applications={applications}
+          onBack={goApplicationsList}
+          onOpenApplication={openApplication}
+          {...nav}
+        />
+      ) : view.type === "newDevelopment" ? (
         <NewDevelopmentForm
           existingDevelopments={developments}
           onSubmit={handleCreateDevelopment}
@@ -275,6 +305,7 @@ export default function App() {
         <EditModeBanner />
         <EditModeFab />
       </LayoutCustomizationProvider>
+      </ShellNavigationProvider>
     </FluentProvider>
   );
 }

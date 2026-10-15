@@ -3,6 +3,7 @@ import {
   ArrowClockwiseRegular,
   BuildingRegular,
   ChevronDownRegular,
+  ClipboardTaskListLtrRegular,
   ClockRegular,
   DocumentTextRegular,
   FilterRegular,
@@ -17,10 +18,11 @@ import {
   SettingsRegular,
 } from "@fluentui/react-icons";
 import PowerAppsAppLauncherIcon from "../PowerAppsAppLauncherIcon.jsx";
+import { useShellNavigation } from "./ShellNavigationContext.jsx";
 
 /**
  * @param {object} props
- * @param {"home"|"developments"|"properties"|"buyers"|"contracts"|"salesStaff"} props.activeNav
+ * @param {"home"|"applications"|"developments"|"properties"|"buyers"|"contracts"|"salesStaff"} props.activeNav
  * @param {string} [props.appClassName] — extra classes on .dynamics-app (e.g. mda-detail-record)
  * @param {"list"|"detail"|"form"} [props.headerVariant]
  * @param {React.ReactNode} props.children
@@ -39,6 +41,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
+  const { onNavigateApplications } = useShellNavigation();
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
     .filter(Boolean)
     .join(" ");
@@ -145,6 +148,16 @@ export default function DynamicsAppShell({
           </ul>
           <p className="mda-sitemap__group-label">Administration</p>
           <ul className="dynamics-sitemap__list dynamics-sitemap__list--section">
+            <li>
+              <button
+                type="button"
+                className={navItemClass("applications")}
+                onClick={() => onNavigateApplications?.()}
+              >
+                <ClipboardTaskListLtrRegular className="dynamics-sitemap__icon" />
+                <span className="dynamics-sitemap__label">Applications</span>
+              </button>
+            </li>
             <li>
               <button
                 type="button"

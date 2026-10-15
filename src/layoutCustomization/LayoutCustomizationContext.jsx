@@ -16,6 +16,7 @@ import {
 const LayoutCustomizationContext = createContext(null);
 
 export const DETAIL_VIEW_TYPES = new Set([
+  "applicationDetail",
   "developmentDetail",
   "propertyDetail",
   "buyerDetail",
@@ -24,6 +25,7 @@ export const DETAIL_VIEW_TYPES = new Set([
 ]);
 
 export const LIST_VIEW_TYPES = new Set([
+  "applications",
   "developments",
   "properties",
   "buyers",
