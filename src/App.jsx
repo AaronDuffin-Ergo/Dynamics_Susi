@@ -9,10 +9,11 @@ import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
 import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
 import { mockApplications } from "./mockApplications.js";
+import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
 export default function App() {
   const [applications] = useState(() => [...mockApplications]);
-  const [documentRequests, setDocumentRequests] = useState([]);
+  const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
     setDocumentRequests((current) => [...current, record]);
   }, []);

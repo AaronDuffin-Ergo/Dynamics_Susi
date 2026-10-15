@@ -106,6 +106,13 @@ function HeaderSummaryField({ primary, secondary, showAvatar }) {
   );
 }
 
+function formatRequestDate(value) {
+  if (!value) return "—";
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return value;
+  return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(year, month - 1, day));
+}
+
 function DocumentRequestsPanel({ requests, onNew }) {
   return (
     <section className="mda-record-card mda-related-subgrid" aria-label="Document Requests">
@@ -121,7 +128,7 @@ function DocumentRequestsPanel({ requests, onNew }) {
         <table className="mda-related-subgrid__table mda-doc-requests">
           <thead>
             <tr>
-              {["Document Type", "Relationship", "Request Type", "Status", "Expiry Date"].map((label) => (
+              {["Document Type", "Relationship", "Request Type", "Status", "Requested On", "Expiry Date"].map((label) => (
                 <th key={label} scope="col">
                   {label}
                 </th>
@@ -135,7 +142,8 @@ function DocumentRequestsPanel({ requests, onNew }) {
                 <td>{request.relationship}</td>
                 <td>{request.requestType}</td>
                 <td>{request.status}</td>
-                <td>{request.expire === "Yes" ? request.expiryDate || "—" : "No expiry"}</td>
+                <td>{formatRequestDate(request.requestedOn)}</td>
+                <td>{request.expire === "Yes" ? formatRequestDate(request.expiryDate) : "No expiry"}</td>
               </tr>
             ))}
           </tbody>
