@@ -1,44 +1,37 @@
 import {
   AddSquareRegular,
   ArrowClockwiseRegular,
-  BuildingRegular,
   ChevronDownRegular,
+  ClipboardTaskListLtrRegular,
   ClockRegular,
-  DocumentTextRegular,
   FilterRegular,
   HomeRegular,
   QuestionCircleRegular,
   LineHorizontal3Regular,
-  PeopleRegular,
-  PersonAccountsRegular,
-  PersonCircleRegular,
   PinRegular,
   SearchRegular,
   SettingsRegular,
 } from "@fluentui/react-icons";
 import PowerAppsAppLauncherIcon from "../PowerAppsAppLauncherIcon.jsx";
+import { useShellNavigation } from "./ShellNavigationContext.jsx";
 
 /**
  * @param {object} props
- * @param {"home"|"developments"|"properties"|"buyers"|"contracts"|"salesStaff"} props.activeNav
+ * @param {"home"|"applications"} props.activeNav
  * @param {string} [props.appClassName] — extra classes on .dynamics-app (e.g. mda-detail-record)
  * @param {"list"|"detail"|"form"} [props.headerVariant]
  * @param {React.ReactNode} props.children
  */
 export default function DynamicsAppShell({
-  activeNav = "developments",
+  activeNav = "applications",
   appClassName = "",
   headerVariant = "list",
   children,
   onNavigateHome,
-  onNavigateDevelopments,
-  onNavigateProperties,
-  onNavigateBuyers,
-  onNavigateContracts,
-  onNavigateSalesStaff,
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
+  const { onNavigateApplications } = useShellNavigation();
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
     .filter(Boolean)
     .join(" ");
@@ -59,7 +52,7 @@ export default function DynamicsAppShell({
           <span className="dynamics-app-header__pipe" aria-hidden="true">
             |
           </span>
-          <span className="dynamics-app-header__app">Property Management</span>
+          <span className="dynamics-app-header__app">SUSI Portal</span>
           <span className="dynamics-app-header__divider" aria-hidden="true" />
           <span className="dynamics-app-header__env">SANDBOX</span>
         </div>
@@ -143,52 +136,16 @@ export default function DynamicsAppShell({
               </button>
             </li>
           </ul>
-          <p className="mda-sitemap__group-label">Administration</p>
+          <p className="mda-sitemap__group-label">Student Grants</p>
           <ul className="dynamics-sitemap__list dynamics-sitemap__list--section">
             <li>
               <button
                 type="button"
-                className={navItemClass("developments")}
-                onClick={() => onNavigateDevelopments?.()}
+                className={navItemClass("applications")}
+                onClick={() => onNavigateApplications?.()}
               >
-                <PeopleRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Developments</span>
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className={navItemClass("properties")}
-                onClick={() => onNavigateProperties?.()}
-              >
-                <BuildingRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Properties</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" className={navItemClass("buyers")} onClick={() => onNavigateBuyers?.()}>
-                <PersonCircleRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Buyers</span>
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className={navItemClass("contracts")}
-                onClick={() => onNavigateContracts?.()}
-              >
-                <DocumentTextRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Contracts</span>
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className={navItemClass("salesStaff")}
-                onClick={() => onNavigateSalesStaff?.()}
-              >
-                <PersonAccountsRegular className="dynamics-sitemap__icon" />
-                <span className="dynamics-sitemap__label">Sales Staff</span>
+                <ClipboardTaskListLtrRegular className="dynamics-sitemap__icon" />
+                <span className="dynamics-sitemap__label">Applications</span>
               </button>
             </li>
             <li>

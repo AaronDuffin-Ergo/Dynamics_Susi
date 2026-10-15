@@ -309,22 +309,19 @@
   outline-offset: -2px;
 }
 
-/* Workspace layout — default 2 columns; 1-column via modifier from CustomizableCardGrid */
-.mda-detail-record-grid {
+/* Workspace layout — 587px form, 587px timeline, related rail fills the rest */
+.mda-detail-record-grid,
+.mda-detail-record-grid--columns-2 {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px;
-  align-items: stretch;
+  grid-template-columns: 587px 587px minmax(260px, 1fr);
+  gap: 12px;
+  align-items: start;
   margin-top: 0;
   width: 100%;
 }
 
 .mda-detail-record-grid--columns-1 {
   grid-template-columns: minmax(0, 1fr);
-}
-
-.mda-detail-record-grid--columns-2 {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .mda-detail-record-grid > .mda-record-card,
@@ -344,9 +341,28 @@
   grid-column: 1 / -1;
 }
 
-@media (max-width: 1200px) {
-  .mda-detail-record-grid {
-    grid-template-columns: 1fr;
+/* Not enough room for the rail beside two 587px columns: move it to its own row */
+@media (max-width: 1740px) {
+  .mda-detail-record-grid,
+  .mda-detail-record-grid--columns-2 {
+    grid-template-columns: 587px 587px;
+  }
+
+  .mda-detail-record-grid > :has(> .mda-record-rail) {
+    grid-column: 1 / -1;
+  }
+
+  .mda-detail-record-grid .mda-record-rail {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    align-items: start;
+  }
+}
+
+@media (max-width: 1480px) {
+  .mda-detail-record-grid,
+  .mda-detail-record-grid--columns-2 {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -665,30 +681,6 @@
   color: #a19f9d;
 }
 
-.mda-timeline-aside__collapse {
-  flex: 0 0 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-left: 1px solid #edebe9;
-  background: #3b3a39;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.mda-timeline-aside__collapse:hover {
-  background: #323130;
-}
-
-.mda-timeline-aside__collapse > svg {
-  width: 12px;
-  height: 12px;
-}
-
 .mda-timeline-aside__empty {
   display: flex;
   flex: 1 1 auto;
@@ -733,4 +725,631 @@
 .mda-detail-related .student-detail__related-wrap {
   margin-top: 0;
   max-width: none;
+}
+
+/* Application record */
+.mda-application-header__main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mda-application-form .mda-detail-columns {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.mda-application-tabs {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.mda-application-tabs .mda-tab {
+  flex-shrink: 0;
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.mda-detail-row__lookup {
+  display: block;
+  max-width: 100%;
+  min-height: 28px;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 28px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mda-detail-row__lookup:not([title^="Open"]) {
+  cursor: default;
+}
+
+.mda-application-tab-placeholder {
+  padding: 24px 24px 28px;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mda-application-tab-placeholder__title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #323130;
+}
+
+.mda-application-tab-placeholder__text {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #605e5c;
+  line-height: 1.45;
+}
+
+.mda-application-tab-placeholder__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.mda-application-tab-placeholder__item {
+  padding: 6px 12px;
+  border: 1px dashed #c8c6c4;
+  border-radius: 4px;
+  background: #faf9f8;
+  font-size: 13px;
+  color: #323130;
+}
+
+.mda-application-tab-placeholder__note {
+  margin: 0;
+  font-size: 12px;
+  color: #a19f9d;
+}
+
+/* Timeline activities */
+.mda-timeline-activities {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: 4px;
+}
+
+.mda-timeline-activities__section-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 2px;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  color: #323130;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mda-timeline-activities__section-toggle:hover {
+  background: #faf9f8;
+}
+
+.mda-timeline-activities__section-toggle > svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #605e5c;
+}
+
+.mda-timeline-activities__section-toggle--highlights > span {
+  flex: 1 1 auto;
+}
+
+.mda-timeline-activities__section-toggle--highlights > .mda-timeline-activities__sparkle {
+  width: 18px;
+  height: 18px;
+  color: #ab1a4d;
+}
+
+.mda-timeline-activities__section-toggle--recent {
+  border-bottom: 2px solid #0078d4;
+  font-size: 12px;
+  color: #605e5c;
+}
+
+.mda-timeline-activities__highlights {
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: #faf9f8;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #323130;
+}
+
+.mda-timeline-activities__highlights p {
+  margin: 0;
+}
+
+.mda-timeline-activities__highlights p + p {
+  margin-top: 4px;
+}
+
+.mda-timeline-activities__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 720px;
+  margin: 0;
+  padding: 10px 0 4px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.mda-timeline-activity {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mda-timeline-activity__avatar {
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.mda-timeline-activity__card {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 8px 10px 0;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  background: #ffffff;
+  font-size: 12px;
+  color: #323130;
+}
+
+.mda-timeline-activity__meta {
+  margin: 0 0 6px;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 0 0 2px;
+}
+
+.mda-timeline-activity__kind-icon {
+  width: 14px;
+  height: 14px;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__type {
+  font-weight: 600;
+}
+
+.mda-timeline-activity__link {
+  color: #323130;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mda-timeline-activity__state {
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: #f3f2f1;
+  font-size: 11px;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__state--open {
+  background: rgba(255, 171, 0, 0.25);
+  color: #1e1e1e;
+}
+
+.mda-timeline-activity__state--sent {
+  background: rgba(130, 207, 201, 0.35);
+  color: #1e1e1e;
+}
+
+.mda-timeline-activity__summary {
+  margin: 4px 0 2px;
+  color: #323130;
+}
+
+.mda-timeline-activity__text {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #323130;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.mda-timeline-activity__text--expanded {
+  display: block;
+  overflow: visible;
+}
+
+.mda-timeline-activity__more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 6px 0 0;
+  padding: 6px 0;
+  border: none;
+  border-top: 1px solid #f3f2f1;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  color: #323130;
+  cursor: pointer;
+}
+
+.mda-timeline-activity__more:hover {
+  color: #0078d4;
+}
+
+.mda-timeline-activity__more > svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mda-timeline-activity__regarding {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 6px 0 8px;
+  border-top: 1px solid #f3f2f1;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__regarding-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.mda-timeline-activity--auto {
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.mda-timeline-activity__auto-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 20px;
+  justify-content: center;
+  margin-top: 2px;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__auto-icon > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mda-timeline-activity__auto-body {
+  min-width: 0;
+  font-size: 12px;
+  color: #323130;
+  line-height: 1.45;
+}
+
+.mda-timeline-activity__auto-line,
+.mda-timeline-activity__auto-text {
+  margin: 0;
+}
+
+.mda-timeline-activity__auto-line .mda-timeline-activity__link {
+  font-weight: 400;
+}
+
+.mda-timeline-activity__auto-date {
+  margin-left: 6px;
+  color: #605e5c;
+}
+
+.mda-timeline-activity__auto-text {
+  color: #605e5c;
+}
+
+.mda-timeline-activities__footer {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: #a19f9d;
+  text-align: center;
+}
+
+/* Right-hand related column */
+.mda-record-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.mda-rail-card {
+  padding: 12px 14px 14px;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mda-rail-card__title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #323130;
+}
+
+.mda-rail-card__empty-title {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #323130;
+  text-align: center;
+}
+
+.mda-rail-card__empty-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #605e5c;
+  text-align: center;
+}
+
+.mda-rail-card__link {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #0078d4;
+  font: inherit;
+  cursor: pointer;
+}
+
+.mda-rail-card__lookup.fui-Input {
+  width: 100%;
+  min-height: 32px;
+  background: #ffffff;
+  border: 1px solid #c8c6c4;
+  border-radius: 2px;
+}
+
+.mda-rail-cases__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mda-rail-cases__title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #323130;
+}
+
+.mda-rail-cases__count {
+  margin-left: auto;
+  font-size: 12px;
+  color: #605e5c;
+}
+
+.mda-rail-cases__more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #605e5c;
+  cursor: pointer;
+}
+
+.mda-rail-cases__select {
+  margin: 8px 0;
+  font-size: 12px;
+  color: #605e5c;
+}
+
+.mda-rail-case {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.mda-rail-case__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #d13438;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.mda-rail-case__title,
+.mda-rail-case__number {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.mda-rail-case__title {
+  color: #323130;
+  font-weight: 600;
+}
+
+.mda-rail-case__number {
+  color: #605e5c;
+}
+
+.mda-rail-cases__pager {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #605e5c;
+  text-align: right;
+}
+
+.mda-related-subgrid {
+  padding: 0;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+
+.mda-related-subgrid__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 4px 8px 4px 16px;
+  border-bottom: 1px solid #edebe9;
+}
+
+.mda-related-subgrid__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #323130;
+}
+
+.mda-related-subgrid__commands {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.mda-related-subgrid__commands .fui-Button {
+  max-width: 220px;
+  font-weight: 400;
+}
+
+.mda-related-subgrid__notice {
+  margin: 0;
+  padding: 6px 16px;
+  background: #f3f2f1;
+  color: #323130;
+  font-size: 12px;
+}
+
+.mda-related-subgrid__scroll {
+  overflow-x: auto;
+}
+
+.mda-related-subgrid__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: #323130;
+}
+
+.mda-related-subgrid__table th {
+  padding: 0;
+  border-bottom: 1px solid #edebe9;
+  background: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.mda-related-subgrid__table td {
+  height: 36px;
+  padding: 0 12px;
+  border-bottom: 1px solid #f3f2f1;
+  white-space: nowrap;
+}
+
+.mda-related-subgrid__check {
+  width: 42px;
+  padding-left: 12px !important;
+  padding-right: 0 !important;
+  text-align: center;
+}
+
+.mda-related-subgrid__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 36px;
+  margin: 0;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: #323130;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mda-related-subgrid__sort:hover,
+.mda-related-subgrid__sort:focus-visible {
+  background: #f3f2f1;
+}
+
+.mda-related-subgrid__req {
+  color: #a4262c;
+}
+
+.mda-related-subgrid__chevron {
+  width: 12px;
+  height: 12px;
+  color: #605e5c;
+}
+
+.mda-related-subgrid__chevron--up {
+  transform: rotate(180deg);
+}
+
+.mda-related-subgrid__table tbody tr {
+  cursor: pointer;
+}
+
+.mda-related-subgrid__table tbody tr:hover {
+  background: #faf9f8;
+}
+
+.mda-related-subgrid__row--selected,
+.mda-related-subgrid__row--selected:hover {
+  background: #edebe9;
+}
+
+.mda-related-subgrid__reason {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mda-related-subgrid__date {
+  color: #323130;
+}
+
+.mda-related-subgrid__empty {
+  margin: 0;
+  padding: 28px 16px;
+  color: #605e5c;
+  font-size: 13px;
+  text-align: center;
+}
+
+.mda-related-subgrid__footer {
+  padding: 8px 16px 10px;
+  color: #605e5c;
+  font-size: 12px;
 }

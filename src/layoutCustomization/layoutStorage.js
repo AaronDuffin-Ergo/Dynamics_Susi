@@ -1,11 +1,12 @@
 const STORAGE_KEY = "dynamics-layout-customization";
 
-export const BUILTIN_CARD_IDS = ["form", "timeline"];
+export const BUILTIN_CARD_IDS = ["form", "timeline", "rail"];
 
-/** Default page width: 2 = half (50%), 1 = full row */
+/** Default page width: 2 = one column, 1 = full row */
 const DEFAULT_CARD_WIDTHS = {
   form: 2,
   timeline: 2,
+  rail: 2,
 };
 
 /** cardWidth 1 = full width row, 2 = half width (50%) */
