@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, Input, Menu, MenuItem, MenuList, MenuPopover, MenuTrigger } from "@fluentui/react-components";
 import {
   AddRegular,
@@ -51,13 +51,6 @@ function cellValue(row, columnId) {
   if (columnId === "lastUpdatedOn") return row.lastUpdatedOn.getTime();
   if (columnId === "question") return row.order;
   return row[columnId] ?? "";
-}
-
-function validationClass(status) {
-  if (status === "Valid") return "mda-answers-subgrid__status--valid";
-  if (status === "Invalid") return "mda-answers-subgrid__status--invalid";
-  if (status === "Validation Pending") return "mda-answers-subgrid__status--pending";
-  return "mda-answers-subgrid__status--none";
 }
 
 export default function AnswersSubgrid({ application }) {
@@ -219,48 +212,38 @@ export default function AnswersSubgrid({ application }) {
             </tr>
           </thead>
           <tbody>
-            {visibleRows.map((row, index) => {
+            {visibleRows.map((row) => {
               const isSelected = selected.has(row.answerId);
-              const showSection = sort.column === "question" && (index === 0 || visibleRows[index - 1].section !== row.section);
               return (
-                <Fragment key={row.answerId}>
-                  {showSection ? (
-                    <tr className="mda-answers-subgrid__group">
-                      <td colSpan={COLUMNS.length + 1}>{row.sectionLabel}</td>
-                    </tr>
-                  ) : null}
-                  <tr
-                    className={isSelected ? "mda-related-subgrid__row--selected" : ""}
-                    onClick={() => toggleRow(row.answerId)}
-                  >
-                    <td className="mda-related-subgrid__check">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => toggleRow(row.answerId)}
-                        onClick={(event) => event.stopPropagation()}
-                        aria-label={`Select ${row.question}`}
-                      />
-                    </td>
-                    <td className="mda-answers-subgrid__question">{row.question}</td>
-                    <td className={row.applicantAnswer ? "" : "mda-answers-subgrid__empty-cell"}>
-                      {row.applicantAnswer || EMPTY}
-                      {row.source === "feed" ? <span className="mda-answers-subgrid__feed">From external feed</span> : null}
-                    </td>
-                    <td className={row.assessorAnswer ? "mda-answers-subgrid__assessor" : "mda-answers-subgrid__empty-cell"}>
-                      {row.assessorAnswer || EMPTY}
-                    </td>
-                    <td className="mda-answers-subgrid__reason" title={row.assessorAnswerReason}>
-                      {row.assessorAnswerReason || EMPTY}
-                    </td>
-                    <td>
-                      <span className={`mda-answers-subgrid__status ${validationClass(row.validationStatus)}`}>
-                        {row.validationStatus}
-                      </span>
-                    </td>
-                    <td className="mda-related-subgrid__date">{dateFmt.format(row.lastUpdatedOn)}</td>
-                  </tr>
-                </Fragment>
+                <tr
+                  key={row.answerId}
+                  className={isSelected ? "mda-related-subgrid__row--selected" : ""}
+                  onClick={() => toggleRow(row.answerId)}
+                >
+                  <td className="mda-related-subgrid__check">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => toggleRow(row.answerId)}
+                      onClick={(event) => event.stopPropagation()}
+                      aria-label={`Select ${row.question}`}
+                    />
+                  </td>
+                  <td>
+                    <button type="button" className="dynamics-grid-link" title={row.sectionLabel}>
+                      {row.question}
+                    </button>
+                  </td>
+                  <td title={row.source === "feed" ? "From external feed" : undefined}>
+                    {row.applicantAnswer || EMPTY}
+                  </td>
+                  <td>{row.assessorAnswer || EMPTY}</td>
+                  <td className="mda-related-subgrid__reason" title={row.assessorAnswerReason}>
+                    {row.assessorAnswerReason || EMPTY}
+                  </td>
+                  <td>{row.validationStatus}</td>
+                  <td className="mda-related-subgrid__date">{dateFmt.format(row.lastUpdatedOn)}</td>
+                </tr>
               );
             })}
           </tbody>
