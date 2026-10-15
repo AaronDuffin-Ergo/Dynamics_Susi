@@ -13,6 +13,7 @@ import {
   ShieldCheckmarkRegular,
 } from "@fluentui/react-icons";
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
+import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import CustomizableCardGrid from "./layoutCustomization/CustomizableCardGrid.jsx";
 import CustomizableFieldSection from "./layoutCustomization/CustomizableFieldSection.jsx";
@@ -284,6 +285,10 @@ export default function ApplicationDetailView({
                           recordMetaLabel={`Record created on ${dateShort.format(application.createdOn)}`}
                         />
                       ),
+                    },
+                    rail: {
+                      label: "Related",
+                      render: () => <ApplicationRecordRail application={application} />,
                     },
                   }}
                 />
