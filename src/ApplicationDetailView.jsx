@@ -13,6 +13,7 @@ import {
   ShieldCheckmarkRegular,
 } from "@fluentui/react-icons";
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
+import AnswersSubgrid from "./AnswersSubgrid.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
@@ -293,6 +294,8 @@ export default function ApplicationDetailView({
                     },
                   }}
                 />
+              ) : activeTab.id === "answers" ? (
+                <AnswersSubgrid application={application} />
               ) : activeTab.id === "linked" ? (
                 <RelatedApplicationsSubgrid
                   applicationNumber={application.applicationNumber}

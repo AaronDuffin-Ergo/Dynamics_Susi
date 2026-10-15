@@ -1353,3 +1353,58 @@
   color: #605e5c;
   font-size: 12px;
 }
+
+.mda-answers-subgrid .dynamics-view-heading {
+  flex: 0 1 auto;
+}
+
+.mda-answers-subgrid .dynamics-view-title-trigger__text {
+  font-size: 14px;
+}
+
+.mda-answers-subgrid__search {
+  width: 270px;
+  margin-left: 8px;
+}
+
+.mda-answers-subgrid__question {
+  min-width: 260px;
+  white-space: normal !important;
+}
+
+.mda-answers-subgrid__question > span {
+  display: block;
+}
+
+.mda-answers-subgrid__section {
+  margin-top: 2px;
+  color: #605e5c;
+  font-size: 11px;
+}
+
+.mda-answers-subgrid__empty-cell {
+  color: #a19f9d;
+}
+
+.mda-answers-subgrid__assessor {
+  font-weight: 600;
+}
+
+.mda-answers-subgrid__feed {
+  display: block;
+  margin-top: 2px;
+  color: #8a6100;
+  font-size: 11px;
+}
+
+.mda-answers-subgrid__reason {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mda-answers-subgrid .mda-related-subgrid__table td {
+  height: 42px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
