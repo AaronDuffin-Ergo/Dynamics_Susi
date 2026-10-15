@@ -13,15 +13,12 @@ import {
 import {
   AddRegular,
   ArrowClockwiseRegular,
-  ArrowExportRegular,
+  ArrowLeftRegular,
+  CheckmarkRegular,
   ChevronDownRegular,
   ColumnTripleEditRegular,
-  DataBarVerticalRegular,
-  DocumentBulletListRegular,
   FilterRegular,
-  FlowRegular,
-  LinkRegular,
-  PersonAddRegular,
+  SaveRegular,
   SearchRegular,
   ShareRegular,
 } from "@fluentui/react-icons";
@@ -206,65 +203,35 @@ export default function ApplicationsGrid({
           <div className="dynamics-surface-card dynamics-surface-card--command">
             <div className="dynamics-commandbar" role="toolbar" aria-label="Commands">
               <div className="dynamics-commandbar__scroll">
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — chart view">
+                <Button appearance="subtle" type="button" icon={<ArrowLeftRegular />} aria-label="Back" onClick={onMockCommand} />
+                <Button appearance="subtle" type="button" onClick={onMockCommand}>
                   <span className="dynamics-cmd-btn__inner">
-                    <DataBarVerticalRegular className="dynamics-cmd-btn__icon" />
-                    <span>Show Chart</span>
+                    <SaveRegular className="dynamics-cmd-btn__icon" />
+                    <span>Save As</span>
                   </span>
                 </Button>
-                <Button
-                  appearance="subtle"
-                  type="button"
-                  disabled
-                  title="Applications are created when an applicant first saves the portal form"
-                >
+                <Button appearance="subtle" type="button" onClick={onMockCommand}>
                   <span className="dynamics-cmd-btn__inner">
-                    <AddRegular className="dynamics-cmd-btn__icon" />
+                    <AddRegular className="dynamics-cmd-btn__icon dynamics-cmd-btn__icon--add" />
                     <span>New</span>
+                    <ChevronDownRegular className="dynamics-cmd-btn__chevron" aria-hidden="true" />
                   </span>
                 </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — refresh list">
+                <Button appearance="subtle" type="button" onClick={onMockCommand}>
+                  <span className="dynamics-cmd-btn__inner">
+                    <CheckmarkRegular className="dynamics-cmd-btn__icon" />
+                    <span>Set As Default</span>
+                  </span>
+                </Button>
+                <Button appearance="subtle" type="button" onClick={onMockCommand}>
                   <span className="dynamics-cmd-btn__inner">
                     <ArrowClockwiseRegular className="dynamics-cmd-btn__icon" />
-                    <span>Refresh</span>
-                  </span>
-                </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — assign">
-                  <span className="dynamics-cmd-btn__inner">
-                    <PersonAddRegular className="dynamics-cmd-btn__icon" />
-                    <span>Assign</span>
-                  </span>
-                </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — email link">
-                  <span className="dynamics-cmd-btn__inner">
-                    <LinkRegular className="dynamics-cmd-btn__icon" />
-                    <span>Email a Link</span>
-                  </span>
-                </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — Power Automate">
-                  <span className="dynamics-cmd-btn__inner">
-                    <FlowRegular className="dynamics-cmd-btn__icon" />
-                    <span>Flow</span>
-                    <ChevronDownRegular className="dynamics-cmd-btn__chevron" aria-hidden="true" />
-                  </span>
-                </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — reporting">
-                  <span className="dynamics-cmd-btn__inner">
-                    <DocumentBulletListRegular className="dynamics-cmd-btn__icon" />
-                    <span>Run Report</span>
-                    <ChevronDownRegular className="dynamics-cmd-btn__chevron" aria-hidden="true" />
-                  </span>
-                </Button>
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — export">
-                  <span className="dynamics-cmd-btn__inner">
-                    <ArrowExportRegular className="dynamics-cmd-btn__icon" />
-                    <span>Export to Excel</span>
-                    <ChevronDownRegular className="dynamics-cmd-btn__chevron" aria-hidden="true" />
+                    <span>Refresh All</span>
                   </span>
                 </Button>
               </div>
               <div className="dynamics-commandbar__right">
-                <Button appearance="subtle" type="button" onClick={onMockCommand} title="Preview only — sharing">
+                <Button appearance="subtle" type="button" onClick={onMockCommand}>
                   <span className="dynamics-cmd-btn__inner">
                     <ShareRegular className="dynamics-cmd-btn__icon" />
                     <span>Share</span>

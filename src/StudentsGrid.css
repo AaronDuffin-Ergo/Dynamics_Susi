@@ -515,7 +515,11 @@
 
 .dynamics-surface-card--command {
   flex-shrink: 0;
-  padding: 8px 12px 8px 10px;
+  margin: -16px -16px 0;
+  padding: 0 12px;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #edebe9;
 }
 
 /* Bottom card height follows toolbar + grid — does not stretch to fill the viewport */
@@ -530,11 +534,12 @@
 /* Command bar — list view actions (Dynamics ribbon-style) */
 .dynamics-commandbar {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
+  min-height: 44px;
   padding: 0;
-  background: transparent;
+  background: #ffffff;
   border: none;
   flex-shrink: 0;
 }
@@ -552,16 +557,15 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding-left: 8px;
-  border-left: 1px solid #edebe9;
+  margin-left: auto;
 }
 
 /* Fluent subtle buttons — tighter Dynamics density */
 .dynamics-commandbar .fui-Button {
-  min-height: 28px;
-  padding-left: 6px;
+  min-height: 40px;
+  padding-left: 8px;
   padding-right: 8px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: #323130;
 }
@@ -573,7 +577,7 @@
 .dynamics-cmd-btn__inner {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   white-space: nowrap;
 }
 
@@ -582,6 +586,10 @@
   height: 16px;
   flex-shrink: 0;
   color: #605e5c;
+}
+
+.dynamics-cmd-btn__icon--add {
+  color: #107c10;
 }
 
 .dynamics-cmd-btn__chevron {
