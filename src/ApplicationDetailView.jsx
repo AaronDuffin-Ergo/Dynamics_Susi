@@ -17,6 +17,7 @@ import AnswersSubgrid from "./AnswersSubgrid.jsx";
 import DocumentRequestQuickCreate from "./DocumentRequestQuickCreate.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
+import ApprovalLogSubgrid from "./ApprovalLogSubgrid.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
 import CustomizableCardGrid from "./layoutCustomization/CustomizableCardGrid.jsx";
 import CustomizableFieldSection from "./layoutCustomization/CustomizableFieldSection.jsx";
@@ -70,6 +71,7 @@ const APPLICATION_TABS = [
     description: "Records connected to this application.",
     items: ["Cases", "Linked applications", "CIRs"],
   },
+  { id: "approvals", label: "Approvals" },
   {
     id: "appeals",
     label: "Appeals",
@@ -489,6 +491,8 @@ export default function ApplicationDetailView({
                   applicationNumber={application.applicationNumber}
                   onOpenApplication={onOpenApplication}
                 />
+              ) : activeTab.id === "approvals" ? (
+                <ApprovalLogSubgrid applicationNumber={application.applicationNumber} />
               ) : (
                 <TabPlaceholder tab={activeTab} />
               )}
