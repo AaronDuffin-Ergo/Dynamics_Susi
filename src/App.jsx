@@ -10,17 +10,21 @@ import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
 import AppealDetailView from "./AppealDetailView.jsx";
 import AppealsGrid from "./AppealsGrid.jsx";
+import SgabAppealDetailView from "./SgabAppealDetailView.jsx";
+import SgabAppealsGrid from "./SgabAppealsGrid.jsx";
 import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
 import UsersGrid from "./UsersGrid.jsx";
 import UserDetailView from "./UserDetailView.jsx";
 import { mockUsers } from "./mockUsers.js";
 import { mockAppeals } from "./mockAppeals.js";
+import { mockSgabAppeals } from "./mockSgabAppeals.js";
 import { mockApplications } from "./mockApplications.js";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
 export default function App() {
   const [applications] = useState(() => [...mockApplications]);
   const [appeals] = useState(() => [...mockAppeals]);
+  const [sgabAppeals] = useState(() => [...mockSgabAppeals]);
   const [users] = useState(() => [...mockUsers]);
   const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
@@ -32,6 +36,11 @@ export default function App() {
   const toggleSitemap = useCallback(() => {
     setSitemapCollapsed((prev) => !prev);
   }, []);
+
+  const detailSgabAppeal = useMemo(() => {
+    if (view.type !== "sgabAppealDetail") return null;
+    return sgabAppeals.find((appeal) => appeal.sgabAppealNumber === view.sgabAppealNumber) ?? null;
+  }, [sgabAppeals, view]);
 
   const detailAppeal = useMemo(() => {
     if (view.type !== "appealDetail") return null;
@@ -52,6 +61,10 @@ export default function App() {
   const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
   const goUsers = useCallback(() => setView({ type: "users" }), []);
   const goAppeals = useCallback(() => setView({ type: "appeals" }), []);
+  const goSgabAppeals = useCallback(() => setView({ type: "sgabAppeals" }), []);
+  const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
+    setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
+  }, []);
   const openUser = useCallback((userId) => setView({ type: "userDetail", userId }), []);
   const openAppeal = useCallback((appealNumber, fromApplication) => {
     setView({ type: "appealDetail", appealNumber, fromApplication: fromApplication || "" });
@@ -65,10 +78,11 @@ export default function App() {
       onNavigateDocumentTypes: goDocumentTypes,
       onNavigateUsers: goUsers,
       onNavigateAppeals: goAppeals,
+      onNavigateSgabAppeals: goSgabAppeals,
       areaId,
       onSelectArea: setAreaId,
     }),
-    [areaId, goAppeals, goApplicationsList, goDocumentTypes, goUsers],
+    [areaId, goAppeals, goApplicationsList, goDocumentTypes, goSgabAppeals, goUsers],
   );
 
   const nav = {
@@ -84,7 +98,19 @@ export default function App() {
     <FluentProvider theme={webLightTheme}>
       <ShellNavigationProvider value={shellNavigation}>
         <LayoutCustomizationProvider isRecordDetailView={isRecordDetailView} isListView={isListView}>
-          {detailAppeal ? (
+          {detailSgabAppeal ? (
+            <SgabAppealDetailView
+              key={detailSgabAppeal.sgabAppealNumber}
+              appeal={detailSgabAppeal}
+              onBack={
+                view.fromApplication
+                  ? () => openApplication(view.fromApplication, "appeals")
+                  : goSgabAppeals
+              }
+              onOpenApplication={openApplication}
+              {...nav}
+            />
+          ) : detailAppeal ? (
             <AppealDetailView
               key={detailAppeal.appealNumber}
               appeal={detailAppeal}
@@ -106,11 +132,14 @@ export default function App() {
               onBack={goApplicationsList}
               onOpenApplication={openApplication}
               onOpenAppeal={(appealNumber) => openAppeal(appealNumber, detailApplication.applicationNumber)}
+              onOpenSgabAppeal={(sgabAppealNumber) => openSgabAppeal(sgabAppealNumber, detailApplication.applicationNumber)}
               initialTab={view.tab || "general"}
               {...nav}
             />
           ) : detailUser ? (
             <UserDetailView key={detailUser.userId} user={detailUser} onBack={goUsers} {...nav} />
+          ) : view.type === "sgabAppeals" ? (
+            <SgabAppealsGrid appeals={sgabAppeals} onOpenSgabAppeal={openSgabAppeal} {...nav} />
           ) : view.type === "appeals" ? (
             <AppealsGrid appeals={appeals} onOpenAppeal={openAppeal} {...nav} />
           ) : view.type === "users" ? (

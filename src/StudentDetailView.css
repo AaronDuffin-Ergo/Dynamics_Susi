@@ -1390,6 +1390,12 @@
   text-overflow: ellipsis;
 }
 
+.mda-related-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .mda-detail-row--wide {
   grid-column: 1 / -1;
 }

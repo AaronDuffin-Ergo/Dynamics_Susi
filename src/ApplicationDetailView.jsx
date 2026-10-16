@@ -19,6 +19,7 @@ import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import ApprovalLogSubgrid from "./ApprovalLogSubgrid.jsx";
 import AppealsSubgrid from "./AppealsSubgrid.jsx";
+import SgabAppealsSubgrid from "./SgabAppealsSubgrid.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
 import CustomizableCardGrid from "./layoutCustomization/CustomizableCardGrid.jsx";
 import CustomizableFieldSection from "./layoutCustomization/CustomizableFieldSection.jsx";
@@ -317,6 +318,7 @@ export default function ApplicationDetailView({
   onBack,
   onOpenApplication,
   onOpenAppeal,
+  onOpenSgabAppeal,
   initialTab = "general",
   onNavigateHome,
   sitemapCollapsed = false,
@@ -497,7 +499,10 @@ export default function ApplicationDetailView({
               ) : activeTab.id === "approvals" ? (
                 <ApprovalLogSubgrid applicationNumber={application.applicationNumber} />
               ) : activeTab.id === "appeals" ? (
-                <AppealsSubgrid applicationNumber={application.applicationNumber} onOpenAppeal={onOpenAppeal} />
+                <div className="mda-related-stack">
+                  <AppealsSubgrid applicationNumber={application.applicationNumber} onOpenAppeal={onOpenAppeal} />
+                  <SgabAppealsSubgrid applicationNumber={application.applicationNumber} onOpenSgabAppeal={onOpenSgabAppeal} />
+                </div>
               ) : (
                 <TabPlaceholder tab={activeTab} />
               )}

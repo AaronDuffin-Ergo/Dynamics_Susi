@@ -110,7 +110,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateApplications, onNavigateAppeals, onNavigateDocumentTypes, onNavigateUsers, areaId = "applications", onSelectArea } =
+  const { onNavigateApplications, onNavigateAppeals, onNavigateDocumentTypes, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
     useShellNavigation();
   const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
@@ -233,6 +233,7 @@ export default function DynamicsAppShell({
                       area.id === "administration" && group.label === "Lookups" && itemId === "documentTypes";
                     const usersEntry = area.id === "administration" && group.label === "General" && itemId === "users";
                     const appealsEntry = group.label === "Assessments" && itemId === "appeals";
+                    const sgabAppealsEntry = itemId === "sgabAppeals";
                     const Icon = item.Icon;
                     const onClick = entry
                       ? () => onNavigateApplications?.()
@@ -242,7 +243,9 @@ export default function DynamicsAppShell({
                           ? () => onNavigateUsers?.()
                           : appealsEntry
                             ? () => onNavigateAppeals?.()
-                            : undefined;
+                            : sgabAppealsEntry
+                              ? () => onNavigateSgabAppeals?.()
+                              : undefined;
                     const itemClass = entry
                       ? navItemClass("applications")
                       : documentTypesEntry
@@ -251,7 +254,9 @@ export default function DynamicsAppShell({
                           ? navItemClass("users")
                           : appealsEntry
                             ? navItemClass("appeals")
-                            : "dynamics-sitemap__item";
+                            : sgabAppealsEntry
+                              ? navItemClass("sgabAppeals")
+                              : "dynamics-sitemap__item";
                     return (
                       <li key={itemId}>
                         <button
