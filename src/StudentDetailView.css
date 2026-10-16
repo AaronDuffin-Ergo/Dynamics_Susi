@@ -128,9 +128,9 @@
 }
 
 .mda-record-header__summary-strong {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
-  color: #323130;
+  color: #201f1e;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -142,7 +142,7 @@
   border: none;
   background: none;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #0078d4;
   cursor: pointer;
@@ -158,9 +158,9 @@
 }
 
 .mda-record-header__summary-caption {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400;
-  color: #605e5c;
+  color: #323130;
   line-height: 1.2;
 }
 
