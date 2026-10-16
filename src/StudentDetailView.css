@@ -1390,6 +1390,18 @@
   text-overflow: ellipsis;
 }
 
+.mda-detail-row--wide {
+  grid-column: 1 / -1;
+}
+
+.mda-appeal-form .mda-detail-row__label {
+  flex-basis: 220px;
+}
+
+.mda-appeal-form .mda-detail-row__label-text {
+  white-space: normal;
+}
+
 .mda-user-form {
   grid-template-columns: minmax(0, 560px);
 }

@@ -18,6 +18,7 @@ import DocumentRequestQuickCreate from "./DocumentRequestQuickCreate.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import ApprovalLogSubgrid from "./ApprovalLogSubgrid.jsx";
+import AppealsSubgrid from "./AppealsSubgrid.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
 import CustomizableCardGrid from "./layoutCustomization/CustomizableCardGrid.jsx";
 import CustomizableFieldSection from "./layoutCustomization/CustomizableFieldSection.jsx";
@@ -315,11 +316,13 @@ export default function ApplicationDetailView({
   onCreateDocumentRequest,
   onBack,
   onOpenApplication,
+  onOpenAppeal,
+  initialTab = "general",
   onNavigateHome,
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const [activeTabId, setActiveTabId] = useState("general");
+  const [activeTabId, setActiveTabId] = useState(initialTab);
   const [quickCreateOpen, setQuickCreateOpen] = useState(false);
   const activeTab = APPLICATION_TABS.find((t) => t.id === activeTabId) ?? APPLICATION_TABS[0];
 
@@ -493,6 +496,8 @@ export default function ApplicationDetailView({
                 />
               ) : activeTab.id === "approvals" ? (
                 <ApprovalLogSubgrid applicationNumber={application.applicationNumber} />
+              ) : activeTab.id === "appeals" ? (
+                <AppealsSubgrid applicationNumber={application.applicationNumber} onOpenAppeal={onOpenAppeal} />
               ) : (
                 <TabPlaceholder tab={activeTab} />
               )}
