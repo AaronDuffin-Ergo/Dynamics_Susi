@@ -110,7 +110,7 @@ export const REQUEST_TYPES = ["Required for assessment", "Revisit document"];
 export function emptyDocumentRequest(applicationNumber) {
   return {
     documentTypeId: "",
-    relationship: "Applicant",
+    relationship: "",
     assessorComment: "",
     applicantInstructions: "",
     predefinedFormLink: "",
@@ -122,7 +122,7 @@ export function emptyDocumentRequest(applicationNumber) {
     requestedBy: "Aoife Brennan",
     submittedOn: "",
     completedOn: "",
-    requestType: "Required for assessment",
+    requestType: "",
     regarding: applicationNumber,
   };
 }

@@ -1590,6 +1590,11 @@
   display: none;
 }
 
+.mda-quick-create__textarea--large,
+.mda-quick-create__textarea--large textarea {
+  min-height: 160px;
+}
+
 .mda-quick-create__field .fui-Textarea textarea {
   background: transparent;
   color: #242424;

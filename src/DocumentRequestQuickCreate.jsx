@@ -44,11 +44,8 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
     setDraft((current) => ({
       ...current,
       documentTypeId,
-      applicantInstructions: type?.applicantInstructions ?? "",
-      predefinedFormLink: type?.predefinedFormLink ?? "",
       filenamePrefix: type?.filenamePrefix ?? "",
       expire: type?.expire ?? "Yes",
-      requestType: type?.requestType ?? current.requestType,
     }));
     setErrors((current) => ({ ...current, documentTypeId: undefined }));
   };
@@ -141,34 +138,13 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
           </Field>
           <Field label="Assessor Comment">
             <Textarea
-              className="mda-quick-create__textarea"
+              className="mda-quick-create__textarea mda-quick-create__textarea--large"
               value={draft.assessorComment}
               onChange={(_, data) => setField("assessorComment", data.value)}
               placeholder="---"
-              rows={3}
+              rows={8}
               aria-label="Assessor Comment"
             />
-          </Field>
-          <Field label="Applicant Instructions">
-            <Textarea
-              className="mda-quick-create__textarea"
-              readOnly
-              value={draft.applicantInstructions}
-              placeholder="---"
-              rows={3}
-              aria-label="Applicant Instructions"
-            />
-          </Field>
-          <Field label="Predefined Form Link">
-            <div className="mda-quick-create__readonly">
-              {draft.predefinedFormLink ? (
-                <a className="mda-quick-create__link" href={draft.predefinedFormLink} target="_blank" rel="noreferrer">
-                  {draft.predefinedFormLink}
-                </a>
-              ) : (
-                <span className="mda-quick-create__placeholder">---</span>
-              )}
-            </div>
           </Field>
           <Field label="Request Type" required error={errors.requestType}>
             <select
