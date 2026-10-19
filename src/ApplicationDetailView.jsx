@@ -319,6 +319,8 @@ export default function ApplicationDetailView({
   onOpenApplication,
   onOpenAppeal,
   onOpenSgabAppeal,
+  onOpenAccount,
+  hasAccount,
   initialTab = "general",
   onNavigateHome,
   sitemapCollapsed = false,
@@ -339,8 +341,10 @@ export default function ApplicationDetailView({
       submittedLabel: application.submittedOn ? dateLong.format(application.submittedOn) : "",
       hasApplication,
       onOpenApplication,
+      hasAccount,
+      onOpenAccount,
     }),
-    [application, hasApplication, onOpenApplication],
+    [application, hasAccount, hasApplication, onOpenAccount, onOpenApplication],
   );
 
   return (

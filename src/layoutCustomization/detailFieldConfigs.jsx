@@ -88,7 +88,9 @@ export const APPLICATION_DETAIL_FIELDS = [
       ctx.hasApplication?.(a.previousApplication) ? () => ctx.onOpenApplication(a.previousApplication) : null,
   ),
   lookupField("course", "Course", "study", "Course and Eligibility", (a) => a.course),
-  lookupField("institution", "Institution", "study", "Course and Eligibility", (a) => a.institution),
+  lookupField("institution", "Institution", "study", "Course and Eligibility", (a) => a.institution, (a, ctx) =>
+    a.institution && ctx.hasAccount?.(a.institution) ? () => ctx.onOpenAccount(a.institution) : null,
+  ),
   readOnlyField("pointOfEntry", "Point of Entry", "study", "Course and Eligibility", (a) => a.pointOfEntry),
   readOnlyField("applicantClass", "Applicant Class", "study", "Course and Eligibility", (a) => a.applicantClass),
   readOnlyField("createdOn", "Created On", "audit", "Audit", (_a, ctx) => ctx.createdLabel),

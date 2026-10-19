@@ -6,6 +6,8 @@ import {
   LayoutCustomizationProvider,
 } from "./layoutCustomization/LayoutCustomizationContext.jsx";
 import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
+import AccountDetailView from "./AccountDetailView.jsx";
+import AccountsGrid from "./AccountsGrid.jsx";
 import ApplicationDetailView from "./ApplicationDetailView.jsx";
 import ApplicationsGrid from "./ApplicationsGrid.jsx";
 import AppealDetailView from "./AppealDetailView.jsx";
@@ -15,6 +17,7 @@ import SgabAppealsGrid from "./SgabAppealsGrid.jsx";
 import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
 import UsersGrid from "./UsersGrid.jsx";
 import UserDetailView from "./UserDetailView.jsx";
+import { mockAccounts } from "./mockAccounts.js";
 import { mockUsers } from "./mockUsers.js";
 import { mockAppeals } from "./mockAppeals.js";
 import { mockSgabAppeals } from "./mockSgabAppeals.js";
@@ -25,6 +28,7 @@ export default function App() {
   const [applications] = useState(() => [...mockApplications]);
   const [appeals] = useState(() => [...mockAppeals]);
   const [sgabAppeals] = useState(() => [...mockSgabAppeals]);
+  const [accounts] = useState(() => [...mockAccounts]);
   const [users] = useState(() => [...mockUsers]);
   const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
@@ -36,6 +40,11 @@ export default function App() {
   const toggleSitemap = useCallback(() => {
     setSitemapCollapsed((prev) => !prev);
   }, []);
+
+  const detailAccount = useMemo(() => {
+    if (view.type !== "accountDetail") return null;
+    return accounts.find((account) => account.accountName === view.accountName) ?? null;
+  }, [accounts, view]);
 
   const detailSgabAppeal = useMemo(() => {
     if (view.type !== "sgabAppealDetail") return null;
@@ -57,7 +66,12 @@ export default function App() {
     return applications.find((a) => a.applicationNumber === view.applicationNumber) ?? null;
   }, [view, applications]);
 
+  const goAccounts = useCallback(() => setView({ type: "accounts" }), []);
   const goApplicationsList = useCallback(() => setView({ type: "applications" }), []);
+  const openAccount = useCallback((accountName, fromApplication) => {
+    setView({ type: "accountDetail", accountName, fromApplication: fromApplication || "" });
+  }, []);
+  const hasAccount = useCallback((accountName) => accounts.some((account) => account.accountName === accountName), [accounts]);
   const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
   const goUsers = useCallback(() => setView({ type: "users" }), []);
   const goAppeals = useCallback(() => setView({ type: "appeals" }), []);
@@ -74,6 +88,7 @@ export default function App() {
   }, []);
   const shellNavigation = useMemo(
     () => ({
+      onNavigateAccounts: goAccounts,
       onNavigateApplications: goApplicationsList,
       onNavigateDocumentTypes: goDocumentTypes,
       onNavigateUsers: goUsers,
@@ -82,7 +97,7 @@ export default function App() {
       areaId,
       onSelectArea: setAreaId,
     }),
-    [areaId, goAppeals, goApplicationsList, goDocumentTypes, goSgabAppeals, goUsers],
+    [areaId, goAccounts, goAppeals, goApplicationsList, goDocumentTypes, goSgabAppeals, goUsers],
   );
 
   const nav = {
@@ -98,7 +113,15 @@ export default function App() {
     <FluentProvider theme={webLightTheme}>
       <ShellNavigationProvider value={shellNavigation}>
         <LayoutCustomizationProvider isRecordDetailView={isRecordDetailView} isListView={isListView}>
-          {detailSgabAppeal ? (
+          {detailAccount ? (
+            <AccountDetailView
+              key={detailAccount.accountId}
+              account={detailAccount}
+              onBack={view.fromApplication ? () => openApplication(view.fromApplication) : goAccounts}
+              onOpenAccount={openAccount}
+              {...nav}
+            />
+          ) : detailSgabAppeal ? (
             <SgabAppealDetailView
               key={detailSgabAppeal.sgabAppealNumber}
               appeal={detailSgabAppeal}
@@ -133,11 +156,15 @@ export default function App() {
               onOpenApplication={openApplication}
               onOpenAppeal={(appealNumber) => openAppeal(appealNumber, detailApplication.applicationNumber)}
               onOpenSgabAppeal={(sgabAppealNumber) => openSgabAppeal(sgabAppealNumber, detailApplication.applicationNumber)}
+              onOpenAccount={(accountName) => openAccount(accountName, detailApplication.applicationNumber)}
+              hasAccount={hasAccount}
               initialTab={view.tab || "general"}
               {...nav}
             />
           ) : detailUser ? (
             <UserDetailView key={detailUser.userId} user={detailUser} onBack={goUsers} {...nav} />
+          ) : view.type === "accounts" ? (
+            <AccountsGrid accounts={accounts} onOpenAccount={openAccount} {...nav} />
           ) : view.type === "sgabAppeals" ? (
             <SgabAppealsGrid appeals={sgabAppeals} onOpenSgabAppeal={openSgabAppeal} {...nav} />
           ) : view.type === "appeals" ? (
