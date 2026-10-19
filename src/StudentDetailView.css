@@ -1461,11 +1461,21 @@
   z-index: 30;
   display: flex;
   flex-direction: column;
-  width: min(420px, 100vw);
+  width: min(440px, 100vw);
   background: #ffffff;
   border-left: 1px solid #edebe9;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
   font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  animation: mda-quick-create-in 180ms ease-out;
+}
+
+@keyframes mda-quick-create-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .mda-quick-create__header {
@@ -1543,6 +1553,13 @@
 .mda-quick-create__select {
   min-height: 32px;
   padding: 4px 8px;
+}
+
+.mda-quick-create__link {
+  color: #115ea3;
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
 }
 
 .mda-quick-create__error {

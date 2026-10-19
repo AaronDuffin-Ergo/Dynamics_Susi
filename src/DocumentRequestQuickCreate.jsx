@@ -45,10 +45,9 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
       predefinedFormLink: type?.predefinedFormLink ?? "",
       filenamePrefix: type?.filenamePrefix ?? "",
       expire: type?.expire ?? "Yes",
-      requestType: type?.requestType ?? "Required for assessment",
-      expiryDate: type?.expire === "No" ? "" : current.expiryDate,
+      requestType: type?.requestType ?? current.requestType,
     }));
-    setErrors((current) => ({ ...current, documentTypeId: undefined, expiryDate: undefined }));
+    setErrors((current) => ({ ...current, documentTypeId: undefined }));
   };
 
   const validate = () => {
@@ -56,7 +55,6 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
     if (!draft.documentTypeId) next.documentTypeId = "Document Type is required.";
     if (!draft.relationship) next.relationship = "Relationship is required.";
     if (!draft.requestType) next.requestType = "Request Type is required.";
-    if (draft.expire === "Yes" && !draft.expiryDate) next.expiryDate = "Expiry Date is required when the request expires.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -107,14 +105,12 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
           saveAndClose();
         }}
       >
-        <Field label="Regarding">
-          <Input readOnly value={`${application.applicationNumber} — ${application.contactName}`} />
-        </Field>
         <Field label="Document Type" required error={errors.documentTypeId}>
           <select
             className="mda-quick-create__select"
             value={draft.documentTypeId}
             onChange={(event) => selectType(event.target.value)}
+            aria-label="Document Type"
           >
             <option value="">Select a document type</option>
             {DOCUMENT_TYPES.map((type) => (
@@ -129,21 +125,9 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
             className="mda-quick-create__select"
             value={draft.relationship}
             onChange={(event) => setField("relationship", event.target.value)}
+            aria-label="Relationship"
           >
             {RELATIONSHIPS.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Request Type" required error={errors.requestType}>
-          <select
-            className="mda-quick-create__select"
-            value={draft.requestType}
-            onChange={(event) => setField("requestType", event.target.value)}
-          >
-            {REQUEST_TYPES.map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>
@@ -154,52 +138,36 @@ export default function DocumentRequestQuickCreate({ application, onSave, onClos
           <Textarea
             value={draft.assessorComment}
             onChange={(_, data) => setField("assessorComment", data.value)}
-            placeholder="Guidance for this applicant"
+            placeholder="Explanation for this request"
             rows={3}
+            aria-label="Assessor Comment"
           />
         </Field>
         <Field label="Applicant Instructions">
-          <Textarea readOnly value={draft.applicantInstructions} rows={3} placeholder="Filled from the document type" />
+          <Textarea readOnly value={draft.applicantInstructions} rows={4} placeholder="Copied from the document type" aria-label="Applicant Instructions" />
         </Field>
         <Field label="Predefined Form Link">
-          <Input readOnly value={draft.predefinedFormLink} placeholder="Filled from the document type" />
+          {draft.predefinedFormLink ? (
+            <a className="mda-quick-create__link" href={draft.predefinedFormLink} target="_blank" rel="noreferrer">
+              {draft.predefinedFormLink}
+            </a>
+          ) : (
+            <Input readOnly value="" placeholder="Copied from the document type" aria-label="Predefined Form Link" />
+          )}
         </Field>
-        <Field label="Document Filename Prefix">
-          <Input readOnly value={draft.filenamePrefix} placeholder="Filled from the document type" />
-        </Field>
-        <Field label="Expire">
+        <Field label="Request Type" required error={errors.requestType}>
           <select
             className="mda-quick-create__select"
-            value={draft.expire}
-            onChange={(event) => setField("expire", event.target.value)}
+            value={draft.requestType}
+            onChange={(event) => setField("requestType", event.target.value)}
+            aria-label="Request Type"
           >
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            {REQUEST_TYPES.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
           </select>
-        </Field>
-        <Field label="Expiry Date" required={draft.expire === "Yes"} error={errors.expiryDate}>
-          <input
-            className="mda-quick-create__select"
-            type="date"
-            value={draft.expiryDate}
-            disabled={draft.expire !== "Yes"}
-            onChange={(event) => setField("expiryDate", event.target.value)}
-          />
-        </Field>
-        <Field label="Requested On">
-          <Input readOnly value={draft.requestedOn} placeholder="Set when the request is issued" />
-        </Field>
-        <Field label="Status">
-          <Input readOnly value={draft.status} />
-        </Field>
-        <Field label="Requested By">
-          <Input readOnly value={draft.requestedBy} />
-        </Field>
-        <Field label="Submitted On">
-          <Input readOnly value={draft.submittedOn} placeholder="—" />
-        </Field>
-        <Field label="Completed On">
-          <Input readOnly value={draft.completedOn} placeholder="—" />
         </Field>
       </form>
 
