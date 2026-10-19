@@ -110,7 +110,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
+  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
     useShellNavigation();
   const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
@@ -236,6 +236,7 @@ export default function DynamicsAppShell({
                     const sgabAppealsEntry = itemId === "sgabAppeals";
                     const accountsEntry = itemId === "accounts";
                     const contactsEntry = itemId === "contacts";
+                    const informationRequestsEntry = itemId === "informationRequests";
                     const Icon = item.Icon;
                     const onClick = entry
                       ? () => onNavigateApplications?.()
@@ -251,7 +252,9 @@ export default function DynamicsAppShell({
                                 ? () => onNavigateAccounts?.()
                                 : contactsEntry
                                   ? () => onNavigateContacts?.()
-                                  : undefined;
+                                  : informationRequestsEntry
+                                    ? () => onNavigateInformationRequests?.()
+                                    : undefined;
                     const itemClass = entry
                       ? navItemClass("applications")
                       : documentTypesEntry
@@ -266,7 +269,9 @@ export default function DynamicsAppShell({
                                 ? navItemClass("accounts")
                                 : contactsEntry
                                   ? navItemClass("contacts")
-                                  : "dynamics-sitemap__item";
+                                  : informationRequestsEntry
+                                    ? navItemClass("informationRequests")
+                                    : "dynamics-sitemap__item";
                     return (
                       <li key={itemId}>
                         <button

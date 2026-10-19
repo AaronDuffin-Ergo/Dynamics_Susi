@@ -16,6 +16,8 @@ import AppealDetailView from "./AppealDetailView.jsx";
 import AppealsGrid from "./AppealsGrid.jsx";
 import SgabAppealDetailView from "./SgabAppealDetailView.jsx";
 import SgabAppealsGrid from "./SgabAppealsGrid.jsx";
+import InformationRequestDetailView from "./InformationRequestDetailView.jsx";
+import InformationRequestsGrid from "./InformationRequestsGrid.jsx";
 import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
 import UsersGrid from "./UsersGrid.jsx";
 import UserDetailView from "./UserDetailView.jsx";
@@ -24,6 +26,7 @@ import { mockContacts } from "./mockContacts.js";
 import { mockUsers } from "./mockUsers.js";
 import { mockAppeals } from "./mockAppeals.js";
 import { mockSgabAppeals } from "./mockSgabAppeals.js";
+import { mockInformationRequests } from "./mockInformationRequests.js";
 import { mockApplications } from "./mockApplications.js";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
@@ -33,6 +36,7 @@ export default function App() {
   const [sgabAppeals] = useState(() => [...mockSgabAppeals]);
   const [accounts] = useState(() => [...mockAccounts]);
   const [contacts] = useState(() => [...mockContacts]);
+  const [informationRequests] = useState(() => [...mockInformationRequests]);
   const [users] = useState(() => [...mockUsers]);
   const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
@@ -44,6 +48,11 @@ export default function App() {
   const toggleSitemap = useCallback(() => {
     setSitemapCollapsed((prev) => !prev);
   }, []);
+
+  const detailInformationRequest = useMemo(() => {
+    if (view.type !== "informationRequestDetail") return null;
+    return informationRequests.find((request) => request.requestNumber === view.requestNumber) ?? null;
+  }, [informationRequests, view]);
 
   const detailContact = useMemo(() => {
     if (view.type !== "contactDetail") return null;
@@ -75,6 +84,14 @@ export default function App() {
     return applications.find((a) => a.applicationNumber === view.applicationNumber) ?? null;
   }, [view, applications]);
 
+  const goInformationRequests = useCallback(() => {
+    setAreaId("customerServices");
+    setView({ type: "informationRequests" });
+  }, []);
+  const openInformationRequest = useCallback((requestNumber) => {
+    setAreaId("customerServices");
+    setView({ type: "informationRequestDetail", requestNumber });
+  }, []);
   const goContacts = useCallback(() => setView({ type: "contacts" }), []);
   const openContact = useCallback((contactName, source = {}) => {
     setView({
@@ -82,6 +99,7 @@ export default function App() {
       contactName,
       fromAccount: source.fromAccount || "",
       fromApplication: source.fromApplication || "",
+      fromInformationRequest: source.fromInformationRequest || "",
     });
   }, []);
   const hasContact = useCallback(
@@ -110,13 +128,19 @@ export default function App() {
   const openAppeal = useCallback((appealNumber, fromApplication) => {
     setView({ type: "appealDetail", appealNumber, fromApplication: fromApplication || "" });
   }, []);
-  const openApplication = useCallback((applicationNumber, tab) => {
-    setView({ type: "applicationDetail", applicationNumber, tab: tab || "general" });
+  const openApplication = useCallback((applicationNumber, tab, fromInformationRequest) => {
+    setView({
+      type: "applicationDetail",
+      applicationNumber,
+      tab: tab || "general",
+      fromInformationRequest: fromInformationRequest || "",
+    });
   }, []);
   const shellNavigation = useMemo(
     () => ({
       onNavigateAccounts: goAccounts,
       onNavigateContacts: goContacts,
+      onNavigateInformationRequests: goInformationRequests,
       onNavigateApplications: goApplicationsList,
       onNavigateDocumentTypes: goDocumentTypes,
       onNavigateUsers: goUsers,
@@ -125,7 +149,7 @@ export default function App() {
       areaId,
       onSelectArea: setAreaId,
     }),
-    [areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goSgabAppeals, goUsers],
+    [areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goInformationRequests, goSgabAppeals, goUsers],
   );
 
   const nav = {
@@ -141,7 +165,18 @@ export default function App() {
     <FluentProvider theme={webLightTheme}>
       <ShellNavigationProvider value={shellNavigation}>
         <LayoutCustomizationProvider isRecordDetailView={isRecordDetailView} isListView={isListView}>
-          {detailContact ? (
+          {detailInformationRequest ? (
+            <InformationRequestDetailView
+              key={detailInformationRequest.requestNumber}
+              request={detailInformationRequest}
+              onBack={goInformationRequests}
+              onOpenContact={(contactName) =>
+                openContact(contactName, { fromInformationRequest: detailInformationRequest.requestNumber })
+              }
+              onOpenApplication={(applicationNumber) => openApplication(applicationNumber, "general", detailInformationRequest.requestNumber)}
+              {...nav}
+            />
+          ) : detailContact ? (
             <ContactDetailView
               key={detailContact.contactId}
               contact={detailContact}
@@ -150,7 +185,9 @@ export default function App() {
                   ? () => openAccount(view.fromAccount, view.fromApplication)
                   : view.fromApplication
                     ? () => openApplication(view.fromApplication)
-                    : goContacts
+                    : view.fromInformationRequest
+                      ? () => openInformationRequest(view.fromInformationRequest)
+                      : goContacts
               }
               onOpenAccount={(accountName) => openAccount(accountName, "", detailContact.fullName || `${detailContact.firstName} ${detailContact.lastName}`)}
               {...nav}
@@ -203,7 +240,7 @@ export default function App() {
               applications={applications}
               documentRequests={documentRequests}
               onCreateDocumentRequest={addDocumentRequest}
-              onBack={goApplicationsList}
+              onBack={view.fromInformationRequest ? () => openInformationRequest(view.fromInformationRequest) : goApplicationsList}
               onOpenApplication={openApplication}
               onOpenAppeal={(appealNumber) => openAppeal(appealNumber, detailApplication.applicationNumber)}
               onOpenSgabAppeal={(sgabAppealNumber) => openSgabAppeal(sgabAppealNumber, detailApplication.applicationNumber)}
@@ -216,6 +253,8 @@ export default function App() {
             />
           ) : detailUser ? (
             <UserDetailView key={detailUser.userId} user={detailUser} onBack={goUsers} {...nav} />
+          ) : view.type === "informationRequests" ? (
+            <InformationRequestsGrid requests={informationRequests} onOpenRequest={openInformationRequest} {...nav} />
           ) : view.type === "contacts" ? (
             <ContactsGrid contacts={contacts} onOpenContact={openContact} {...nav} />
           ) : view.type === "accounts" ? (
