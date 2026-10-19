@@ -66,10 +66,14 @@ export const APPLICATION_DETAIL_FIELDS = [
     sectionLabel: "Applicant and Scheme",
     lockControlType: true,
     getDisplayValue: (a) => a.contactName,
-    render: (a) => (
+    render: (a, ctx) => (
       <div className="mda-detail-row__owner">
         <Avatar name={a.contactName} size={20} color="colorful" />
-        <button type="button" className="dynamics-grid-link mda-detail-row__lookup">
+        <button
+          type="button"
+          className="dynamics-grid-link mda-detail-row__lookup"
+          onClick={ctx.hasContact?.(a.contactName) ? () => ctx.onOpenContact(a.contactName) : undefined}
+        >
           {a.contactName}
         </button>
       </div>

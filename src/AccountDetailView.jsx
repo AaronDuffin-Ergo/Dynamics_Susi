@@ -66,6 +66,7 @@ export default function AccountDetailView({
   account,
   onBack,
   onOpenAccount,
+  onOpenContact,
   onNavigateHome,
   sitemapCollapsed = false,
   onToggleSitemap,
@@ -139,7 +140,7 @@ export default function AccountDetailView({
                 <Field label="Primary Contact">
                   <div className="mda-detail-row__owner">
                     <Avatar name={account.primaryContact} size={20} color="colorful" />
-                    <Lookup>{account.primaryContact}</Lookup>
+                    <Lookup onOpen={onOpenContact ? () => onOpenContact(account.primaryContact) : undefined}>{account.primaryContact}</Lookup>
                   </div>
                 </Field>
                 <Field label="Main Email Address" value={account.mainEmail} />

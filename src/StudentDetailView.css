@@ -1401,12 +1401,14 @@
 }
 
 .mda-appeal-form .mda-detail-row__label,
-.mda-account-form .mda-detail-row__label {
-  flex-basis: 230px;
+.mda-account-form .mda-detail-row__label,
+.mda-contact-form .mda-detail-row__label {
+  flex-basis: 240px;
 }
 
 .mda-appeal-form .mda-detail-row__label-text,
-.mda-account-form .mda-detail-row__label-text {
+.mda-account-form .mda-detail-row__label-text,
+.mda-contact-form .mda-detail-row__label-text {
   white-space: normal;
 }
 

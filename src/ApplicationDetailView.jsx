@@ -321,6 +321,8 @@ export default function ApplicationDetailView({
   onOpenSgabAppeal,
   onOpenAccount,
   hasAccount,
+  onOpenContact,
+  hasContact,
   initialTab = "general",
   onNavigateHome,
   sitemapCollapsed = false,
@@ -343,8 +345,10 @@ export default function ApplicationDetailView({
       onOpenApplication,
       hasAccount,
       onOpenAccount,
+      hasContact,
+      onOpenContact,
     }),
-    [application, hasAccount, hasApplication, onOpenAccount, onOpenApplication],
+    [application, hasAccount, hasApplication, hasContact, onOpenAccount, onOpenApplication, onOpenContact],
   );
 
   return (
