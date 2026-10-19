@@ -18,6 +18,7 @@ import DocumentRequestQuickCreate from "./DocumentRequestQuickCreate.jsx";
 import ApplicationRecordRail from "./detailRecord/ApplicationRecordRail.jsx";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import ApprovalLogSubgrid from "./ApprovalLogSubgrid.jsx";
+import PaymentsPanel from "./PaymentsPanel.jsx";
 import AppealsSubgrid from "./AppealsSubgrid.jsx";
 import SgabAppealsSubgrid from "./SgabAppealsSubgrid.jsx";
 import RelatedApplicationsSubgrid from "./RelatedApplicationsSubgrid.jsx";
@@ -499,6 +500,8 @@ export default function ApplicationDetailView({
                   requests={documentRequests.filter((item) => item.regarding === application.applicationNumber)}
                   onNew={() => setQuickCreateOpen(true)}
                 />
+              ) : activeTab.id === "payments" ? (
+                <PaymentsPanel applicationNumber={application.applicationNumber} />
               ) : activeTab.id === "linked" ? (
                 <RelatedApplicationsSubgrid
                   applicationNumber={application.applicationNumber}

@@ -1390,6 +1390,43 @@
   text-overflow: ellipsis;
 }
 
+.mda-payment-header,
+.mda-payment-empty {
+  padding: 14px 16px 16px;
+}
+
+.mda-payment-header__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 24px;
+  margin: 12px 0 0;
+}
+
+.mda-payment-header__grid dt {
+  margin: 0;
+  color: #605e5c;
+  font-size: 12px;
+}
+
+.mda-payment-header__grid dd {
+  margin: 2px 0 0;
+  color: #201f1e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mda-payment-empty p {
+  margin: 8px 0 0;
+  color: #201f1e;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .mda-payment-header__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .mda-related-stack {
   display: flex;
   flex-direction: column;
