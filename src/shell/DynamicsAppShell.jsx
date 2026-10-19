@@ -110,7 +110,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
+  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateInvestigations, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
     useShellNavigation();
   const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
@@ -237,6 +237,7 @@ export default function DynamicsAppShell({
                     const accountsEntry = itemId === "accounts";
                     const contactsEntry = itemId === "contacts";
                     const informationRequestsEntry = itemId === "informationRequests";
+                    const investigationsEntry = itemId === "complianceInvestigations";
                     const Icon = item.Icon;
                     const onClick = entry
                       ? () => onNavigateApplications?.()
@@ -254,7 +255,9 @@ export default function DynamicsAppShell({
                                   ? () => onNavigateContacts?.()
                                   : informationRequestsEntry
                                     ? () => onNavigateInformationRequests?.()
-                                    : undefined;
+                                    : investigationsEntry
+                                      ? () => onNavigateInvestigations?.()
+                                      : undefined;
                     const itemClass = entry
                       ? navItemClass("applications")
                       : documentTypesEntry
@@ -271,7 +274,9 @@ export default function DynamicsAppShell({
                                   ? navItemClass("contacts")
                                   : informationRequestsEntry
                                     ? navItemClass("informationRequests")
-                                    : "dynamics-sitemap__item";
+                                    : investigationsEntry
+                                      ? navItemClass("complianceInvestigations")
+                                      : "dynamics-sitemap__item";
                     return (
                       <li key={itemId}>
                         <button

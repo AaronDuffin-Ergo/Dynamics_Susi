@@ -237,6 +237,30 @@ export const mockAccounts = [
     status: "Active",
     parentAccountName: "",
   },
+  {
+    accountId: "ACC-3001",
+    accountName: "Ombudsman Office",
+    accountType: "Third-Party Organisation",
+    primaryContact: "Gráinne Nolan",
+    address: "18 Lower Leeson Street, Dublin 2",
+    eircode: "D02 HE97",
+    country: "Ireland",
+    mainEmail: "info@ombudsman.ie",
+    status: "Active",
+    parentAccountName: "",
+  },
+  {
+    accountId: "ACC-3002",
+    accountName: "An Garda Síochána",
+    accountType: "Third-Party Organisation",
+    primaryContact: "David Reilly",
+    address: "Garda Headquarters, Phoenix Park, Dublin 8",
+    eircode: "D08 HN3X",
+    country: "Ireland",
+    mainEmail: "liaison@garda.ie",
+    status: "Active",
+    parentAccountName: "",
+  },
 ];
 
 export function accountByName(name) {
