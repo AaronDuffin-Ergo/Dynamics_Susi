@@ -229,7 +229,7 @@ export default function App() {
       onNavigateAppeals: goAppeals,
       onNavigateSgabAppeals: goSgabAppeals,
       appId,
-      appLabel: appId === "sgab" ? "SGAB" : "My SUSI",
+      appLabel: "My SUSI",
       areas: appId === "sgab" ? SGAB_APP_AREAS : SITEMAP_AREAS,
       areaId,
       onSelectApp: selectApp,
