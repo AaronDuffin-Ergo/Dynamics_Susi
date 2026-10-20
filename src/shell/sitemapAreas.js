@@ -66,7 +66,7 @@ export const SITEMAP_AREAS = [
     id: "applications",
     label: "Applications",
     color: "#0f6cbd",
-    groups: [MY_WORK, GENERAL, { label: "Assessments", items: ["applications", "appeals"] }],
+    groups: [MY_WORK, GENERAL, { label: "Assessments", items: ["applications", "appeals", "sgabAppeals"] }],
   },
   {
     id: "customerServices",
@@ -105,7 +105,6 @@ export const SITEMAP_AREAS = [
     label: "Administration",
     color: "#3b3a39",
     groups: [
-      { label: "Assessments", items: ["sgabAppeals"] },
       { label: "General", items: ["users"] },
       { label: "Configuration", items: ["cao", "scheme"] },
       {

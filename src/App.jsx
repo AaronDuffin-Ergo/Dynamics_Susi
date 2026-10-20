@@ -141,15 +141,15 @@ export default function App() {
   const goAppealsList = useCallback(() => setView({ type: "appeals" }), []);
   const goAppeals = useCallback(() => setView({ type: "appealDetail", appealNumber: "AP26-000141" }), []);
   const goSgabAppealsList = useCallback(() => {
-    setAreaId("administration");
+    setAreaId("applications");
     setView({ type: "sgabAppeals" });
   }, []);
   const goSgabAppeals = useCallback(() => {
-    setAreaId("administration");
+    setAreaId("applications");
     setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB-2026-000123" });
   }, []);
   const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
-    setAreaId("administration");
+    setAreaId("applications");
     setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
   }, []);
   const openUser = useCallback((userId) => setView({ type: "userDetail", userId }), []);
