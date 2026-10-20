@@ -1434,6 +1434,23 @@
   color: #115ea3;
 }
 
+.mda-fee-tranche__label {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #323130;
+}
+
+.mda-related-subgrid__table th.mda-fee-amount .mda-related-subgrid__sort {
+  justify-content: flex-end;
+}
+
+.mda-related-subgrid__table td.mda-fee-amount {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
 @media (max-width: 1280px) {
   .mda-sgab-record-grid {
     grid-template-columns: minmax(0, 1fr);

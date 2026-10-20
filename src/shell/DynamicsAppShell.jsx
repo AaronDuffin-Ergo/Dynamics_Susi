@@ -170,7 +170,7 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateInvestigations, onNavigateSgabAppeals, onNavigateUsers, appId = "mySusi", appLabel = "My SUSI", areas = SITEMAP_AREAS, areaId = "applications", onSelectApp, onSelectArea } =
+  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateFees, onNavigateInformationRequests, onNavigateInvestigations, onNavigateSgabAppeals, onNavigateUsers, appId = "mySusi", appLabel = "My SUSI", areas = SITEMAP_AREAS, areaId = "applications", onSelectApp, onSelectArea } =
     useShellNavigation();
   const area = areas.find((item) => item.id === areaId) ?? areas[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
@@ -296,6 +296,7 @@ export default function DynamicsAppShell({
                     const contactsEntry = itemId === "contacts";
                     const informationRequestsEntry = itemId === "informationRequests";
                     const investigationsEntry = itemId === "complianceInvestigations";
+                    const feesEntry = itemId === "fees";
                     const Icon = item.Icon;
                     const onClick = entry
                       ? () => onNavigateApplications?.()
@@ -315,7 +316,9 @@ export default function DynamicsAppShell({
                                     ? () => onNavigateInformationRequests?.()
                                     : investigationsEntry
                                       ? () => onNavigateInvestigations?.()
-                                      : undefined;
+                                      : feesEntry
+                                        ? () => onNavigateFees?.()
+                                        : undefined;
                     const itemClass = entry
                       ? navItemClass("applications")
                       : documentTypesEntry
@@ -334,7 +337,9 @@ export default function DynamicsAppShell({
                                     ? navItemClass("informationRequests")
                                     : investigationsEntry
                                       ? navItemClass("complianceInvestigations")
-                                      : "dynamics-sitemap__item";
+                                      : feesEntry
+                                        ? navItemClass("fees")
+                                        : "dynamics-sitemap__item";
                     return (
                       <li key={itemId}>
                         <button

@@ -22,6 +22,8 @@ import InformationRequestsGrid from "./InformationRequestsGrid.jsx";
 import InvestigationDetailView from "./InvestigationDetailView.jsx";
 import InvestigationsGrid from "./InvestigationsGrid.jsx";
 import DocumentTypesGrid from "./DocumentTypesGrid.jsx";
+import FeeDetailView from "./FeeDetailView.jsx";
+import FeesGrid from "./FeesGrid.jsx";
 import UsersGrid from "./UsersGrid.jsx";
 import UserDetailView from "./UserDetailView.jsx";
 import { mockAccounts } from "./mockAccounts.js";
@@ -32,6 +34,7 @@ import { mockSgabAppeals } from "./mockSgabAppeals.js";
 import { mockInformationRequests } from "./mockInformationRequests.js";
 import { mockInvestigations } from "./mockInvestigations.js";
 import { mockApplications } from "./mockApplications.js";
+import { mockFees } from "./mockFees.js";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
 export default function App() {
@@ -43,6 +46,7 @@ export default function App() {
   const [informationRequests] = useState(() => [...mockInformationRequests]);
   const [investigations] = useState(() => [...mockInvestigations]);
   const [users] = useState(() => [...mockUsers]);
+  const [fees] = useState(() => [...mockFees]);
   const [documentRequests, setDocumentRequests] = useState(() => [...mockDocumentRequests]);
   const addDocumentRequest = useCallback((record) => {
     setDocumentRequests((current) => [...current, record]);
@@ -89,6 +93,11 @@ export default function App() {
     if (view.type !== "userDetail") return null;
     return users.find((user) => user.userId === view.userId) ?? null;
   }, [view, users]);
+
+  const detailFee = useMemo(() => {
+    if (view.type !== "feeDetail") return null;
+    return fees.find((fee) => fee.feeNumber === view.feeNumber) ?? null;
+  }, [fees, view]);
 
   const detailApplication = useMemo(() => {
     if (view.type !== "applicationDetail") return null;
@@ -169,6 +178,17 @@ export default function App() {
     leaveSgabApp();
     setView({ type: "appeals" });
   }, [leaveSgabApp]);
+  const goFeesList = useCallback(() => {
+    setAppId("mySusi");
+    setAreaId("payments");
+    setView({ type: "fees" });
+  }, []);
+  const openFee = useCallback((feeNumber) => {
+    setAppId("mySusi");
+    setAreaId("payments");
+    setView({ type: "feeDetail", feeNumber, tab: "collegeFees" });
+  }, []);
+  const goFees = useCallback(() => openFee("FEE-2026-000014"), [openFee]);
   const goAppeals = useCallback(() => {
     leaveSgabApp();
     setView({ type: "appealDetail", appealNumber: "AP26-000141" });
@@ -227,6 +247,7 @@ export default function App() {
       onNavigateDocumentTypes: goDocumentTypes,
       onNavigateUsers: goUsers,
       onNavigateAppeals: goAppeals,
+      onNavigateFees: goFees,
       onNavigateSgabAppeals: goSgabAppeals,
       appId,
       appLabel: "My SUSI",
@@ -235,7 +256,7 @@ export default function App() {
       onSelectApp: selectApp,
       onSelectArea: selectArea,
     }),
-    [appId, areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goInformationRequests, goInvestigations, goSgabAppeals, goUsers, selectApp, selectArea],
+    [appId, areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goFees, goInformationRequests, goInvestigations, goSgabAppeals, goUsers, selectApp, selectArea],
   );
 
   const nav = {
@@ -323,6 +344,15 @@ export default function App() {
               onOpenContact={(contactName) => openContact(contactName)}
               {...nav}
             />
+          ) : detailFee ? (
+            <FeeDetailView
+              key={detailFee.feeNumber}
+              fee={detailFee}
+              initialTab={view.tab || "collegeFees"}
+              onBack={goFeesList}
+              onOpenCollege={(college) => openAccount(college)}
+              {...nav}
+            />
           ) : detailAppeal ? (
             <AppealDetailView
               key={detailAppeal.appealNumber}
@@ -373,6 +403,8 @@ export default function App() {
             <SgabAppealsGrid appeals={sgabAppeals} onOpenSgabAppeal={openSgabAppeal} {...nav} />
           ) : view.type === "appeals" ? (
             <AppealsGrid appeals={appeals} onOpenAppeal={openAppeal} {...nav} />
+          ) : view.type === "fees" ? (
+            <FeesGrid fees={fees} onOpenFee={openFee} {...nav} />
           ) : view.type === "users" ? (
             <UsersGrid users={users} onOpenUser={openUser} {...nav} />
           ) : view.type === "documentTypes" ? (
