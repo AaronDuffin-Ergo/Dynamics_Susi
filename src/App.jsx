@@ -140,16 +140,28 @@ export default function App() {
   const goUsers = useCallback(() => setView({ type: "users" }), []);
   const goAppealsList = useCallback(() => setView({ type: "appeals" }), []);
   const goAppeals = useCallback(() => setView({ type: "appealDetail", appealNumber: "AP26-000141" }), []);
-  const goSgabAppealsList = useCallback(() => setView({ type: "sgabAppeals" }), []);
-  const goSgabAppeals = useCallback(() => setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB26-000201" }), []);
+  const goSgabAppealsList = useCallback(() => {
+    setAreaId("administration");
+    setView({ type: "sgabAppeals" });
+  }, []);
+  const goSgabAppeals = useCallback(() => {
+    setAreaId("administration");
+    setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB-2026-000123" });
+  }, []);
   const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
+    setAreaId("administration");
     setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
   }, []);
   const openUser = useCallback((userId) => setView({ type: "userDetail", userId }), []);
-  const openAppeal = useCallback((appealNumber, fromApplication) => {
-    setView({ type: "appealDetail", appealNumber, fromApplication: fromApplication || "" });
+  const leaveAdministration = useCallback(() => {
+    setAreaId((current) => (current === "administration" ? "applications" : current));
   }, []);
+  const openAppeal = useCallback((appealNumber, fromApplication) => {
+    leaveAdministration();
+    setView({ type: "appealDetail", appealNumber, fromApplication: fromApplication || "" });
+  }, [leaveAdministration]);
   const openApplication = useCallback((applicationNumber, tab, fromInformationRequest, fromInvestigation) => {
+    leaveAdministration();
     setView({
       type: "applicationDetail",
       applicationNumber,
@@ -157,7 +169,7 @@ export default function App() {
       fromInformationRequest: fromInformationRequest || "",
       fromInvestigation: fromInvestigation || "",
     });
-  }, []);
+  }, [leaveAdministration]);
   const shellNavigation = useMemo(
     () => ({
       onNavigateAccounts: goAccounts,

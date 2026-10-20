@@ -58,24 +58,54 @@ function buildTimeline(appeal) {
   return events.sort((a, b) => b.at - a.at);
 }
 
+const featuredTimeline = [
+  {
+    id: "SGAB-2026-000123-pack",
+    kind: "autoPost",
+    at: new Date(2026, 5, 12, 9, 28),
+    title: "Document Pack Generated",
+    body: "Document pack for SGAB appeal SGAB-2026-000123 generated and saved to SharePoint. By System.",
+  },
+  {
+    id: "SGAB-2026-000123-email",
+    kind: "email",
+    at: new Date(2026, 5, 12, 9, 27),
+    avatarName: "SGAB",
+    title: "Email from SGAB to SUSI",
+    state: "Received",
+    summary: "SGAB Appeal – SGAB/2026/0456",
+    body: "From: appeals@sgab.ie. To: sgab@susi.ie. Please find attached the determination for the above appeal.",
+  },
+  {
+    id: "SGAB-2026-000123-created",
+    kind: "note",
+    at: new Date(2026, 5, 12, 9, 14),
+    actor: "Aoife Brennan",
+    title: "SGAB Appeal Record Created by",
+    summary: "SGAB appeal record created in Dynamics 365.",
+    body: "Created from the SGAB email and linked to application SGS26-001588.",
+  },
+];
+
 const records = [
   {
-    sgabAppealNumber: "SGAB26-000201",
+    sgabAppealNumber: "SGAB-2026-000123",
     applicationNumber: "SGS26-001588",
     contactName: "Cian O'Sullivan",
     schemeName: "Student Grant Scheme 2026/27",
-    sgabReference: "SGAB/2026/01482",
-    receivedDate: on(7, 2),
-    appealStatus: "Determination Issued",
+    sgabReference: "SGAB/2026/0456",
+    receivedDate: on(6, 12),
+    appealStatus: "In Progress",
     previousSusiAppealExists: "Yes",
-    determinationReceived: "Yes",
-    determinationDate: on(8, 18),
-    determinationOutcome: "Allowed — original decision set aside",
+    determinationReceived: "No",
+    determinationDate: null,
+    determinationOutcome: "",
     owner: "Niamh Gallagher",
-    description: "Appeal received from SGAB regarding the household income assessment.",
+    description: "Appeal received from SGAB regarding household income assessment.",
     relatedAppealNumber: "AP26-000141",
     relatedAppealOfficer: "Declan Moran",
     relatedAppealStatus: "Rejected",
+    timeline: featuredTimeline,
   },
   {
     sgabAppealNumber: "SGAB26-000202",
@@ -117,7 +147,7 @@ const records = [
 
 export const mockSgabAppeals = records.map((appeal) => ({
   ...appeal,
-  timeline: buildTimeline(appeal),
+  timeline: appeal.timeline ?? buildTimeline(appeal),
 }));
 
 export function sgabAppealsFor(applicationNumber) {

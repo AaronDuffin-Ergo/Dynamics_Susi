@@ -3,6 +3,7 @@ import {
   AddRegular,
   ArrowClockwiseRegular,
   ArrowLeftRegular,
+  CalendarRegular,
   ChevronDownRegular,
   DeleteRegular,
   DocumentBulletListRegular,
@@ -19,23 +20,31 @@ import "./StudentDetailView.css";
 
 const disabledCommand = { appearance: "subtle", type: "button", disabled: true, title: "Preview only" };
 
-const dateOnly = new Intl.DateTimeFormat(undefined, {
-  month: "numeric",
-  day: "numeric",
+const dateOnly = new Intl.DateTimeFormat("en-IE", {
+  day: "2-digit",
+  month: "2-digit",
   year: "numeric",
+  timeZone: "UTC",
 });
 
 const TABS = ["General", "Details", "Documents", "Related"];
+const EMPTY = "---";
 
 function show(value) {
-  return value ? String(value) : "—";
+  return value ? String(value) : EMPTY;
 }
 
 function showDate(value) {
-  return value ? dateOnly.format(value) : "—";
+  return value ? dateOnly.format(value) : EMPTY;
 }
 
-function Field({ label, value, required = false, multiline = false, children }) {
+function Field({ label, value, required = false, multiline = false, kind = "text", children }) {
+  const trailingIcon =
+    kind === "choice" ? (
+      <ChevronDownRegular fontSize={16} aria-hidden />
+    ) : kind === "date" ? (
+      <CalendarRegular fontSize={16} aria-hidden />
+    ) : undefined;
   return (
     <div className={`mda-detail-row${multiline ? " mda-detail-row--top" : ""}`}>
       <label className="mda-detail-row__label">
@@ -49,9 +58,9 @@ function Field({ label, value, required = false, multiline = false, children }) 
           <div className="mda-detail-row__control-inner">
             {children ??
               (multiline ? (
-                <Textarea readOnly value={value} className="mda-input" resize="none" rows={2} />
+                <Textarea readOnly value={value} className="mda-input" resize="none" rows={3} />
               ) : (
-                <FluentInput readOnly value={value} className="mda-input" />
+                <FluentInput readOnly value={value} className="mda-input" contentAfter={trailingIcon} />
               ))}
           </div>
         </div>
@@ -61,7 +70,7 @@ function Field({ label, value, required = false, multiline = false, children }) 
 }
 
 function Lookup({ children, onOpen, person = false }) {
-  if (!children) return <FluentInput readOnly value="—" className="mda-input" />;
+  if (!children) return <FluentInput readOnly value={EMPTY} className="mda-input" />;
   return (
     <div className="mda-detail-row__owner">
       {person ? <Avatar name={String(children)} size={20} color="colorful" /> : null}
@@ -147,6 +156,7 @@ export default function SgabAppealDetailView({
                     <SummaryField caption="Owner">
                       <Avatar name={appeal.owner} size={24} color="colorful" />
                       <span className="mda-record-header__summary-strong mda-record-header__summary-link-text">{appeal.owner}</span>
+                      <ChevronDownRegular fontSize={12} aria-hidden />
                     </SummaryField>
                   </div>
                 </div>
@@ -168,24 +178,30 @@ export default function SgabAppealDetailView({
             </section>
 
             <div className="mda-sgab-record-grid">
-              <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="SGAB appeal details">
-                <div className="mda-detail-columns mda-sgab-form">
-                  <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal Information</p>
-                  <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} required />
-                  <Field label="SGAB Reference" value={appeal.sgabReference} required />
-                  <Field label="Received Date" value={showDate(appeal.receivedDate)} required />
-                  <Field label="Appeal Status" value={appeal.appealStatus} required />
-                  <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} required />
+              <div className="mda-sgab-rail">
+                <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="SGAB Appeal Information">
+                  <div className="mda-detail-columns mda-sgab-form">
+                    <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal Information</p>
+                    <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} required />
+                    <Field label="SGAB Reference" value={appeal.sgabReference} required />
+                    <Field label="Received Date" value={showDate(appeal.receivedDate)} required kind="date" />
+                    <Field label="Appeal Status" value={appeal.appealStatus} required kind="choice" />
+                    <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} required kind="choice" />
 
-                  <p className="mda-form-section__title">Additional Information</p>
-                  <Field label="Description" value={show(appeal.description)} multiline />
+                    <p className="mda-form-section__title mda-sgab-form__subtitle">Additional Information</p>
+                    <Field label="Description" value={show(appeal.description)} multiline />
+                  </div>
+                </section>
 
-                  <p className="mda-form-section__title">Determination</p>
-                  <Field label="Determination Received" value={appeal.determinationReceived} />
-                  <Field label="Determination Date" value={showDate(appeal.determinationDate)} />
-                  <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} multiline />
-                </div>
-              </section>
+                <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="Determination">
+                  <div className="mda-detail-columns mda-sgab-form">
+                    <p className="mda-form-section__title mda-form-section__title--first">Determination</p>
+                    <Field label="Determination Received" value={show(appeal.determinationReceived)} kind="choice" />
+                    <Field label="Determination Date" value={showDate(appeal.determinationDate)} kind="date" />
+                    <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} multiline />
+                  </div>
+                </section>
+              </div>
 
               <RecordTimelineAside
                 activities={appeal.timeline}

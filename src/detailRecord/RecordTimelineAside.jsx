@@ -56,13 +56,21 @@ function ActivityCard({ activity, regardingLabel, regardingName, expanded, onTog
 
   return (
     <li className="mda-timeline-activity">
-      <Avatar name={activity.actor} size={28} color="colorful" className="mda-timeline-activity__avatar" />
-      <article className="mda-timeline-activity__card" aria-label={`${activity.summary}, ${activity.actor}`}>
+      <Avatar
+        name={activity.avatarName ?? activity.actor}
+        size={28}
+        color="colorful"
+        className="mda-timeline-activity__avatar"
+      />
+      <article
+        className="mda-timeline-activity__card"
+        aria-label={`${activity.summary}, ${activity.actor ?? activity.avatarName}`}
+      >
         <p className="mda-timeline-activity__meta">Modified on: {activityDateFmt.format(activity.at)}</p>
         <p className="mda-timeline-activity__heading">
           <KindIcon className="mda-timeline-activity__kind-icon" aria-hidden="true" />
           <span className="mda-timeline-activity__type">{activity.title}</span>
-          <span className="mda-timeline-activity__link">{activity.actor}</span>
+          {activity.actor ? <span className="mda-timeline-activity__link">{activity.actor}</span> : null}
           {activity.state ? (
             <span
               className={`mda-timeline-activity__state mda-timeline-activity__state--${activity.state.toLowerCase()}`}
