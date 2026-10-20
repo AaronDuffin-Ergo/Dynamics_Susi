@@ -20,7 +20,7 @@ function showCell(row, column) {
   return String(row[column.id]);
 }
 
-export default function CollegeFeesSubgrid({ rows, onOpenCollege }) {
+export default function CollegeFeesSubgrid({ rows, onOpenCollegeFee }) {
   const [sort, setSort] = useState({ column: "college", direction: "ascending" });
   const [selected, setSelected] = useState(() => new Set());
   const [notice, setNotice] = useState("");
@@ -143,7 +143,7 @@ export default function CollegeFeesSubgrid({ rows, onOpenCollege }) {
                       className="dynamics-grid-link"
                       onClick={(event) => {
                         event.stopPropagation();
-                        onOpenCollege?.(row.college);
+                        onOpenCollegeFee?.(row.collegeFeeNumber);
                       }}
                     >
                       {row.college}

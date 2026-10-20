@@ -55,7 +55,7 @@ export default function FeeDetailView({
   fee,
   initialTab = "collegeFees",
   onBack,
-  onOpenCollege,
+  onOpenCollegeFee,
   onNavigateHome,
   sitemapCollapsed = false,
   onToggleSitemap,
@@ -138,7 +138,7 @@ export default function FeeDetailView({
                 </div>
               </section>
             ) : (
-              <CollegeFeesSubgrid rows={fee.collegeFees} onOpenCollege={onOpenCollege} />
+              <CollegeFeesSubgrid rows={fee.collegeFees} onOpenCollegeFee={onOpenCollegeFee} />
             )}
           </div>
         </div>

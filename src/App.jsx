@@ -34,7 +34,8 @@ import { mockSgabAppeals } from "./mockSgabAppeals.js";
 import { mockInformationRequests } from "./mockInformationRequests.js";
 import { mockInvestigations } from "./mockInvestigations.js";
 import { mockApplications } from "./mockApplications.js";
-import { mockFees } from "./mockFees.js";
+import { findCollegeFee, mockFees } from "./mockFees.js";
+import CollegeFeeDetailView from "./CollegeFeeDetailView.jsx";
 import { mockDocumentRequests } from "./mockDocumentTypes.js";
 
 export default function App() {
@@ -98,6 +99,11 @@ export default function App() {
     if (view.type !== "feeDetail") return null;
     return fees.find((fee) => fee.feeNumber === view.feeNumber) ?? null;
   }, [fees, view]);
+
+  const detailCollegeFee = useMemo(() => {
+    if (view.type !== "collegeFeeDetail") return null;
+    return findCollegeFee(view.collegeFeeNumber)?.collegeFee ?? null;
+  }, [view]);
 
   const detailApplication = useMemo(() => {
     if (view.type !== "applicationDetail") return null;
@@ -187,6 +193,11 @@ export default function App() {
     setAppId("mySusi");
     setAreaId("payments");
     setView({ type: "feeDetail", feeNumber, tab: "collegeFees" });
+  }, []);
+  const openCollegeFee = useCallback((collegeFeeNumber) => {
+    setAppId("mySusi");
+    setAreaId("payments");
+    setView({ type: "collegeFeeDetail", collegeFeeNumber, tab: "collegePayments" });
   }, []);
   const goFees = useCallback(() => openFee("FEE-2026-000014"), [openFee]);
   const goAppeals = useCallback(() => {
@@ -350,6 +361,16 @@ export default function App() {
               fee={detailFee}
               initialTab={view.tab || "collegeFees"}
               onBack={goFeesList}
+              onOpenCollegeFee={openCollegeFee}
+              {...nav}
+            />
+          ) : detailCollegeFee ? (
+            <CollegeFeeDetailView
+              key={detailCollegeFee.collegeFeeNumber}
+              collegeFee={detailCollegeFee}
+              initialTab={view.tab || "collegePayments"}
+              onBack={() => openFee(detailCollegeFee.feeNumber)}
+              onOpenFee={openFee}
               onOpenCollege={(college) => openAccount(college)}
               {...nav}
             />
