@@ -18,7 +18,6 @@ const COLUMNS = [
   { id: "requestedOn", label: "Requested On" },
   { id: "approver", label: "Approver" },
   { id: "approvalStatus", label: "Approval Status" },
-  { id: "approvalOutcome", label: "Approval Outcome" },
   { id: "approverComments", label: "Approver Comments" },
   { id: "responseDate", label: "Response Date" },
 ];
@@ -189,7 +188,6 @@ export default function ApprovalLogSubgrid({ applicationNumber }) {
                     <Lookup>{row.approver}</Lookup>
                   </td>
                   <td>{row.approvalStatus}</td>
-                  <td>{textOrDash(row.approvalOutcome)}</td>
                   <td className="mda-related-subgrid__reason" title={row.approverComments || undefined}>
                     {textOrDash(row.approverComments)}
                   </td>
