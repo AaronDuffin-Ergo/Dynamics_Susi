@@ -7,7 +7,58 @@ function on(month, day) {
   return new Date(Date.UTC(2026, month - 1, day));
 }
 
-export const mockSgabAppeals = [
+function atTime(date, hour, minute) {
+  const next = new Date(date.getTime());
+  next.setUTCHours(hour, minute, 0, 0);
+  return next;
+}
+
+function buildTimeline(appeal) {
+  const events = [
+    {
+      id: `${appeal.sgabAppealNumber}-email`,
+      kind: "email",
+      at: atTime(appeal.receivedDate, 9, 12),
+      actor: "SGAB",
+      title: "Email from",
+      state: "Received",
+      summary: `SGAB reference ${appeal.sgabReference}`,
+      body: `Email received from SGAB about ${appeal.contactName}. Reference ${appeal.sgabReference}. Linked to application ${appeal.applicationNumber}.`,
+    },
+    {
+      id: `${appeal.sgabAppealNumber}-created`,
+      kind: "autoPost",
+      at: atTime(appeal.receivedDate, 9, 14),
+      title: "SGAB appeal created",
+      body: `${appeal.sgabAppealNumber} was created from the SGAB email and linked to ${appeal.applicationNumber}.`,
+    },
+    {
+      id: `${appeal.sgabAppealNumber}-task`,
+      kind: "task",
+      at: atTime(appeal.receivedDate, 11, 5),
+      actor: "Aoife Brennan",
+      title: "Task for",
+      state: appeal.determinationReceived === "Yes" ? "Closed" : "Open",
+      summary: "Review the SGAB escalation",
+      body: `Review the SUSI appeal history for ${appeal.contactName} and prepare the file for SGAB.`,
+    },
+  ];
+  if (appeal.determinationReceived === "Yes" && appeal.determinationDate) {
+    events.push({
+      id: `${appeal.sgabAppealNumber}-determination`,
+      kind: "email",
+      at: atTime(appeal.determinationDate, 15, 40),
+      actor: "SGAB",
+      title: "Email from",
+      state: "Received",
+      summary: "Determination received",
+      body: appeal.determinationOutcome || "SGAB sent the determination on this appeal.",
+    });
+  }
+  return events.sort((a, b) => b.at - a.at);
+}
+
+const records = [
   {
     sgabAppealNumber: "SGAB26-000201",
     applicationNumber: "SGS26-001588",
@@ -48,6 +99,11 @@ export const mockSgabAppeals = [
     determinationOutcome: "",
   },
 ];
+
+export const mockSgabAppeals = records.map((appeal) => ({
+  ...appeal,
+  timeline: buildTimeline(appeal),
+}));
 
 export function sgabAppealsFor(applicationNumber) {
   return mockSgabAppeals.filter((appeal) => appeal.applicationNumber === applicationNumber);

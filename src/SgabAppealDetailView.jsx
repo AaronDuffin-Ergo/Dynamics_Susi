@@ -8,6 +8,7 @@ import {
   SaveRegular,
   ShareRegular,
 } from "@fluentui/react-icons";
+import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
 import "./StudentsGrid.css";
 import "./StudentDetailView.css";
@@ -129,32 +130,43 @@ export default function SgabAppealDetailView({
                   </div>
                 </div>
               </header>
-            </section>
-
-            <section className="mda-record-card mda-record-card--form" aria-label="SGAB appeal details">
-              <div className="mda-detail-columns mda-appeal-form">
-                <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal</p>
-                <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} />
-                <Field label="Application">
-                  <Lookup onOpen={() => onOpenApplication?.(appeal.applicationNumber)}>{appeal.applicationNumber}</Lookup>
-                </Field>
-                <Field label="Contact">
-                  <Lookup>{appeal.contactName}</Lookup>
-                </Field>
-                <Field label="Scheme">
-                  <Lookup>{appeal.schemeName}</Lookup>
-                </Field>
-                <Field label="SGAB Reference" value={appeal.sgabReference} />
-                <Field label="Received Date" value={showDate(appeal.receivedDate)} />
-                <Field label="Appeal Status" value={appeal.appealStatus} />
-
-                <p className="mda-form-section__title">Determination</p>
-                <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} />
-                <Field label="Determination Received" value={appeal.determinationReceived} />
-                <Field label="Determination Date" value={showDate(appeal.determinationDate)} />
-                <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} />
+              <div className="mda-tabs mda-tabs--in-summary mda-application-tabs" role="tablist" aria-label="SGAB appeal tabs">
+                <button type="button" role="tab" className="mda-tab mda-tab--active" aria-selected="true">
+                  General
+                </button>
               </div>
             </section>
+
+            <div className="mda-sgab-record-grid">
+              <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="SGAB appeal details">
+                <div className="mda-detail-columns mda-appeal-form">
+                  <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal</p>
+                  <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} />
+                  <Field label="Application">
+                    <Lookup onOpen={() => onOpenApplication?.(appeal.applicationNumber)}>{appeal.applicationNumber}</Lookup>
+                  </Field>
+                  <Field label="Contact">
+                    <Lookup>{appeal.contactName}</Lookup>
+                  </Field>
+                  <Field label="Scheme">
+                    <Lookup>{appeal.schemeName}</Lookup>
+                  </Field>
+                  <Field label="SGAB Reference" value={appeal.sgabReference} />
+                  <Field label="Received Date" value={showDate(appeal.receivedDate)} />
+                  <Field label="Appeal Status" value={appeal.appealStatus} />
+                  <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} />
+                  <Field label="Determination Received" value={appeal.determinationReceived} />
+                  <Field label="Determination Date" value={showDate(appeal.determinationDate)} />
+                  <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} />
+                </div>
+              </section>
+              <RecordTimelineAside
+                activities={appeal.timeline}
+                regardingLabel="SGAB Appeal"
+                regardingName={appeal.sgabAppealNumber}
+                recordMetaLabel={`Email received on ${showDate(appeal.receivedDate)}`}
+              />
+            </div>
           </div>
         </div>
       </main>

@@ -1390,6 +1390,19 @@
   text-overflow: ellipsis;
 }
 
+.mda-sgab-record-grid {
+  display: grid;
+  grid-template-columns: 587px 587px;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (max-width: 1280px) {
+  .mda-sgab-record-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .mda-payment-header,
 .mda-payment-empty {
   padding: 14px 16px 16px;

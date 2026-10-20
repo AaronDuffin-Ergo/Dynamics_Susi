@@ -140,7 +140,8 @@ export default function App() {
   const goUsers = useCallback(() => setView({ type: "users" }), []);
   const goAppealsList = useCallback(() => setView({ type: "appeals" }), []);
   const goAppeals = useCallback(() => setView({ type: "appealDetail", appealNumber: "AP26-000141" }), []);
-  const goSgabAppeals = useCallback(() => setView({ type: "sgabAppeals" }), []);
+  const goSgabAppealsList = useCallback(() => setView({ type: "sgabAppeals" }), []);
+  const goSgabAppeals = useCallback(() => setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB26-000201" }), []);
   const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
     setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
   }, []);
@@ -252,7 +253,7 @@ export default function App() {
               onBack={
                 view.fromApplication
                   ? () => openApplication(view.fromApplication, "appeals")
-                  : goSgabAppeals
+                  : goSgabAppealsList
               }
               onOpenApplication={openApplication}
               {...nav}
