@@ -138,7 +138,8 @@ export default function App() {
   const hasAccount = useCallback((accountName) => accounts.some((account) => account.accountName === accountName), [accounts]);
   const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
   const goUsers = useCallback(() => setView({ type: "users" }), []);
-  const goAppeals = useCallback(() => setView({ type: "appeals" }), []);
+  const goAppealsList = useCallback(() => setView({ type: "appeals" }), []);
+  const goAppeals = useCallback(() => setView({ type: "appealDetail", appealNumber: "AP26-000141" }), []);
   const goSgabAppeals = useCallback(() => setView({ type: "sgabAppeals" }), []);
   const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
     setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
@@ -263,7 +264,7 @@ export default function App() {
               onBack={
                 view.fromApplication
                   ? () => openApplication(view.fromApplication, "appeals")
-                  : goAppeals
+                  : goAppealsList
               }
               onOpenApplication={openApplication}
               {...nav}

@@ -140,9 +140,14 @@ export default function AppealDetailView({
                   </div>
                 </div>
               </header>
+              <div className="mda-tabs mda-tabs--in-summary mda-application-tabs" role="tablist" aria-label="Appeal tabs">
+                <button type="button" role="tab" className="mda-tab mda-tab--active" aria-selected="true">
+                  General
+                </button>
+              </div>
             </section>
 
-            <section className="mda-record-card mda-record-card--form" aria-label="Appeal details">
+            <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="Appeal details">
               <div className="mda-detail-columns mda-appeal-form">
                 <p className="mda-form-section__title mda-form-section__title--first">Appeal</p>
                 <Field label="Appeal Number" value={appeal.appealNumber} />
