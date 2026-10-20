@@ -15,7 +15,7 @@ import {
   SettingsRegular,
 } from "@fluentui/react-icons";
 import PowerAppsAppLauncherIcon from "../PowerAppsAppLauncherIcon.jsx";
-import { SITEMAP_AREAS, sitemapItem } from "./sitemapAreas.js";
+import { APPS, SITEMAP_AREAS, sitemapItem } from "./sitemapAreas.js";
 import { useShellNavigation } from "./ShellNavigationContext.jsx";
 
 function AreaTile({ area }) {
@@ -26,10 +26,70 @@ function AreaTile({ area }) {
   );
 }
 
-function AreaSwitcher({ areaId, onSelectArea, collapsed }) {
+function AppLauncher({ appId, onSelectApp }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
-  const current = SITEMAP_AREAS.find((area) => area.id === areaId) ?? SITEMAP_AREAS[0];
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (event) => {
+      if (!rootRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div className="dynamics-app-launcher" ref={rootRef}>
+      <button
+        type="button"
+        className="dynamics-app-header__logo"
+        aria-label="App launcher"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <PowerAppsAppLauncherIcon />
+      </button>
+      {open ? (
+        <ul className="dynamics-app-launcher__menu" role="menu" aria-label="Apps">
+          {APPS.map((app) => {
+            const selected = app.id === appId;
+            return (
+              <li key={app.id}>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className={`dynamics-app-launcher__option${selected ? " dynamics-app-launcher__option--selected" : ""}`}
+                  aria-current={selected ? "true" : undefined}
+                  onClick={() => {
+                    onSelectApp?.(app.id);
+                    setOpen(false);
+                  }}
+                >
+                  <span>{app.label}</span>
+                  {selected ? <CheckmarkRegular aria-hidden /> : null}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
+function AreaSwitcher({ areas, areaId, onSelectArea, collapsed }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const current = areas.find((area) => area.id === areaId) ?? areas[0];
 
   useEffect(() => {
     if (!open) return undefined;
@@ -51,7 +111,7 @@ function AreaSwitcher({ areaId, onSelectArea, collapsed }) {
     <div className="dynamics-area-switcher" ref={rootRef}>
       {open ? (
         <ul className="dynamics-area-switcher__menu" role="listbox" aria-label="Change area">
-          {SITEMAP_AREAS.map((area) => {
+          {areas.map((area) => {
             const selected = area.id === current.id;
             return (
               <li key={area.id}>
@@ -110,9 +170,9 @@ export default function DynamicsAppShell({
   sitemapCollapsed = false,
   onToggleSitemap,
 }) {
-  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateInvestigations, onNavigateSgabAppeals, onNavigateUsers, areaId = "applications", onSelectArea } =
+  const { onNavigateAccounts, onNavigateApplications, onNavigateAppeals, onNavigateContacts, onNavigateDocumentTypes, onNavigateInformationRequests, onNavigateInvestigations, onNavigateSgabAppeals, onNavigateUsers, appId = "mySusi", appLabel = "My SUSI", areas = SITEMAP_AREAS, areaId = "applications", onSelectApp, onSelectArea } =
     useShellNavigation();
-  const area = SITEMAP_AREAS.find((item) => item.id === areaId) ?? SITEMAP_AREAS[0];
+  const area = areas.find((item) => item.id === areaId) ?? areas[0];
   const appClass = ["dynamics-app", sitemapCollapsed ? "dynamics-app--sitemap-collapsed" : "", appClassName]
     .filter(Boolean)
     .join(" ");
@@ -129,14 +189,12 @@ export default function DynamicsAppShell({
     <div className={appClass}>
       <header className="dynamics-app-header" role="banner">
         <div className="dynamics-app-header__brand">
-          <button type="button" className="dynamics-app-header__logo" aria-label="App launcher">
-            <PowerAppsAppLauncherIcon />
-          </button>
+          <AppLauncher appId={appId} onSelectApp={onSelectApp} />
           <span className="dynamics-app-header__product">Power Apps</span>
           <span className="dynamics-app-header__pipe" aria-hidden="true">
             |
           </span>
-          <span className="dynamics-app-header__app">My SUSI</span>
+          <span className="dynamics-app-header__app">{appLabel}</span>
           <span className="dynamics-app-header__divider" aria-hidden="true" />
           <span className="dynamics-app-header__env">SANDBOX</span>
         </div>
@@ -224,7 +282,7 @@ export default function DynamicsAppShell({
 
             {area.groups.map((group) => (
               <section key={`${area.id}-${group.label}`} aria-label={group.label}>
-                <p className="mda-sitemap__group-label">{group.label}</p>
+                {group.label ? <p className="mda-sitemap__group-label">{group.label}</p> : null}
                 <ul className="dynamics-sitemap__list dynamics-sitemap__list--section">
                   {group.items.map((itemId) => {
                     const item = sitemapItem(itemId);
@@ -295,7 +353,7 @@ export default function DynamicsAppShell({
               </section>
             ))}
           </div>
-          <AreaSwitcher areaId={area.id} onSelectArea={onSelectArea} collapsed={sitemapCollapsed} />
+          <AreaSwitcher areas={areas} areaId={area.id} onSelectArea={onSelectArea} collapsed={sitemapCollapsed} />
         </nav>
 
         {children}

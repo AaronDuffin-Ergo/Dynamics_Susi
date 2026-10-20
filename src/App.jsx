@@ -6,6 +6,7 @@ import {
   LayoutCustomizationProvider,
 } from "./layoutCustomization/LayoutCustomizationContext.jsx";
 import { ShellNavigationProvider } from "./shell/ShellNavigationContext.jsx";
+import { SGAB_APP_AREAS, SITEMAP_AREAS } from "./shell/sitemapAreas.js";
 import AccountDetailView from "./AccountDetailView.jsx";
 import AccountsGrid from "./AccountsGrid.jsx";
 import ContactDetailView from "./ContactDetailView.jsx";
@@ -47,6 +48,7 @@ export default function App() {
     setDocumentRequests((current) => [...current, record]);
   }, []);
   const [view, setView] = useState({ type: "applications" });
+  const [appId, setAppId] = useState("mySusi");
   const [areaId, setAreaId] = useState("applications");
   const [sitemapCollapsed, setSitemapCollapsed] = useState(false);
   const toggleSitemap = useCallback(() => {
@@ -93,24 +95,36 @@ export default function App() {
     return applications.find((a) => a.applicationNumber === view.applicationNumber) ?? null;
   }, [view, applications]);
 
+  const leaveSgabApp = useCallback(() => {
+    setAppId("mySusi");
+    setAreaId((current) => (current === "sgab" || current === "administration" ? "applications" : current));
+  }, []);
   const goInformationRequests = useCallback(() => {
+    setAppId("mySusi");
     setAreaId("customerServices");
     setView({ type: "informationRequests" });
   }, []);
   const openInformationRequest = useCallback((requestNumber) => {
+    setAppId("mySusi");
     setAreaId("customerServices");
     setView({ type: "informationRequestDetail", requestNumber });
   }, []);
   const goInvestigations = useCallback(() => {
+    setAppId("mySusi");
     setAreaId("customerServices");
     setView({ type: "investigations" });
   }, []);
   const openInvestigation = useCallback((investigationNumber) => {
+    setAppId("mySusi");
     setAreaId("customerServices");
     setView({ type: "investigationDetail", investigationNumber });
   }, []);
-  const goContacts = useCallback(() => setView({ type: "contacts" }), []);
+  const goContacts = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "contacts" });
+  }, [leaveSgabApp]);
   const openContact = useCallback((contactName, source = {}) => {
+    leaveSgabApp();
     setView({
       type: "contactDetail",
       contactName,
@@ -119,14 +133,21 @@ export default function App() {
       fromInformationRequest: source.fromInformationRequest || "",
       fromInvestigation: source.fromInvestigation || "",
     });
-  }, []);
+  }, [leaveSgabApp]);
   const hasContact = useCallback(
     (contactName) => contacts.some((contact) => `${contact.firstName} ${contact.lastName}` === contactName),
     [contacts],
   );
-  const goAccounts = useCallback(() => setView({ type: "accounts" }), []);
-  const goApplicationsList = useCallback(() => setView({ type: "applications" }), []);
+  const goAccounts = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "accounts" });
+  }, [leaveSgabApp]);
+  const goApplicationsList = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "applications" });
+  }, [leaveSgabApp]);
   const openAccount = useCallback((accountName, fromApplication, fromContact, fromInvestigation) => {
+    leaveSgabApp();
     setView({
       type: "accountDetail",
       accountName,
@@ -134,34 +155,60 @@ export default function App() {
       fromContact: fromContact || "",
       fromInvestigation: fromInvestigation || "",
     });
-  }, []);
+  }, [leaveSgabApp]);
   const hasAccount = useCallback((accountName) => accounts.some((account) => account.accountName === accountName), [accounts]);
-  const goDocumentTypes = useCallback(() => setView({ type: "documentTypes" }), []);
-  const goUsers = useCallback(() => setView({ type: "users" }), []);
-  const goAppealsList = useCallback(() => setView({ type: "appeals" }), []);
-  const goAppeals = useCallback(() => setView({ type: "appealDetail", appealNumber: "AP26-000141" }), []);
+  const goDocumentTypes = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "documentTypes" });
+  }, [leaveSgabApp]);
+  const goUsers = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "users" });
+  }, [leaveSgabApp]);
+  const goAppealsList = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "appeals" });
+  }, [leaveSgabApp]);
+  const goAppeals = useCallback(() => {
+    leaveSgabApp();
+    setView({ type: "appealDetail", appealNumber: "AP26-000141" });
+  }, [leaveSgabApp]);
   const goSgabAppealsList = useCallback(() => {
-    setAreaId("applications");
+    setAreaId(appId === "sgab" ? "sgab" : "applications");
     setView({ type: "sgabAppeals" });
-  }, []);
+  }, [appId]);
   const goSgabAppeals = useCallback(() => {
-    setAreaId("applications");
+    setAreaId(appId === "sgab" ? "sgab" : "applications");
     setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB-2026-000123" });
-  }, []);
+  }, [appId]);
   const openSgabAppeal = useCallback((sgabAppealNumber, fromApplication) => {
-    setAreaId("applications");
+    setAreaId(appId === "sgab" ? "sgab" : "applications");
     setView({ type: "sgabAppealDetail", sgabAppealNumber, fromApplication: fromApplication || "" });
+  }, [appId]);
+  const openUser = useCallback((userId) => {
+    leaveSgabApp();
+    setView({ type: "userDetail", userId });
+  }, [leaveSgabApp]);
+  const selectApp = useCallback((nextAppId) => {
+    if (nextAppId === "sgab") {
+      setAppId("sgab");
+      setAreaId("sgab");
+      setView({ type: "sgabAppealDetail", sgabAppealNumber: "SGAB-2026-000123" });
+      return;
+    }
+    setAppId("mySusi");
+    setAreaId("applications");
+    setView({ type: "applications" });
   }, []);
-  const openUser = useCallback((userId) => setView({ type: "userDetail", userId }), []);
-  const leaveAdministration = useCallback(() => {
-    setAreaId((current) => (current === "administration" ? "applications" : current));
-  }, []);
+  const selectArea = useCallback((nextAreaId) => {
+    setAreaId((current) => (appId === "sgab" && nextAreaId !== "sgab" ? current : nextAreaId));
+  }, [appId]);
   const openAppeal = useCallback((appealNumber, fromApplication) => {
-    leaveAdministration();
+    leaveSgabApp();
     setView({ type: "appealDetail", appealNumber, fromApplication: fromApplication || "" });
-  }, [leaveAdministration]);
+  }, [leaveSgabApp]);
   const openApplication = useCallback((applicationNumber, tab, fromInformationRequest, fromInvestigation) => {
-    leaveAdministration();
+    leaveSgabApp();
     setView({
       type: "applicationDetail",
       applicationNumber,
@@ -169,7 +216,7 @@ export default function App() {
       fromInformationRequest: fromInformationRequest || "",
       fromInvestigation: fromInvestigation || "",
     });
-  }, [leaveAdministration]);
+  }, [leaveSgabApp]);
   const shellNavigation = useMemo(
     () => ({
       onNavigateAccounts: goAccounts,
@@ -181,14 +228,18 @@ export default function App() {
       onNavigateUsers: goUsers,
       onNavigateAppeals: goAppeals,
       onNavigateSgabAppeals: goSgabAppeals,
+      appId,
+      appLabel: appId === "sgab" ? "SGAB" : "My SUSI",
+      areas: appId === "sgab" ? SGAB_APP_AREAS : SITEMAP_AREAS,
       areaId,
-      onSelectArea: setAreaId,
+      onSelectApp: selectApp,
+      onSelectArea: selectArea,
     }),
-    [areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goInformationRequests, goInvestigations, goSgabAppeals, goUsers],
+    [appId, areaId, goAccounts, goAppeals, goApplicationsList, goContacts, goDocumentTypes, goInformationRequests, goInvestigations, goSgabAppeals, goUsers, selectApp, selectArea],
   );
 
   const nav = {
-    onNavigateHome: goApplicationsList,
+    onNavigateHome: appId === "sgab" ? goSgabAppealsList : goApplicationsList,
     sitemapCollapsed,
     onToggleSitemap: toggleSitemap,
   };

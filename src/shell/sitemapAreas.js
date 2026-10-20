@@ -115,6 +115,20 @@ export const SITEMAP_AREAS = [
   },
 ];
 
+export const SGAB_APP_AREAS = [
+  {
+    id: "sgab",
+    label: "SGAB",
+    color: "#0f6cbd",
+    groups: [{ label: "", items: ["sgabAppeals"] }],
+  },
+];
+
+export const APPS = [
+  { id: "mySusi", label: "My SUSI" },
+  { id: "sgab", label: "SGAB" },
+];
+
 export function sitemapItem(itemId) {
   return ITEMS[itemId];
 }
