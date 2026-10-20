@@ -71,6 +71,11 @@ const records = [
     determinationReceived: "Yes",
     determinationDate: on(8, 18),
     determinationOutcome: "Allowed — original decision set aside",
+    owner: "Niamh Gallagher",
+    description: "Appeal received from SGAB regarding the household income assessment.",
+    relatedAppealNumber: "AP26-000141",
+    relatedAppealOfficer: "Declan Moran",
+    relatedAppealStatus: "Rejected",
   },
   {
     sgabAppealNumber: "SGAB26-000202",
@@ -84,6 +89,11 @@ const records = [
     determinationReceived: "No",
     determinationDate: null,
     determinationOutcome: "",
+    owner: "Aoife Brennan",
+    description: "Appeal received from SGAB about the fee-only award.",
+    relatedAppealNumber: "AP26-000143",
+    relatedAppealOfficer: "Aoife Brennan",
+    relatedAppealStatus: "Closed",
   },
   {
     sgabAppealNumber: "SGAB26-000203",
@@ -97,6 +107,11 @@ const records = [
     determinationReceived: "No",
     determinationDate: null,
     determinationOutcome: "",
+    owner: "Declan Moran",
+    description: "Appeal received directly from SGAB. No SUSI appeal was lodged first.",
+    relatedAppealNumber: "",
+    relatedAppealOfficer: "",
+    relatedAppealStatus: "",
   },
 ];
 

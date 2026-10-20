@@ -256,6 +256,8 @@ export default function App() {
                   : goSgabAppealsList
               }
               onOpenApplication={openApplication}
+              onOpenAppeal={(appealNumber) => openAppeal(appealNumber)}
+              onOpenContact={(contactName) => openContact(contactName)}
               {...nav}
             />
           ) : detailAppeal ? (

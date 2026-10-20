@@ -1,12 +1,16 @@
-import { Avatar, Button as FluentButton, Input as FluentInput } from "@fluentui/react-components";
+import { Avatar, Button as FluentButton, Input as FluentInput, Textarea } from "@fluentui/react-components";
 import {
+  AddRegular,
   ArrowClockwiseRegular,
   ArrowLeftRegular,
   ChevronDownRegular,
-  FlowRegular,
+  DeleteRegular,
+  DocumentBulletListRegular,
+  MoreVerticalRegular,
   PersonAddRegular,
+  ProhibitedRegular,
   SaveRegular,
-  ShareRegular,
+  ShieldCheckmarkRegular,
 } from "@fluentui/react-icons";
 import RecordTimelineAside from "./detailRecord/RecordTimelineAside.jsx";
 import DynamicsAppShell from "./shell/DynamicsAppShell.jsx";
@@ -21,6 +25,8 @@ const dateOnly = new Intl.DateTimeFormat(undefined, {
   year: "numeric",
 });
 
+const TABS = ["General", "Details", "Documents", "Related"];
+
 function show(value) {
   return value ? String(value) : "—";
 }
@@ -29,17 +35,24 @@ function showDate(value) {
   return value ? dateOnly.format(value) : "—";
 }
 
-function Field({ label, value, children }) {
+function Field({ label, value, required = false, multiline = false, children }) {
   return (
-    <div className="mda-detail-row">
+    <div className={`mda-detail-row${multiline ? " mda-detail-row--top" : ""}`}>
       <label className="mda-detail-row__label">
         <span className="mda-detail-row__label-text">{label}</span>
       </label>
       <div className="mda-detail-row__control">
         <div className="mda-detail-row__control-field">
-          <span className="mda-detail-row__req" aria-hidden="true" />
+          <span className="mda-detail-row__req" aria-hidden="true">
+            {required ? "*" : ""}
+          </span>
           <div className="mda-detail-row__control-inner">
-            {children ?? <FluentInput readOnly value={value} className="mda-input" />}
+            {children ??
+              (multiline ? (
+                <Textarea readOnly value={value} className="mda-input" resize="none" rows={2} />
+              ) : (
+                <FluentInput readOnly value={value} className="mda-input" />
+              ))}
           </div>
         </div>
       </div>
@@ -47,20 +60,23 @@ function Field({ label, value, children }) {
   );
 }
 
-function Lookup({ children, onOpen }) {
+function Lookup({ children, onOpen, person = false }) {
+  if (!children) return <FluentInput readOnly value="—" className="mda-input" />;
   return (
-    <button type="button" className="dynamics-grid-link mda-detail-row__lookup" onClick={onOpen}>
-      {children}
-    </button>
+    <div className="mda-detail-row__owner">
+      {person ? <Avatar name={String(children)} size={20} color="colorful" /> : null}
+      <button type="button" className="dynamics-grid-link mda-detail-row__lookup" onClick={onOpen}>
+        {children}
+      </button>
+    </div>
   );
 }
 
-function SummaryField({ primary, caption, showAvatar }) {
+function SummaryField({ primary, caption, children }) {
   return (
     <div className="mda-record-header__summary-field">
       <div className="mda-record-header__summary-top">
-        {showAvatar ? <Avatar name={primary} size={24} color="colorful" /> : null}
-        <span className="mda-record-header__summary-strong">{primary}</span>
+        {children ?? <span className="mda-record-header__summary-strong">{primary}</span>}
       </div>
       <span className="mda-record-header__summary-caption">{caption}</span>
     </div>
@@ -71,6 +87,8 @@ export default function SgabAppealDetailView({
   appeal,
   onBack,
   onOpenApplication,
+  onOpenAppeal,
+  onOpenContact,
   onNavigateHome,
   sitemapCollapsed = false,
   onToggleSitemap,
@@ -95,15 +113,16 @@ export default function SgabAppealDetailView({
           />
           <FluentButton {...disabledCommand} icon={<SaveRegular fontSize={16} />}>Save</FluentButton>
           <FluentButton {...disabledCommand} icon={<SaveRegular fontSize={16} />}>Save &amp; Close</FluentButton>
-          <FluentButton {...disabledCommand} icon={<ArrowClockwiseRegular fontSize={16} />}>Refresh</FluentButton>
+          <FluentButton {...disabledCommand} icon={<AddRegular fontSize={16} />}>New</FluentButton>
+          <FluentButton {...disabledCommand} icon={<ProhibitedRegular fontSize={16} />}>Deactivate</FluentButton>
           <FluentButton {...disabledCommand} icon={<PersonAddRegular fontSize={16} />}>Assign</FluentButton>
-          <FluentButton {...disabledCommand} icon={<FlowRegular fontSize={16} />} iconPosition="before">
-            <span className="mda-commandbar__flow-label">Flow <ChevronDownRegular fontSize={12} /></span>
+          <FluentButton {...disabledCommand} icon={<DeleteRegular fontSize={16} />}>Delete</FluentButton>
+          <FluentButton {...disabledCommand} icon={<ArrowClockwiseRegular fontSize={16} />}>Refresh</FluentButton>
+          <FluentButton {...disabledCommand} icon={<ShieldCheckmarkRegular fontSize={16} />}>Check Access</FluentButton>
+          <FluentButton {...disabledCommand} icon={<DocumentBulletListRegular fontSize={16} />}>
+            Generate Document Pack
           </FluentButton>
-          <span className="mda-record-commandbar__spacer" aria-hidden="true" />
-          <FluentButton {...disabledCommand} icon={<ShareRegular fontSize={16} />} iconPosition="before">
-            <span className="mda-commandbar__flow-label">Share <ChevronDownRegular fontSize={12} /></span>
-          </FluentButton>
+          <FluentButton {...disabledCommand} icon={<MoreVerticalRegular fontSize={16} />} aria-label="More commands" />
         </div>
 
         <div className="mda-record-workspace">
@@ -111,7 +130,7 @@ export default function SgabAppealDetailView({
             <section className="mda-record-card mda-record-card--summary-band" aria-labelledby="sgab-appeal-record-title">
               <header className="mda-record-header mda-record-header--detail">
                 <div className="mda-record-header__main mda-application-header__main">
-                  <Avatar name={appeal.contactName} size={40} color="neutral" />
+                  <Avatar name="SGAB Appeal" initials="SA" size={40} color="lavender" />
                   <div>
                     <h2 id="sgab-appeal-record-title" className="mda-record-header__title mda-record-header__title--primary">
                       <span className="mda-record-header__title-id">{appeal.sgabAppealNumber}</span>
@@ -123,49 +142,91 @@ export default function SgabAppealDetailView({
                 </div>
                 <div className="mda-record-header__summary">
                   <div className="mda-record-header__context">
-                    <SummaryField primary={appeal.contactName} caption="Contact" showAvatar />
-                    <SummaryField primary={appeal.schemeName} caption="Scheme" />
                     <SummaryField primary={appeal.appealStatus} caption="Appeal Status" />
-                    <SummaryField primary={appeal.determinationReceived} caption="Determination Received" />
+                    <SummaryField primary={showDate(appeal.receivedDate)} caption="Received Date" />
+                    <SummaryField caption="Owner">
+                      <Avatar name={appeal.owner} size={24} color="colorful" />
+                      <span className="mda-record-header__summary-strong mda-record-header__summary-link-text">{appeal.owner}</span>
+                    </SummaryField>
                   </div>
                 </div>
               </header>
               <div className="mda-tabs mda-tabs--in-summary mda-application-tabs" role="tablist" aria-label="SGAB appeal tabs">
-                <button type="button" role="tab" className="mda-tab mda-tab--active" aria-selected="true">
-                  General
-                </button>
+                {TABS.map((tab) => (
+                  <button
+                    key={tab}
+                    type="button"
+                    role="tab"
+                    className={`mda-tab${tab === "General" ? " mda-tab--active" : ""}`}
+                    aria-selected={tab === "General"}
+                  >
+                    {tab}
+                    {tab === "Related" ? <ChevronDownRegular fontSize={12} aria-hidden /> : null}
+                  </button>
+                ))}
               </div>
             </section>
 
             <div className="mda-sgab-record-grid">
               <section className="mda-record-card mda-record-card--form mda-application-form" aria-label="SGAB appeal details">
-                <div className="mda-detail-columns mda-appeal-form">
-                  <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal</p>
-                  <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} />
-                  <Field label="Application">
-                    <Lookup onOpen={() => onOpenApplication?.(appeal.applicationNumber)}>{appeal.applicationNumber}</Lookup>
-                  </Field>
-                  <Field label="Contact">
-                    <Lookup>{appeal.contactName}</Lookup>
-                  </Field>
-                  <Field label="Scheme">
-                    <Lookup>{appeal.schemeName}</Lookup>
-                  </Field>
-                  <Field label="SGAB Reference" value={appeal.sgabReference} />
-                  <Field label="Received Date" value={showDate(appeal.receivedDate)} />
-                  <Field label="Appeal Status" value={appeal.appealStatus} />
-                  <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} />
+                <div className="mda-detail-columns mda-sgab-form">
+                  <p className="mda-form-section__title mda-form-section__title--first">SGAB Appeal Information</p>
+                  <Field label="SGAB Appeal Number" value={appeal.sgabAppealNumber} required />
+                  <Field label="SGAB Reference" value={appeal.sgabReference} required />
+                  <Field label="Received Date" value={showDate(appeal.receivedDate)} required />
+                  <Field label="Appeal Status" value={appeal.appealStatus} required />
+                  <Field label="Previous SUSI Appeal Exists" value={appeal.previousSusiAppealExists} required />
+
+                  <p className="mda-form-section__title">Additional Information</p>
+                  <Field label="Description" value={show(appeal.description)} multiline />
+
+                  <p className="mda-form-section__title">Determination</p>
                   <Field label="Determination Received" value={appeal.determinationReceived} />
                   <Field label="Determination Date" value={showDate(appeal.determinationDate)} />
-                  <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} />
+                  <Field label="Determination Outcome" value={show(appeal.determinationOutcome)} multiline />
                 </div>
               </section>
+
               <RecordTimelineAside
                 activities={appeal.timeline}
                 regardingLabel="SGAB Appeal"
                 regardingName={appeal.sgabAppealNumber}
                 recordMetaLabel={`Email received on ${showDate(appeal.receivedDate)}`}
               />
+
+              <div className="mda-sgab-rail">
+                <section className="mda-record-card mda-record-card--form" aria-label="Related Application">
+                  <div className="mda-detail-columns mda-sgab-rail__form">
+                    <p className="mda-form-section__title mda-form-section__title--first">Related Application</p>
+                    <Field label="Application" required>
+                      <Lookup onOpen={() => onOpenApplication?.(appeal.applicationNumber)}>{appeal.applicationNumber}</Lookup>
+                    </Field>
+                    <Field label="Applicant" required>
+                      <Lookup person onOpen={() => onOpenContact?.(appeal.contactName)}>
+                        {appeal.contactName}
+                      </Lookup>
+                    </Field>
+                    <Field label="Scheme" required>
+                      <Lookup>{appeal.schemeName}</Lookup>
+                    </Field>
+                  </div>
+                </section>
+
+                <section className="mda-record-card mda-record-card--form" aria-label="Related Appeal">
+                  <div className="mda-detail-columns mda-sgab-rail__form">
+                    <p className="mda-form-section__title mda-form-section__title--first">Related Appeal</p>
+                    <Field label="Appeal">
+                      <Lookup onOpen={appeal.relatedAppealNumber ? () => onOpenAppeal?.(appeal.relatedAppealNumber) : undefined}>
+                        {appeal.relatedAppealNumber}
+                      </Lookup>
+                    </Field>
+                    <Field label="Officer">
+                      <Lookup person>{appeal.relatedAppealOfficer}</Lookup>
+                    </Field>
+                    <Field label="Status" value={show(appeal.relatedAppealStatus)} />
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
         </div>

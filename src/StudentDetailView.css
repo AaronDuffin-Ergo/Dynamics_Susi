@@ -1392,9 +1392,36 @@
 
 .mda-sgab-record-grid {
   display: grid;
-  grid-template-columns: 587px 587px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(300px, 0.85fr);
   gap: 12px;
   align-items: start;
+}
+
+.mda-sgab-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.mda-sgab-rail__form {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.mda-sgab-form .mda-detail-row__label {
+  flex-basis: 150px;
+}
+
+.mda-sgab-form .mda-detail-row__label-text {
+  white-space: normal;
+}
+
+.mda-sgab-rail__form .mda-detail-row__label {
+  flex-basis: 110px;
+}
+
+.mda-record-header__summary-link-text {
+  color: #115ea3;
 }
 
 @media (max-width: 1280px) {
