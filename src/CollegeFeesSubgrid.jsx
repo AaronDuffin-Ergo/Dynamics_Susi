@@ -10,7 +10,6 @@ const COLUMNS = [
   { id: "baseCalculatedAmount", label: "Base calculated Tranche", numeric: true, money: true },
   { id: "marginPercentage", label: "Margin Percentage", numeric: true },
   { id: "marginAmount", label: "Margin amount", numeric: true, money: true },
-  { id: "calculatedTrancheAmount", label: "Calculated Tranche amount", numeric: true, money: true },
   { id: "finalTrancheAmount", label: "Final tranche amount", numeric: true, money: true },
 ];
 
